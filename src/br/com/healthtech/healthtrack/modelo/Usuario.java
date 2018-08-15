@@ -3,6 +3,11 @@ package br.com.healthtech.healthtrack.modelo;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+/**
+ * Abstrai informações sobre o usuário da aplicação
+ * @author dmagdaleno
+ *
+ */
 public class Usuario {
 	private Long id;
 	private String nome;
