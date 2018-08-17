@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import br.com.healthtech.healthtrack.modelo.IMC;
 import br.com.healthtech.healthtrack.modelo.Peso;
 import br.com.healthtech.healthtrack.modelo.PressaoArterial;
 import br.com.healthtech.healthtrack.modelo.Usuario;
@@ -26,7 +27,12 @@ public class Main {
 				
 		Usuario usuario = new Usuario(1L, nome, dataNascimento, genero, altura, limiteCaloriaDiaria, peso, pressao);
 		
-		System.out.println(usuario);
+		System.out.println("Usuario: " + usuario);
+		
+		IMC imc = new IMC(usuario.getPesoAtual().getPeso(), usuario.getAltura());
+		BigDecimal calculoIMC = imc.calcula();
+		
+		System.out.println("IMC: " + calculoIMC);
 	}
 
 }
