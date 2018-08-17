@@ -1,7 +1,7 @@
 package br.com.healthtech.healthtrack.modelo;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.LocalDate;
 
 /**
  * Abstrai informações sobre o usuário da aplicação
@@ -11,7 +11,7 @@ import java.util.Calendar;
 public class Usuario {
 	private Long id;
 	private String nome;
-	private Calendar dataNascimento;
+	private LocalDate dataNascimento;
 	private String genero;
 	private BigDecimal altura;
 	private BigDecimal limiteCaloria;
@@ -21,13 +21,13 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(Long id, String nome, Calendar dataNascimento, String genero, BigDecimal altura,
+	public Usuario(Long id, String nome, LocalDate dataNascimento, String genero, BigDecimal altura,
 			BigDecimal limiteCaloria, Peso pesoAtual, PressaoArterial pressaoArterialAtual) {
 		this.id = id;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.genero = genero;
-		this.altura = altura;
+		this.altura = altura.setScale(2, BigDecimal.ROUND_UP);
 		this.limiteCaloria = limiteCaloria;
 		this.pesoAtual = pesoAtual;
 		this.pressaoArterialAtual = pressaoArterialAtual;
@@ -49,11 +49,11 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public Calendar getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Calendar dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
