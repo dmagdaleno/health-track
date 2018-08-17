@@ -3,6 +3,11 @@ package br.com.healthtech.healthtrack.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * Abstrai informações sobre o um registro de Peso
+ * @author dmagdaleno
+ *
+ */
 public class Peso {
 	private BigDecimal peso;
 	private LocalDate dataMedida;
