@@ -13,7 +13,7 @@ public class PressaoArterial extends Registro {
 	private BigDecimal pressaoMinima;
 	
 	public PressaoArterial() {
-		super(null);
+		super(LocalDateTime.now());
 	}
 
 	public PressaoArterial(BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataRegistro) {

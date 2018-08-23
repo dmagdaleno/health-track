@@ -12,7 +12,7 @@ public class Peso extends Registro {
 	private BigDecimal peso;
 	
 	public Peso() {
-		super(null);
+		super(LocalDateTime.now());
 	}
 	
 	public Peso(BigDecimal peso, LocalDateTime dataRegistro) {

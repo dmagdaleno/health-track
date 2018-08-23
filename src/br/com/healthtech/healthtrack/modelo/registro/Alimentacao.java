@@ -18,7 +18,7 @@ public class Alimentacao extends Registro {
 	private Usuario usuario;
 	
 	public Alimentacao() {
-		super(null);
+		super(LocalDateTime.now());
 	}
 
 	public Alimentacao(Long id, TipoAlimentacao tipo, String descricao, BigDecimal valorCalorico, 
