@@ -1,5 +1,10 @@
 package br.com.healthtech.healthtrack.modelo;
 
+/**
+ * Tipos de atividade física pré definidos
+ * @author dmagdaleno
+ *
+ */
 public enum TipoAtividadeFisica {
 	CAMINHADA("Caminhada"), 
 	CORRIDA("Corrida"), 

@@ -1,5 +1,10 @@
 package br.com.healthtech.healthtrack.modelo;
 
+/**
+ * Tipos de alimentação pré definidos
+ * @author dmagdaleno
+ *
+ */
 public enum TipoAlimentacao {
 	CAFE_DA_MANHA("Café da manhã"), 
 	ALMOCO("Almoço"), 

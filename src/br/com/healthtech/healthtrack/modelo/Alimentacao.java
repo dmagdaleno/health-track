@@ -3,6 +3,11 @@ package br.com.healthtech.healthtrack.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Abstrai informações sobre um registro de Alimentação
+ * @author dmagdaleno
+ *
+ */
 public class Alimentacao {
 	private Long id;
 	private TipoAlimentacao tipo;

@@ -3,6 +3,11 @@ package br.com.healthtech.healthtrack.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Abstrai informações sobre um registro de Atividade Física
+ * @author dmagdaleno
+ *
+ */
 public class AtividadeFisica {
 	private Long id;
 	private TipoAtividadeFisica tipo;

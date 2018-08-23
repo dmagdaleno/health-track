@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Abstrai informações sobre o um registro de Peso
+ * Abstrai informações sobre um registro de Peso
  * @author dmagdaleno
  *
  */

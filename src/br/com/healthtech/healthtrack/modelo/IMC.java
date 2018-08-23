@@ -26,7 +26,7 @@ public class IMC {
 	}
 	
 	/**
-	 * Calcula o IMC de acordo com a massa e a altura iformadas
+	 * Calcula o IMC de acordo com a massa e a altura informadas
 	 * 
 	 * @return
 	 *  Valor do IMC em {@link BigDecimal}

@@ -3,6 +3,11 @@ package br.com.healthtech.healthtrack.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Abstrai informações sobre um registro de Pressão Arterial
+ * @author dmagdaleno
+ *
+ */
 public class PressaoArterial {
 	private BigDecimal pressaoMaxima;
 	private BigDecimal pressaoMinima;
