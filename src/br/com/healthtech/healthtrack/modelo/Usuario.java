@@ -3,6 +3,9 @@ package br.com.healthtech.healthtrack.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import br.com.healthtech.healthtrack.modelo.registro.Peso;
+import br.com.healthtech.healthtrack.modelo.registro.PressaoArterial;
+
 /**
  * Abstrai informações sobre o usuário da aplicação
  * @author dmagdaleno
@@ -27,7 +30,7 @@ public class Usuario {
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.genero = genero;
-		this.altura = altura.setScale(2, BigDecimal.ROUND_UP);
+		this.altura = altura.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		this.limiteCaloria = limiteCaloria;
 		this.pesoAtual = pesoAtual;
 		this.pressaoArterialAtual = pressaoArterialAtual;
