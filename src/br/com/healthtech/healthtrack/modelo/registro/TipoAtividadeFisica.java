@@ -1,4 +1,4 @@
-package br.com.healthtech.healthtrack.modelo;
+package br.com.healthtech.healthtrack.modelo.registro;
 
 /**
  * Tipos de atividade física pré definidos
