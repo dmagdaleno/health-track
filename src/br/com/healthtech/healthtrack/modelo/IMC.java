@@ -32,6 +32,6 @@ public class IMC {
 	 *  Valor do IMC em {@link BigDecimal}
 	 */
 	public BigDecimal calcula() {
-		return massa.divide(altura.pow(2), BigDecimal.ROUND_UP);
+		return massa.divide(altura.pow(2), 2, BigDecimal.ROUND_HALF_EVEN);
 	}
 }
