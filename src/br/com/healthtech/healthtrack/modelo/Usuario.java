@@ -100,15 +100,20 @@ public class Usuario {
 		this.pressaoArterialAtual = pressaoArterialAtual;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "{ nome= " + nome +
-				", dataNascimento= " + dataNascimento +
-				", genero= " + genero +
-				", altura= " + altura +
-				", limiteCaloria= " + limiteCaloria +
-				", pesoAtual= " + pesoAtual +
-				", pressaoArterialAtual= " + pressaoArterialAtual + " }";
+		return "Usuario " +
+				"{ \n  id: " + id + 
+				", \n  nome: " + nome + 
+				", \n  dataNascimento: " + dataNascimento + 
+				", \n  genero: " + genero + 
+				", \n  altura: " + altura + 
+				", \n  limiteCaloria: " + limiteCaloria + 
+				", \n  pesoAtual: " + pesoAtual + 
+				", \n  pressaoArterialAtual: " + pressaoArterialAtual + 
+				"\n}";
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class Main {
 				
 		Usuario usuario = new Usuario(1L, nome, dataNascimento, genero, altura, limiteCaloriaDiaria, peso, pressao);
 		
-		System.out.println("Usuario: " + usuario);
+		System.out.println(usuario);
 		
 		IMC imc = new IMC(usuario.getPesoAtual().getPeso(), usuario.getAltura());
 		BigDecimal calculoIMC = imc.calcula();
