@@ -81,11 +81,13 @@ public class Alimentacao extends Registro {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+	
 
 	@Override
 	public String toString() {
-		return "{ id=" + id + ", tipo=" + tipo + ", descricao=" + descricao + ", valorCalorico="
-				+ valorCalorico + ", data=" + super.getData() + ", usuario=" + usuario + " }";
+		return "Alimentacao [id=" + id + ", tipo=" + tipo + ", descricao=" + descricao + 
+				", valorCalorico=" + valorCalorico + ", usuario=" + usuario + 
+				", dataRegistro=" + super.getData() + "]";
 	}
 
 	@Override

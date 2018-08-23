@@ -36,9 +36,10 @@ public class Peso extends Registro {
 		super.setData(dataRegistro);
 	}
 	
+
 	@Override
 	public String toString() {
-		return "{ peso=" + peso + ", dataRegistro=" + getDataRegistro() + " }";
+		return "Peso [peso=" + peso + ", dataRegistro=" + super.getData() + "]";
 	}
 
 	@Override

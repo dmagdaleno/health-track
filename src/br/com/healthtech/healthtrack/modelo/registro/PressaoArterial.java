@@ -78,8 +78,8 @@ public class PressaoArterial extends Registro {
 
 	@Override
 	public String toString() {
-		return "PressaoArterial [pressaoMaxima=" + pressaoMaxima + ", pressaoMinima=" + pressaoMinima + ", getData()="
-				+ getData() + "]";
+		return "PressaoArterial [pressaoMaxima=" + pressaoMaxima + ", pressaoMinima=" + pressaoMinima + 
+				", dataRegistro=" + getData() + "]";
 	}
 	
 }
