@@ -63,11 +63,13 @@ public class Alimentacao extends Registro {
 	public void setValorCalorico(BigDecimal valorCalorico) {
 		this.valorCalorico = valorCalorico;
 	}
-
+	
+	@Override
 	public LocalDateTime getDataRegistro() {
 		return super.getData();
 	}
 
+	@Override
 	public void setDataRegistro(LocalDateTime dataRegistro) {
 		super.setData(dataRegistro);;
 	}

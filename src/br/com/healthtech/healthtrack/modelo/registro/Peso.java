@@ -26,9 +26,12 @@ public class Peso extends Registro {
 	public void setPeso(BigDecimal peso) {
 		this.peso = peso;
 	}
+	
+	@Override
 	public LocalDateTime getDataRegistro() {
 		return super.getData();
 	}
+	@Override
 	public void setDataRegistro(LocalDateTime dataRegistro) {
 		super.setData(dataRegistro);
 	}
