@@ -1,31 +1,34 @@
-package br.com.healthtech.healthtrack.modelo;
+package br.com.healthtech.healthtrack.modelo.registro;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import br.com.healthtech.healthtrack.modelo.Usuario;
 
 /**
  * Abstrai informações sobre um registro de Alimentação
  * @author dmagdaleno
  *
  */
-public class Alimentacao {
+public class Alimentacao extends Registro {
 	private Long id;
 	private TipoAlimentacao tipo;
 	private String descricao;
 	private BigDecimal valorCalorico;
-	private LocalDateTime data;
 	private Usuario usuario;
 	
 	public Alimentacao() {
+		super(null);
 	}
 
 	public Alimentacao(Long id, TipoAlimentacao tipo, String descricao, BigDecimal valorCalorico, 
-			LocalDateTime data, Usuario usuario) {
+			LocalDateTime dataRegistro, Usuario usuario) {
+		super(dataRegistro);
+		
 		this.id = id;
 		this.tipo = tipo;
 		this.descricao = descricao;
 		this.valorCalorico = valorCalorico;
-		this.data = data;
 		this.usuario = usuario;
 	}
 
@@ -61,12 +64,12 @@ public class Alimentacao {
 		this.valorCalorico = valorCalorico;
 	}
 
-	public LocalDateTime getData() {
-		return data;
+	public LocalDateTime getDataRegistro() {
+		return super.getData();
 	}
 
-	public void setData(LocalDateTime data) {
-		this.data = data;
+	public void setDataRegistro(LocalDateTime dataRegistro) {
+		super.setData(dataRegistro);;
 	}
 
 	public Usuario getUsuario() {
@@ -80,14 +83,13 @@ public class Alimentacao {
 	@Override
 	public String toString() {
 		return "{ id=" + id + ", tipo=" + tipo + ", descricao=" + descricao + ", valorCalorico="
-				+ valorCalorico + ", data=" + data + ", usuario=" + usuario + " }";
+				+ valorCalorico + ", data=" + super.getData() + ", usuario=" + usuario + " }";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		int result = super.hashCode();
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
@@ -100,16 +102,11 @@ public class Alimentacao {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Alimentacao other = (Alimentacao) obj;
-		if (data == null) {
-			if (other.data != null)
-				return false;
-		} else if (!data.equals(other.data))
-			return false;
 		if (descricao == null) {
 			if (other.descricao != null)
 				return false;
