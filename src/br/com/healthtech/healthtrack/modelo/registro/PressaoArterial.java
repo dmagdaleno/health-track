@@ -1,4 +1,4 @@
-package br.com.healthtech.healthtrack.modelo;
+package br.com.healthtech.healthtrack.modelo.registro;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,18 +8,18 @@ import java.time.LocalDateTime;
  * @author dmagdaleno
  *
  */
-public class PressaoArterial {
+public class PressaoArterial extends Registro {
 	private BigDecimal pressaoMaxima;
 	private BigDecimal pressaoMinima;
-	private LocalDateTime dataMedida;
 	
 	public PressaoArterial() {
+		super(null);
 	}
 
-	public PressaoArterial(BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataMedida) {
+	public PressaoArterial(BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataRegistro) {
+		super(dataRegistro);
 		this.pressaoMaxima = pressaoMaxima;
 		this.pressaoMinima = pressaoMinima;
-		this.dataMedida = dataMedida;
 	}
 	
 	public BigDecimal getPressaoMaxima() {
@@ -34,44 +34,35 @@ public class PressaoArterial {
 	public void setPressaoMinima(BigDecimal pressaoMinima) {
 		this.pressaoMinima = pressaoMinima;
 	}
-	public LocalDateTime getDataMedida() {
-		return dataMedida;
-	}
-	public void setDataMedida(LocalDateTime dataMedida) {
-		this.dataMedida = dataMedida;
-	}
-	
+
 	@Override
-	public String toString() {
-		return "{ pressaoMaxima=" + pressaoMaxima + 
-				", pressaoMinima=" + pressaoMinima + 
-				", dataMedida=" + dataMedida + " }";
+	public void setDataRegistro(LocalDateTime dataRegistro) {
+		super.setData(dataRegistro);
 	}
-	
+
+	@Override
+	public LocalDateTime getDataRegistro() {
+		return super.getData();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dataMedida == null) ? 0 : dataMedida.hashCode());
+		int result = super.hashCode();
 		result = prime * result + ((pressaoMaxima == null) ? 0 : pressaoMaxima.hashCode());
 		result = prime * result + ((pressaoMinima == null) ? 0 : pressaoMinima.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		PressaoArterial other = (PressaoArterial) obj;
-		if (dataMedida == null) {
-			if (other.dataMedida != null)
-				return false;
-		} else if (!dataMedida.equals(other.dataMedida))
-			return false;
 		if (pressaoMaxima == null) {
 			if (other.pressaoMaxima != null)
 				return false;
@@ -84,4 +75,11 @@ public class PressaoArterial {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "PressaoArterial [pressaoMaxima=" + pressaoMaxima + ", pressaoMinima=" + pressaoMinima + ", getData()="
+				+ getData() + "]";
+	}
+	
 }
