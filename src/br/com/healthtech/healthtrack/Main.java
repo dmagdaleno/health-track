@@ -2,12 +2,13 @@ package br.com.healthtech.healthtrack;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import br.com.healthtech.healthtrack.modelo.IMC;
-import br.com.healthtech.healthtrack.modelo.Peso;
-import br.com.healthtech.healthtrack.modelo.PressaoArterial;
 import br.com.healthtech.healthtrack.modelo.Usuario;
+import br.com.healthtech.healthtrack.modelo.registro.Peso;
+import br.com.healthtech.healthtrack.modelo.registro.PressaoArterial;
 
 public class Main {
 
@@ -18,12 +19,12 @@ public class Main {
 		BigDecimal altura = new BigDecimal(1.70);
 		BigDecimal limiteCaloriaDiaria = new BigDecimal(2000);
 		
-		LocalDate hoje = LocalDate.now();
-		Peso peso = new Peso(new BigDecimal(70), hoje);
+		LocalDateTime agora = LocalDateTime.now();
+		Peso peso = new Peso(new BigDecimal(70), agora);
 		
 		BigDecimal pressaoMaxima = new BigDecimal(110);
 		BigDecimal pressaoMinima = new BigDecimal(80);
-		PressaoArterial pressao = new PressaoArterial(pressaoMaxima, pressaoMinima, hoje.atStartOfDay());
+		PressaoArterial pressao = new PressaoArterial(pressaoMaxima, pressaoMinima, agora);
 				
 		Usuario usuario = new Usuario(1L, nome, dataNascimento, genero, altura, limiteCaloriaDiaria, peso, pressao);
 		
