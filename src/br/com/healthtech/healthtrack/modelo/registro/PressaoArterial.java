@@ -3,6 +3,8 @@ package br.com.healthtech.healthtrack.modelo.registro;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import br.com.healthtech.healthtrack.modelo.Usuario;
+
 /**
  * Abstrai informações sobre um registro de Pressão Arterial
  * @author dmagdaleno
@@ -12,12 +14,12 @@ public class PressaoArterial extends Registro {
 	private BigDecimal pressaoMaxima;
 	private BigDecimal pressaoMinima;
 	
-	public PressaoArterial() {
-		super(LocalDateTime.now());
+	public PressaoArterial(final Usuario usuario, final LocalDateTime dataRegistro) {
+		super(usuario, dataRegistro);
 	}
 
-	public PressaoArterial(BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataRegistro) {
-		super(dataRegistro);
+	public PressaoArterial(final Usuario usuario, BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataRegistro) {
+		super(usuario, dataRegistro);
 		this.pressaoMaxima = pressaoMaxima;
 		this.pressaoMinima = pressaoMinima;
 	}
@@ -36,13 +38,13 @@ public class PressaoArterial extends Registro {
 	}
 
 	@Override
-	public void setDataRegistro(LocalDateTime dataRegistro) {
-		super.setData(dataRegistro);
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
 	@Override
 	public LocalDateTime getDataRegistro() {
-		return super.getData();
+		return data;
 	}
 
 	@Override
@@ -79,7 +81,7 @@ public class PressaoArterial extends Registro {
 	@Override
 	public String toString() {
 		return "PressaoArterial [pressaoMaxima=" + pressaoMaxima + ", pressaoMinima=" + pressaoMinima + 
-				", dataRegistro=" + getData() + "]";
+				", dataRegistro=" + data + "]";
 	}
 	
 }
