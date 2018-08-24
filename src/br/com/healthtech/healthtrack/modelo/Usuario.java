@@ -3,9 +3,6 @@ package br.com.healthtech.healthtrack.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import br.com.healthtech.healthtrack.modelo.registro.Peso;
-import br.com.healthtech.healthtrack.modelo.registro.PressaoArterial;
-
 /**
  * Abstrai informações sobre o usuário da aplicação
  * @author dmagdaleno
@@ -18,22 +15,17 @@ public class Usuario {
 	private String genero;
 	private BigDecimal altura;
 	private BigDecimal limiteCaloria;
-	private Peso pesoAtual;
-	private PressaoArterial pressaoArterialAtual;
 	
 	public Usuario() {
 	}
 
-	public Usuario(Long id, String nome, LocalDate dataNascimento, String genero, BigDecimal altura,
-			BigDecimal limiteCaloria, Peso pesoAtual, PressaoArterial pressaoArterialAtual) {
+	public Usuario(Long id, String nome, LocalDate dataNascimento, String genero, BigDecimal altura, BigDecimal limiteCaloria) {
 		this.id = id;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.genero = genero;
 		this.altura = altura.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		this.limiteCaloria = limiteCaloria;
-		this.pesoAtual = pesoAtual;
-		this.pressaoArterialAtual = pressaoArterialAtual;
 	}
 
 	public Long getId() {
@@ -83,37 +75,11 @@ public class Usuario {
 	public void setLimiteCaloria(BigDecimal limiteCaloria) {
 		this.limiteCaloria = limiteCaloria;
 	}
-
-	public Peso getPesoAtual() {
-		return pesoAtual;
-	}
-
-	public void setPesoAtual(Peso pesoAtual) {
-		this.pesoAtual = pesoAtual;
-	}
-
-	public PressaoArterial getPressaoArterialAtual() {
-		return pressaoArterialAtual;
-	}
-
-	public void setPressaoArterialAtual(PressaoArterial pressaoArterialAtual) {
-		this.pressaoArterialAtual = pressaoArterialAtual;
-	}
-
 	
-
 	@Override
 	public String toString() {
-		return "Usuario " +
-				"{ \n  id: " + id + 
-				", \n  nome: " + nome + 
-				", \n  dataNascimento: " + dataNascimento + 
-				", \n  genero: " + genero + 
-				", \n  altura: " + altura + 
-				", \n  limiteCaloria: " + limiteCaloria + 
-				", \n  pesoAtual: " + pesoAtual + 
-				", \n  pressaoArterialAtual: " + pressaoArterialAtual + 
-				"\n}";
+		return "Usuario [id=" + id + ", nome=" + nome + ", dataNascimento=" + dataNascimento + ", genero=" + genero
+				+ ", altura=" + altura + ", limiteCaloria=" + limiteCaloria + "]";
 	}
 
 	@Override
@@ -126,8 +92,6 @@ public class Usuario {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((limiteCaloria == null) ? 0 : limiteCaloria.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((pesoAtual == null) ? 0 : pesoAtual.hashCode());
-		result = prime * result + ((pressaoArterialAtual == null) ? 0 : pressaoArterialAtual.hashCode());
 		return result;
 	}
 
@@ -170,16 +134,7 @@ public class Usuario {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (pesoAtual == null) {
-			if (other.pesoAtual != null)
-				return false;
-		} else if (!pesoAtual.equals(other.pesoAtual))
-			return false;
-		if (pressaoArterialAtual == null) {
-			if (other.pressaoArterialAtual != null)
-				return false;
-		} else if (!pressaoArterialAtual.equals(other.pressaoArterialAtual))
-			return false;
 		return true;
 	}
+
 }
