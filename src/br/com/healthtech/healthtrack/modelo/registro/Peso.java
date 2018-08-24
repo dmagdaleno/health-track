@@ -3,6 +3,8 @@ package br.com.healthtech.healthtrack.modelo.registro;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import br.com.healthtech.healthtrack.modelo.Usuario;
+
 /**
  * Abstrai informações sobre um registro de Peso
  * @author dmagdaleno
@@ -11,12 +13,12 @@ import java.time.LocalDateTime;
 public class Peso extends Registro {
 	private BigDecimal peso;
 	
-	public Peso() {
-		super(LocalDateTime.now());
+	public Peso(final Usuario usuario, final LocalDateTime dataRegistro) {
+		super(usuario, dataRegistro);
 	}
 	
-	public Peso(BigDecimal peso, LocalDateTime dataRegistro) {
-		super(dataRegistro);
+	public Peso(final Usuario usuario, BigDecimal peso, LocalDateTime dataRegistro) {
+		super(usuario, dataRegistro);
 		this.peso = peso;
 	}
 
@@ -28,18 +30,19 @@ public class Peso extends Registro {
 	}
 	
 	@Override
-	public LocalDateTime getDataRegistro() {
-		return super.getData();
+	public Usuario getUsuario() {
+		return usuario;
 	}
+
 	@Override
-	public void setDataRegistro(LocalDateTime dataRegistro) {
-		super.setData(dataRegistro);
+	public LocalDateTime getDataRegistro() {
+		return data;
 	}
 	
 
 	@Override
 	public String toString() {
-		return "Peso [peso=" + peso + ", dataRegistro=" + super.getData() + "]";
+		return "Peso [peso=" + peso + ", dataRegistro=" + data + "]";
 	}
 
 	@Override
