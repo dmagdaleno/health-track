@@ -15,20 +15,18 @@ public class AtividadeFisica extends Registro {
 	private TipoAtividadeFisica tipo;
 	private String descricao;
 	private BigDecimal gastoCalorico;
-	private Usuario usuario;
 
-	public AtividadeFisica() {
-		super(LocalDateTime.now());
+	public AtividadeFisica(final Usuario usuario, final LocalDateTime dataRegistro) {
+		super(usuario, dataRegistro);
 	}
 
 	public AtividadeFisica(Long id, TipoAtividadeFisica tipo, String descricao, BigDecimal gastoCalorico,
 			LocalDateTime dataRegistro, Usuario usuario) {
-		super(dataRegistro);
+		super(usuario, dataRegistro);
 		this.id = id;
 		this.tipo = tipo;
 		this.descricao = descricao;
 		this.gastoCalorico = gastoCalorico;
-		this.usuario = usuario;
 	}
 
 	public Long getId() {
@@ -63,29 +61,21 @@ public class AtividadeFisica extends Registro {
 		this.gastoCalorico = gastoCalorico;
 	}
 
+	@Override
 	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	@Override
-	public void setDataRegistro(LocalDateTime dataRegistro) {
-		super.setData(dataRegistro);
-	}
-
 	@Override
 	public LocalDateTime getDataRegistro() {
-		return super.getData();
+		return data;
 	}
 
 	@Override
 	public String toString() {
 		return "AtividadeFisica [id=" + id + ", tipo=" + tipo + ", descricao=" + descricao + 
 				", gastoCalorico=" + gastoCalorico + ", usuario=" + usuario + 
-				", dataRegistro=" + super.getData() + "]";
+				", dataRegistro=" + data + "]";
 	}
 
 	@Override
