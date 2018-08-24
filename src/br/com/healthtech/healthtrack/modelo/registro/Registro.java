@@ -2,32 +2,29 @@ package br.com.healthtech.healthtrack.modelo.registro;
 
 import java.time.LocalDateTime;
 
+import br.com.healthtech.healthtrack.modelo.Usuario;
+
 public abstract class Registro {
-	private LocalDateTime data;
+	protected final Usuario usuario;
+	protected final LocalDateTime data;
 	
-	public abstract void setDataRegistro(LocalDateTime data);
+	public abstract Usuario getUsuario();	
 	public abstract LocalDateTime getDataRegistro();
 	
-	protected Registro(LocalDateTime data){
+	protected Registro(final Usuario usuario, final LocalDateTime data){
+		this.usuario = usuario;
 		this.data = data;
 	}
-
-	protected LocalDateTime getData() {
-		return data;
-	}
-
-	protected void setData(LocalDateTime data) {
-		this.data = data;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -42,9 +39,11 @@ public abstract class Registro {
 				return false;
 		} else if (!data.equals(other.data))
 			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
 		return true;
 	}
-	
-	
-
 }
