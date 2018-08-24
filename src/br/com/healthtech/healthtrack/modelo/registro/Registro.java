@@ -4,11 +4,31 @@ import java.time.LocalDateTime;
 
 import br.com.healthtech.healthtrack.modelo.Usuario;
 
+/**
+ * Classe abstrata que representa um registro genérico 
+ * associado com um usuário e uma data
+ * 
+ * @author dmagdaleno
+ *
+ */
 public abstract class Registro {
 	protected final Usuario usuario;
 	protected final LocalDateTime data;
 	
-	public abstract Usuario getUsuario();	
+	/**
+	 * Recupera usuario a quem o registro se refere.
+	 * 
+	 * @return
+	 * 	objeto do tipo {@link Usuario} associado ao registro
+	 */
+	public abstract Usuario getUsuario();
+	
+	/**
+	 * Recupera a data e hora em que o registro foi realizado.
+	 * 
+	 * @return
+	 * 	objeto do tipo {@link LocalDateTime} associado ao registro
+	 */
 	public abstract LocalDateTime getDataRegistro();
 	
 	protected Registro(final Usuario usuario, final LocalDateTime data){
