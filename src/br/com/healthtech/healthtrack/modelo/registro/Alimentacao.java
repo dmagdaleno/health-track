@@ -15,21 +15,19 @@ public class Alimentacao extends Registro {
 	private TipoAlimentacao tipo;
 	private String descricao;
 	private BigDecimal valorCalorico;
-	private Usuario usuario;
 	
-	public Alimentacao() {
-		super(LocalDateTime.now());
+	public Alimentacao(final Usuario usuario, final LocalDateTime dataRegistro) {
+		super(usuario, dataRegistro);
 	}
 
 	public Alimentacao(Long id, TipoAlimentacao tipo, String descricao, BigDecimal valorCalorico, 
 			LocalDateTime dataRegistro, Usuario usuario) {
-		super(dataRegistro);
+		super(usuario, dataRegistro);
 		
 		this.id = id;
 		this.tipo = tipo;
 		this.descricao = descricao;
 		this.valorCalorico = valorCalorico;
-		this.usuario = usuario;
 	}
 
 	public Long getId() {
@@ -66,28 +64,19 @@ public class Alimentacao extends Registro {
 	
 	@Override
 	public LocalDateTime getDataRegistro() {
-		return super.getData();
+		return data;
 	}
-
+	
 	@Override
-	public void setDataRegistro(LocalDateTime dataRegistro) {
-		super.setData(dataRegistro);;
-	}
-
 	public Usuario getUsuario() {
 		return usuario;
 	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-	
 
 	@Override
 	public String toString() {
 		return "Alimentacao [id=" + id + ", tipo=" + tipo + ", descricao=" + descricao + 
 				", valorCalorico=" + valorCalorico + ", usuario=" + usuario + 
-				", dataRegistro=" + super.getData() + "]";
+				", dataRegistro=" + data + "]";
 	}
 
 	@Override
