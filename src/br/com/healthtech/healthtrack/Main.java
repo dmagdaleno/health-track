@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import br.com.healthtech.healthtrack.modelo.IMC;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Peso;
-import br.com.healthtech.healthtrack.modelo.registro.PressaoArterial;
 
 public class Main {
 
@@ -19,18 +18,16 @@ public class Main {
 		BigDecimal altura = new BigDecimal(1.70);
 		BigDecimal limiteCaloriaDiaria = new BigDecimal(2000);
 		
+		Usuario usuario = new Usuario(1L, nome, dataNascimento, genero, altura, limiteCaloriaDiaria);
+		
 		LocalDateTime agora = LocalDateTime.now();
-		Peso peso = new Peso(new BigDecimal(70), agora);
+		Peso peso = new Peso(usuario, new BigDecimal(70), agora);
 		
-		BigDecimal pressaoMaxima = new BigDecimal(110);
-		BigDecimal pressaoMinima = new BigDecimal(80);
-		PressaoArterial pressao = new PressaoArterial(pressaoMaxima, pressaoMinima, agora);
-				
-		Usuario usuario = new Usuario(1L, nome, dataNascimento, genero, altura, limiteCaloriaDiaria, peso, pressao);
+		System.out.println("Nome: " + usuario.getNome());
+		System.out.println("Peso: " +peso.getPeso());
+		System.out.println("Altura: " + usuario.getAltura());
 		
-		System.out.println(usuario);
-		
-		IMC imc = new IMC(usuario.getPesoAtual().getPeso(), usuario.getAltura());
+		IMC imc = new IMC(peso.getPeso(), usuario.getAltura());
 		BigDecimal calculoIMC = imc.calcula();
 		
 		System.out.println("IMC: " + calculoIMC);
