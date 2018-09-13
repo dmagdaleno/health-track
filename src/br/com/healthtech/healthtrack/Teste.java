@@ -17,9 +17,7 @@ public class Teste {
 		adicionaRegistrosDeAlimentacao(dao);
 		
 		System.out.println("Lista de alimentações registradas:");
-		dao.getAll().forEach(alimentacao -> {
-			System.out.println(alimentacao);
-		});
+		dao.getAll().forEach(alimentacao -> System.out.println(alimentacao));
 	}
 
 	private static void adicionaRegistrosDeAlimentacao(AlimentacaoDAO dao) {
@@ -49,7 +47,8 @@ public class Teste {
 	
 	private static Usuario constroiUsuario() {
 		String nome = "João da Silva";
-		LocalDate dataNascimento = LocalDate.parse("26/09/1989", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		LocalDate dataNascimento = LocalDate.parse(
+				"26/09/1989", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		String genero = "Masculino";
 		BigDecimal altura = new BigDecimal(1.70);
 		BigDecimal limiteCaloriaDiaria = new BigDecimal(2000);
