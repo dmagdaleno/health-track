@@ -37,18 +37,8 @@ UPDATE T_HTK_PRESSAO
  WHERE id_pressao = 1;
 
 
-INSERT INTO T_HTK_PRESSAO (id_pressao, fk_id_usuario, vl_pressao_max, vl_pressao_min, dt_medida) 
- VALUES (1, 1, 140, 90, TO_DATE('17/09/2018','DD/MM/YYYY'));
-
-UPDATE T_HTK_PRESSAO 
- SET
-  vl_pressao_max = 130,
-  vl_pressao_min = 80, 
-  dt_medida = TO_DATE('18/09/2018','DD/MM/YYYY')
- WHERE id_pressao = 1;
-
-
-INSERT INTO T_HTK_ATV_FISICA (id_atv_fisica, fk_id_usuario, fk_id_tp_atv_fisica, vl_caloria, dt_atv_fisica, ds_atv_fisica)
+INSERT INTO T_HTK_ATV_FISICA (id_atv_fisica, fk_id_usuario, fk_id_tp_atv_fisica, 
+  vl_caloria, dt_atv_fisica, ds_atv_fisica)
  VALUES (1, 1, 1, 500, TO_DATE('17/09/2018','DD/MM/YYYY'), 'corrida pela manhã');
 
 UPDATE T_HTK_ATV_FISICA 
