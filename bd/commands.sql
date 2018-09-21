@@ -37,8 +37,7 @@ UPDATE T_HTK_PRESSAO
  WHERE id_pressao = 1;
 
 
-INSERT INTO T_HTK_ATV_FISICA (id_atv_fisica, fk_id_usuario, fk_id_tp_atv_fisica, 
-  vl_caloria, dt_atv_fisica, ds_atv_fisica)
+INSERT INTO T_HTK_ATV_FISICA (id_atv_fisica, fk_id_usuario, fk_id_tp_atv_fisica, vl_caloria, dt_atv_fisica, ds_atv_fisica)
  VALUES (1, 1, 1, 500, TO_DATE('17/09/2018','DD/MM/YYYY'), 'corrida pela manhã');
 
 UPDATE T_HTK_ATV_FISICA 
@@ -48,3 +47,15 @@ UPDATE T_HTK_ATV_FISICA
   dt_atv_fisica = TO_DATE('17/09/2018','DD/MM/YYYY'), 
   ds_atv_fisica = 'treino de membros inferiores')
  WHERE id_atv_fisica = 1;
+
+
+INSERT INTO T_HTK_ALIMENTO (id_alimento, fk_id_usuario, fk_id_tp_alimento, vl_caloria, dt_consumo, ds_alimento)
+ VALUES (1, 1, 1, 800, TO_DATE('17/09/2018','DD/MM/YYYY'), 'feijoada');
+
+UPDATE T_HTK_ALIMENTO
+ SET 
+  fk_id_tp_alimento = 1,
+  vl_caloria = 600,
+  dt_consumo = TO_DATE('17/09/2018','DD/MM/YYYY'),
+  ds_alimento = 'almoço leve'
+ WHERE id_alimento = 1;
