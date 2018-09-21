@@ -21,6 +21,7 @@ INSERT INTO T_HTK_PESO (id_peso, fk_id_usuario, vl_peso, dt_medida)
 
 UPDATE T_HTK_PESO 
  SET
+  fk_id_usuario = 1,
   vl_peso = 81, 
   dt_medida = TO_DATE('18/09/2018','DD/MM/YYYY')
  WHERE id_peso = 1;
@@ -30,7 +31,8 @@ INSERT INTO T_HTK_PRESSAO (id_pressao, fk_id_usuario, vl_pressao_max, vl_pressao
  VALUES (1, 1, 140, 90, TO_DATE('17/09/2018','DD/MM/YYYY'));
 
 UPDATE T_HTK_PRESSAO 
- SET
+ SET 
+  fk_id_usuario = 1,
   vl_pressao_max = 130,
   vl_pressao_min = 80, 
   dt_medida = TO_DATE('18/09/2018','DD/MM/YYYY')
@@ -42,6 +44,7 @@ INSERT INTO T_HTK_ATV_FISICA (id_atv_fisica, fk_id_usuario, fk_id_tp_atv_fisica,
 
 UPDATE T_HTK_ATV_FISICA 
  SET 
+  fk_id_usuario = 1,
   fk_id_tp_atv_fisica = 2, 
   vl_caloria = 200, 
   dt_atv_fisica = TO_DATE('17/09/2018','DD/MM/YYYY'), 
@@ -54,6 +57,7 @@ INSERT INTO T_HTK_ALIMENTO (id_alimento, fk_id_usuario, fk_id_tp_alimento, vl_ca
 
 UPDATE T_HTK_ALIMENTO
  SET 
+  fk_id_usuario = 1,
   fk_id_tp_alimento = 1,
   vl_caloria = 600,
   dt_consumo = TO_DATE('17/09/2018','DD/MM/YYYY'),
