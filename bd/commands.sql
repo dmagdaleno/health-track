@@ -14,3 +14,13 @@ UPDATE T_HTK_USUARIO
   vl_limite_caloria = 2000, 
   dt_ult_login = TO_DATE('18/09/2018','DD/MM/YYYY')
  WHERE id_usuario = 1;
+
+
+INSERT INTO T_HTK_PESO (id_peso, fk_id_usuario, vl_peso, dt_medida) 
+ VALUES (1, 1, 80, TO_DATE('17/09/2018','DD/MM/YYYY'));
+
+UPDATE T_HTK_PESO 
+ SET
+  vl_peso = 81, 
+  dt_medida = TO_DATE('18/09/2018','DD/MM/YYYY')
+ WHERE id_peso = 1;
