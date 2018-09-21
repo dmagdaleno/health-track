@@ -24,3 +24,15 @@ UPDATE T_HTK_PESO
   vl_peso = 81, 
   dt_medida = TO_DATE('18/09/2018','DD/MM/YYYY')
  WHERE id_peso = 1;
+
+
+INSERT INTO T_HTK_PRESSAO (id_pressao, fk_id_usuario, vl_pressao_max, vl_pressao_min, dt_medida) 
+ VALUES (1, 1, 140, 90, TO_DATE('17/09/2018','DD/MM/YYYY'));
+
+UPDATE T_HTK_PRESSAO 
+ SET
+  vl_pressao_max = 130,
+  vl_pressao_min = 80, 
+  dt_medida = TO_DATE('18/09/2018','DD/MM/YYYY')
+ WHERE id_pressao = 1;
+
