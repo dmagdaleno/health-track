@@ -63,3 +63,37 @@ UPDATE T_HTK_ALIMENTO
   dt_consumo = TO_DATE('17/09/2018','DD/MM/YYYY'),
   ds_alimento = 'almoço leve'
  WHERE id_alimento = 1;
+
+
+Consultar os dados de um determinado usuário
+SELECT * FROM T_HTK_USUARIO WHERE id_usuario = 1;
+
+Consultar todos os dados de todos os registros de peso de um determinado usuário, ordenando-os dos registros mais recentes para os mais antigos
+SELECT * FROM T_HTK_PESO WHERE fk_id_usuario = 1 ORDER BY dt_medida DESC;
+
+Consultar todos os dados de um único registro de peso de um determinado usuário
+SELECT * FROM T_HTK_PESO WHERE id_peso = 1 AND fk_id_usuario = 1;
+
+Consultar todos os dados de todos os registros de pressão arterial de um determinado usuário, ordenando-os dos registros mais recentes para os mais antigos
+SELECT * FROM T_HTK_PRESSAO WHERE fk_id_usuario = 1 ORDER BY dt_medida DESC;
+
+Consultar todos os dados de um único registro de pressão arterial de um determinado usuário
+SELECT * FROM T_HTK_PRESSAO WHERE id_pressao = 1 AND fk_id_usuario = 1;
+
+Consultar todos os dados de todos os registros de atividade física de um determinado usuário, ordenando-os dos registros mais recentes para os mais antigos 
+SELECT * FROM T_HTK_ATV_FISICA WHERE fk_id_usuario = 1 ORDER BY dt_atv_fisica DESC;
+
+Consultar todos os dados de um único registro de atividade física de um determinado usuário
+SELECT * FROM T_HTK_ATV_FISICA WHERE id_atv_fisica = 1 AND fk_id_usuario = 1;
+
+Consultar todos os dados de todos os registros de alimentos ingeridos de um determinado usuário, ordenando-os dos registros mais recentes para os mais antigos
+SELECT * FROM T_HTK_ALIMENTO WHERE fk_id_usuario = 1 ORDER BY dt_consumo DESC;
+
+Consultar todos os dados de um único registro de alimento ingerido de um determinado usuário 
+SELECT * FROM T_HTK_ALIMENTO WHERE id_alimento = 1 AND fk_id_usuario = 1;
+
+Consultar os dados básicos de um determinado usuário, o último peso registrado e a última pressão arterial registrada
+SELECT U.*, P.vl_peso, PA.vl_pressao_max, PA.vl_pressao_min FROM T_HTK_USUARIO U 
+INNER JOIN T_HTK_PESO P, T_HTK_PRESSAO PA 
+ON U.id_usuario = P.fk_id_usuario AND P.dt_medida = (SELECT MAX(dt_medida) FROM T_HTK_PESO) 
+AND U.id_usuario = PA.fk_id_usuario AND PA.dt_medida = (SELECT MAX(dt_medida) FROM T_HTK_PRESSAO) 
