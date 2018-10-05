@@ -18,6 +18,8 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
 
 /**
  * Classe responsável por abstrair a comunicação com o banco de dados
+ * da entidade {@link Alimentacao}
+ * 
  * @author dmagdaleno
  *
  */
@@ -120,7 +122,7 @@ public class AlimentacaoDAO {
 	}
 	
 	/**
-	 * Fecha a conexão com o banco
+	 * Fecha a conexão com o banco de dados
 	 */
 	public void fechaConexao() {
 		try {
