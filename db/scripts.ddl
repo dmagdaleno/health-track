@@ -80,3 +80,12 @@ ALTER TABLE T_HTK_ATV_FISICA ADD CONSTRAINT T_HTK_ATV_TP_ATV_FK FOREIGN KEY ( fk
 ALTER TABLE T_HTK_ATV_FISICA ADD CONSTRAINT T_HTK_ATV_USUARIO_FK FOREIGN KEY ( fk_id_usuario ) REFERENCES T_HTK_USUARIO ( id_usuario ) ;
 ALTER TABLE T_HTK_PESO ADD CONSTRAINT T_HTK_PESO_USUARIO_FK FOREIGN KEY ( fk_id_usuario ) REFERENCES T_HTK_USUARIO ( id_usuario ) ;
 ALTER TABLE T_HTK_PRESSAO ADD CONSTRAINT T_HTK_PRESSAO_USUARIO_FK FOREIGN KEY ( fk_id_usuario ) REFERENCES T_HTK_USUARIO ( id_usuario ) ;
+
+-- Remover todas as tabelas
+drop table 	T_HTK_ALIMENTO	cascade constraints;
+drop table 	T_HTK_ATV_FISICA	cascade constraints;
+drop table 	T_HTK_PESO	cascade constraints;
+drop table 	T_HTK_PRESSAO	cascade constraints;
+drop table 	T_HTK_TP_ALIMENTO	cascade constraints;
+drop table 	T_HTK_TP_ATV_FISICA	cascade constraints;
+drop table 	T_HTK_USUARIO	cascade constraints;
