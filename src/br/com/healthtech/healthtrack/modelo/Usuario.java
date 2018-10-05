@@ -18,6 +18,10 @@ public class Usuario {
 	
 	public Usuario() {
 	}
+	
+	public Usuario(Long id) {
+		this.id = id;
+	}
 
 	public Usuario(Long id, String nome, LocalDate dataNascimento, String genero, BigDecimal altura, BigDecimal limiteCaloria) {
 		this.id = id;
