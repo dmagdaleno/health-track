@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,10 +14,9 @@ import java.util.List;
 import br.com.healthtech.healthtrack.db.ConnectionManager;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Alimentacao;
+import br.com.healthtech.healthtrack.utils.DateUtil;
 
 public class AlimentacaoDAO {
-	
-	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	
 	private Connection conexao;
 	
@@ -44,7 +42,7 @@ public class AlimentacaoDAO {
 			stmt.setLong(2, alimentacao.getUsuario().getId());
 			stmt.setInt(3, alimentacao.getTipo());
 			stmt.setDouble(4, alimentacao.getValorCalorico().doubleValue());
-			stmt.setString(5, alimentacao.getDataRegistro().format(formatter));
+			stmt.setString(5, DateUtil.toText(alimentacao.getDataRegistro()));
 			stmt.setString(6, alimentacao.getDescricao());
 			stmt.executeUpdate();
 		} 
@@ -79,18 +77,13 @@ public class AlimentacaoDAO {
 		){
 			while (rs.next()) {
 				Long id = rs.getLong("id_alimento");
-				Long idUsuario = rs.getLong("fk_id_usuario");
+				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
 				int tipo = rs.getInt("fk_id_tp_alimento");
-				double calorias = rs.getDouble("vl_caloria");
-				String dtRegistro = rs.getString("dt_text");
+				BigDecimal calorias = new BigDecimal(rs.getDouble("vl_caloria"));
+				LocalDateTime dataRegistro = DateUtil.toDate(rs.getString("dt_text"));
 				String descricao = rs.getString("ds_alimento");
 				
-				LocalDateTime dataRegistro = LocalDateTime.parse(dtRegistro, formatter);
-				
-				Usuario usuario = new Usuario();
-				usuario.setId(idUsuario);
-				
-				Alimentacao alimentacao = new Alimentacao(id, tipo, descricao, new BigDecimal(calorias), dataRegistro, usuario );
+				Alimentacao alimentacao = new Alimentacao(id, tipo, descricao, calorias, dataRegistro, usuario);
 				alimentacoes.add(alimentacao);
 			}
 		} 
