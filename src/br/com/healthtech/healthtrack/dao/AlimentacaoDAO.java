@@ -28,7 +28,6 @@ public class AlimentacaoDAO {
 	}
 	
 	public void add(Alimentacao alimentacao) {
-		System.out.println("preparando inserção..");
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO T_HTK_ALIMENTO (");
 		builder.append(" id_alimento,"); 
@@ -47,9 +46,7 @@ public class AlimentacaoDAO {
 			stmt.setDouble(4, alimentacao.getValorCalorico().doubleValue());
 			stmt.setString(5, alimentacao.getDataRegistro().format(formatter));
 			stmt.setString(6, alimentacao.getDescricao());
-			System.out.println("executando..");
 			stmt.executeUpdate();
-			System.out.println("inserido");
 		} 
 		catch (SQLIntegrityConstraintViolationException e) {
 			String msg = String.format("Chave primária [%d] ou estranjeira [%d] inválida", 
