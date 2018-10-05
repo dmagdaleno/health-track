@@ -46,15 +46,13 @@ SELECT PR.* FROM T_HTK_PRESSAO PR;
 
 
 INSERT INTO T_HTK_TP_ATV_FISICA (id_tp_atv_fisica, ds_tp_atv_fisica)
- VALUES (1, 'CAFE_DA_MANHA');
+ VALUES (1, 'CAMINHADA');
 INSERT INTO T_HTK_TP_ATV_FISICA (id_tp_atv_fisica, ds_tp_atv_fisica)
- VALUES (2, 'ALMOCO');
+ VALUES (2, 'CORRIDA');
 INSERT INTO T_HTK_TP_ATV_FISICA (id_tp_atv_fisica, ds_tp_atv_fisica)
- VALUES (3, 'JANTAR');
+ VALUES (3, 'PEDALADA');
 INSERT INTO T_HTK_TP_ATV_FISICA (id_tp_atv_fisica, ds_tp_atv_fisica)
- VALUES (4, 'LANCHE_LEVE');
-INSERT INTO T_HTK_TP_ATV_FISICA (id_tp_atv_fisica, ds_tp_atv_fisica)
- VALUES (5, 'FRUTA');
+ VALUES (4, 'MUSCULACAO');
 
 INSERT INTO T_HTK_ATV_FISICA (id_atv_fisica, fk_id_usuario, fk_id_tp_atv_fisica, vl_caloria, dt_atv_fisica, ds_atv_fisica)
  VALUES (1, 1, 1, 500, TO_DATE('17/09/2018','DD/MM/YYYY'), 'corrida pela manhã');
@@ -71,6 +69,17 @@ UPDATE T_HTK_ATV_FISICA
 SELECT AF.* FROM T_HTK_ATV_FISICA AF;
 
 
+INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
+ VALUES (1, 'CAFE_DA_MANHA');
+INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
+ VALUES (2, 'ALMOCO');
+INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
+ VALUES (3, 'JANTAR');
+INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
+ VALUES (4, 'LANCHE_LEVE');
+INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
+ VALUES (5, 'FRUTA');
+
 INSERT INTO T_HTK_ALIMENTO (id_alimento, fk_id_usuario, fk_id_tp_alimento, vl_caloria, dt_consumo, ds_alimento)
  VALUES (1, 1, 1, 800, TO_DATE('17/09/2018','DD/MM/YYYY'), 'feijoada');
 
@@ -82,6 +91,8 @@ UPDATE T_HTK_ALIMENTO
   dt_consumo = TO_DATE('17/09/2018','DD/MM/YYYY'),
   ds_alimento = 'almoço leve'
  WHERE id_alimento = 1;
+
+SELECT AL.* FROM T_HTK_ALIMENTO AL;
 
 
 -- Consultar os dados de um determinado usuário
