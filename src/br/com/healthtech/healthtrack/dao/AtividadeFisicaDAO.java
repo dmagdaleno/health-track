@@ -124,6 +124,23 @@ public class AtividadeFisicaDAO {
 	}
 	
 	/**
+	 * Remove todos os registros de atividade física
+	 */
+	public void deleteAll() {
+		String delete = "DELETE FROM T_HTK_ATV_FISICA";
+		
+		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+			stmt.executeUpdate();
+		}  
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	/**
 	 * Fecha a conexão com o banco de dados
 	 */
 	public void fechaConexao() {
