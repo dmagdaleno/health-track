@@ -6,13 +6,13 @@ import java.time.LocalDateTime;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 
 /**
- * Abstrai informações sobre um registro de Alimentação
+ * Abstrai informações sobre um registro de AlimentaÃ§Ã£o
  * @author dmagdaleno
  *
  */
 public class Alimentacao extends Registro {
 	private Long id;
-	private TipoAlimentacao tipo;
+	private int tipo;
 	private String descricao;
 	private BigDecimal valorCalorico;
 	
@@ -20,7 +20,7 @@ public class Alimentacao extends Registro {
 		super(usuario, dataRegistro);
 	}
 
-	public Alimentacao(Long id, TipoAlimentacao tipo, String descricao, BigDecimal valorCalorico, 
+	public Alimentacao(Long id, int tipo, String descricao, BigDecimal valorCalorico, 
 			LocalDateTime dataRegistro, Usuario usuario) {
 		super(usuario, dataRegistro);
 		
@@ -38,11 +38,11 @@ public class Alimentacao extends Registro {
 		this.id = id;
 	}
 
-	public TipoAlimentacao getTipo() {
+	public int getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TipoAlimentacao tipo) {
+	public void setTipo(int tipo) {
 		this.tipo = tipo;
 	}
 
@@ -85,7 +85,7 @@ public class Alimentacao extends Registro {
 		int result = super.hashCode();
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		result = prime * result + tipo;
 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		result = prime * result + ((valorCalorico == null) ? 0 : valorCalorico.hashCode());
 		return result;
