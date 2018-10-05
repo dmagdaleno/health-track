@@ -16,8 +16,8 @@ public class Teste {
 		AlimentacaoDAO dao = new AlimentacaoDAO();
 		adicionaRegistrosDeAlimentacao(dao);
 		
-		System.out.println("Lista de alimentações registradas:");
-		dao.getAll().forEach(alimentacao -> System.out.println(alimentacao));
+//		System.out.println("Lista de alimentações registradas:");
+//		dao.getAll().forEach(alimentacao -> System.out.println(alimentacao));
 	}
 
 	private static void adicionaRegistrosDeAlimentacao(AlimentacaoDAO dao) {
