@@ -13,7 +13,7 @@ public class Teste {
 
 	public static void main(String[] args) {		
 		AlimentacaoDAO dao = new AlimentacaoDAO();
-//		adicionaRegistrosDeAlimentacao(dao);
+		adicionaRegistrosDeAlimentacao(dao);
 		System.out.println("Lista de alimentações registradas:");
 		dao.getAll().forEach(alimentacao -> System.out.println(alimentacao));
 		dao.fechaConexao();
