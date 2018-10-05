@@ -1,16 +1,19 @@
 package br.com.healthtech.healthtrack.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import br.com.healthtech.healthtrack.db.ConnectionManager;
+import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Alimentacao;
 
 public class AlimentacaoDAO {
@@ -37,8 +40,7 @@ public class AlimentacaoDAO {
 		builder.append("VALUES (?, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'), ?)");
 		String insert = builder.toString();
 		
-		try {
-			PreparedStatement stmt = conexao.prepareStatement(insert);
+		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
 			stmt.setLong(1, alimentacao.getId());
 			stmt.setLong(2, alimentacao.getUsuario().getId());
 			stmt.setInt(3, alimentacao.getTipo());
@@ -61,6 +63,7 @@ public class AlimentacaoDAO {
 		catch (Exception e) {
 			e.printStackTrace();
 		} 
+		
 	}
 	
 	public void add(List<Alimentacao> alimentacoes) {
@@ -71,35 +74,31 @@ public class AlimentacaoDAO {
 	
 	public List<Alimentacao> getAll() {
 		List<Alimentacao> alimentacoes = new ArrayList<>();
+		String query = "SELECT A.*, TO_CHAR(A.dt_consumo, 'DD/MM/YYYY HH24:MI') AS dt_text FROM T_HTK_ALIMENTO A";
 		
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try {
-			stmt = conexao.prepareStatement("SELECT * FROM TAB_COLABORADOR");
-			rs = stmt.executeQuery();
-			
+		try (
+			PreparedStatement stmt = conexao.prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+		){
 			while (rs.next()) {
-				int codigo = rs.getInt("CODIGO_COLABORADOR");
-				String nome = rs.getString("NOME");
-				String email = rs.getString("EMAIL");
-				double salario = rs.getDouble("SALARIO");
-				java.sql.Date data = rs.getDate("DATA_CONTRATACAO");
-				Calendar dataContratacao = Calendar.getInstance();
-				dataContratacao.setTimeInMillis(data.getTime());
+				Long id = rs.getLong("id_alimento");
+				Long idUsuario = rs.getLong("fk_id_usuario");
+				int tipo = rs.getInt("fk_id_tp_alimento");
+				double calorias = rs.getDouble("vl_caloria");
+				String dtRegistro = rs.getString("dt_text");
+				String descricao = rs.getString("ds_alimento");
 				
-				Alimentacao alimentacao = new Alimentacao(null, null);
+				LocalDateTime dataRegistro = LocalDateTime.parse(dtRegistro, formatter);
+				
+				Usuario usuario = new Usuario();
+				usuario.setId(idUsuario);
+				
+				Alimentacao alimentacao = new Alimentacao(id, tipo, descricao, new BigDecimal(calorias), dataRegistro, usuario );
 				alimentacoes.add(alimentacao);
 			}
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}finally {
-		try {
-		stmt.close();
-		rs.close();
-		conexao.close();
-		} catch (SQLException e) {
-		e.printStackTrace();
-		}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 		return Collections.unmodifiableList(alimentacoes);
