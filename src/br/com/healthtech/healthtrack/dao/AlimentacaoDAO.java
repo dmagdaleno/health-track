@@ -122,6 +122,23 @@ public class AlimentacaoDAO {
 	}
 	
 	/**
+	 * Remove todos os registros de alimentação
+	 */
+	public void deleteAll() {
+		String delete = "DELETE FROM T_HTK_ALIMENTO";
+		
+		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+			stmt.executeUpdate();
+		}  
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	/**
 	 * Fecha a conexão com o banco de dados
 	 */
 	public void fechaConexao() {
