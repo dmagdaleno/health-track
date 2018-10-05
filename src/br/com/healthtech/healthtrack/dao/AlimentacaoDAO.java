@@ -25,7 +25,7 @@ public class AlimentacaoDAO {
 		conexao = manager.obterConexao();
 	}
 	
-	public void add(Alimentacao alimentacao) {
+	public void insert(Alimentacao alimentacao) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO T_HTK_ALIMENTO (");
 		builder.append(" id_alimento,"); 
@@ -61,10 +61,10 @@ public class AlimentacaoDAO {
 		
 	}
 	
-	public void add(List<Alimentacao> alimentacoes) {
-		for(Alimentacao alimentacao: alimentacoes) {
-			this.add(alimentacao);
-		}
+	public void insertAll(List<Alimentacao> alimentacoes) {
+		alimentacoes.forEach(alimentacao -> {
+			this.insert(alimentacao);
+		});
 	}
 	
 	public List<Alimentacao> getAll() {
