@@ -2,14 +2,20 @@ package br.com.healthtech.healthtrack.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import br.com.healthtech.healthtrack.db.ConnectionManager;
 import br.com.healthtech.healthtrack.modelo.registro.Alimentacao;
 
 public class AlimentacaoDAO {
+	
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	
 	private Connection conexao;
 	
@@ -35,22 +41,26 @@ public class AlimentacaoDAO {
 			PreparedStatement stmt = conexao.prepareStatement(insert);
 			stmt.setLong(1, alimentacao.getId());
 			stmt.setLong(2, alimentacao.getUsuario().getId());
-			stmt.setLong(3, alimentacao.getTipo().ordinal()+1);
+			stmt.setInt(3, alimentacao.getTipo());
 			stmt.setDouble(4, alimentacao.getValorCalorico().doubleValue());
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-			String dataFormatada = alimentacao.getDataRegistro().format(formatter);
-			stmt.setString(5, dataFormatada);
+			stmt.setString(5, alimentacao.getDataRegistro().format(formatter));
 			stmt.setString(6, alimentacao.getDescricao());
 			System.out.println("executando..");
 			stmt.executeUpdate();
 			System.out.println("inserido");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (SQLIntegrityConstraintViolationException e) {
+			String msg = String.format("Chave primária [%d] ou estranjeira [%d] inválida", 
+					alimentacao.getId(), alimentacao.getUsuario().getId());
+			System.out.println(msg);
 			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO: handle exception
+		} 
+		catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	public void add(List<Alimentacao> alimentacoes) {
@@ -60,7 +70,48 @@ public class AlimentacaoDAO {
 	}
 	
 	public List<Alimentacao> getAll() {
-		return null;
+		List<Alimentacao> alimentacoes = new ArrayList<>();
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = conexao.prepareStatement("SELECT * FROM TAB_COLABORADOR");
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				int codigo = rs.getInt("CODIGO_COLABORADOR");
+				String nome = rs.getString("NOME");
+				String email = rs.getString("EMAIL");
+				double salario = rs.getDouble("SALARIO");
+				java.sql.Date data = rs.getDate("DATA_CONTRATACAO");
+				Calendar dataContratacao = Calendar.getInstance();
+				dataContratacao.setTimeInMillis(data.getTime());
+				
+				Alimentacao alimentacao = new Alimentacao(null, null);
+				alimentacoes.add(alimentacao);
+			}
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}finally {
+		try {
+		stmt.close();
+		rs.close();
+		conexao.close();
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+		}
+		
+		return Collections.unmodifiableList(alimentacoes);
+	}
+	
+	public void fechaConexao() {
+		try {
+			this.conexao.close();
+		} catch (SQLException e) {
+			System.out.println("Erro ao fechar conexão.");
+			e.printStackTrace();
+		}
 	}
 
 }
