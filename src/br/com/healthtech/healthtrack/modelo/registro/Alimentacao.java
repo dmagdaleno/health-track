@@ -11,31 +11,21 @@ import br.com.healthtech.healthtrack.modelo.Usuario;
  *
  */
 public class Alimentacao extends Registro {
-	private Long id;
 	private int tipo;
 	private String descricao;
 	private BigDecimal valorCalorico;
 	
-	public Alimentacao(final Usuario usuario, final LocalDateTime dataRegistro) {
-		super(usuario, dataRegistro);
+	public Alimentacao(final Long id, final Usuario usuario, final LocalDateTime dataRegistro) {
+		super(id, usuario, dataRegistro);
 	}
 
 	public Alimentacao(Long id, int tipo, String descricao, BigDecimal valorCalorico, 
 			LocalDateTime dataRegistro, Usuario usuario) {
-		super(usuario, dataRegistro);
+		super(id, usuario, dataRegistro);
 		
-		this.id = id;
 		this.tipo = tipo;
 		this.descricao = descricao;
 		this.valorCalorico = valorCalorico;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public int getTipo() {
@@ -60,6 +50,11 @@ public class Alimentacao extends Registro {
 
 	public void setValorCalorico(BigDecimal valorCalorico) {
 		this.valorCalorico = valorCalorico;
+	}
+	
+	@Override
+	public Long getId() {
+		return id;
 	}
 	
 	@Override

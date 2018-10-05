@@ -11,30 +11,20 @@ import br.com.healthtech.healthtrack.modelo.Usuario;
  *
  */
 public class AtividadeFisica extends Registro {
-	private Long id;
 	private int tipo;
 	private String descricao;
 	private BigDecimal gastoCalorico;
 
-	public AtividadeFisica(final Usuario usuario, final LocalDateTime dataRegistro) {
-		super(usuario, dataRegistro);
+	public AtividadeFisica(final Long id, final Usuario usuario, final LocalDateTime dataRegistro) {
+		super(id, usuario, dataRegistro);
 	}
 
 	public AtividadeFisica(Long id, int tipo, String descricao, BigDecimal gastoCalorico,
 			LocalDateTime dataRegistro, Usuario usuario) {
-		super(usuario, dataRegistro);
-		this.id = id;
+		super(id, usuario, dataRegistro);
 		this.tipo = tipo;
 		this.descricao = descricao;
 		this.gastoCalorico = gastoCalorico;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public int getTipo() {
@@ -62,6 +52,11 @@ public class AtividadeFisica extends Registro {
 	}
 
 	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -84,9 +79,7 @@ public class AtividadeFisica extends Registro {
 		int result = super.hashCode();
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((gastoCalorico == null) ? 0 : gastoCalorico.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + tipo;
-		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 
@@ -109,17 +102,7 @@ public class AtividadeFisica extends Registro {
 				return false;
 		} else if (!gastoCalorico.equals(other.gastoCalorico))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		if (tipo != other.tipo)
-			return false;
-		if (usuario == null) {
-			if (other.usuario != null)
-				return false;
-		} else if (!usuario.equals(other.usuario))
 			return false;
 		return true;
 	}

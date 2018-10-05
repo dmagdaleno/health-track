@@ -14,12 +14,12 @@ public class PressaoArterial extends Registro {
 	private BigDecimal pressaoMaxima;
 	private BigDecimal pressaoMinima;
 	
-	public PressaoArterial(final Usuario usuario, final LocalDateTime dataRegistro) {
-		super(usuario, dataRegistro);
+	public PressaoArterial(final Long id, final Usuario usuario, final LocalDateTime dataRegistro) {
+		super(id, usuario, dataRegistro);
 	}
 
-	public PressaoArterial(final Usuario usuario, BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataRegistro) {
-		super(usuario, dataRegistro);
+	public PressaoArterial(final Long id, BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataRegistro, final Usuario usuario) {
+		super(id, usuario, dataRegistro);
 		this.pressaoMaxima = pressaoMaxima;
 		this.pressaoMinima = pressaoMinima;
 	}
@@ -36,6 +36,11 @@ public class PressaoArterial extends Registro {
 	public void setPressaoMinima(BigDecimal pressaoMinima) {
 		this.pressaoMinima = pressaoMinima;
 	}
+	
+	@Override
+	public Long getId() {
+		return id;
+	}
 
 	@Override
 	public Usuario getUsuario() {
@@ -46,7 +51,7 @@ public class PressaoArterial extends Registro {
 	public LocalDateTime getDataRegistro() {
 		return data;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,5 +88,4 @@ public class PressaoArterial extends Registro {
 		return "PressaoArterial [pressaoMaxima=" + pressaoMaxima + ", pressaoMinima=" + pressaoMinima + 
 				", dataRegistro=" + data + "]";
 	}
-	
 }

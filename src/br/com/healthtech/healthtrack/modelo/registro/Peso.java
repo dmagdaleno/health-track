@@ -13,12 +13,12 @@ import br.com.healthtech.healthtrack.modelo.Usuario;
 public class Peso extends Registro {
 	private BigDecimal peso;
 	
-	public Peso(final Usuario usuario, final LocalDateTime dataRegistro) {
-		super(usuario, dataRegistro);
+	public Peso(final Long id, final Usuario usuario, final LocalDateTime dataRegistro) {
+		super(id, usuario, dataRegistro);
 	}
 	
-	public Peso(final Usuario usuario, BigDecimal peso, LocalDateTime dataRegistro) {
-		super(usuario, dataRegistro);
+	public Peso(final Long id, BigDecimal peso, LocalDateTime dataRegistro, final Usuario usuario) {
+		super(id, usuario, dataRegistro);
 		this.peso = peso;
 	}
 
@@ -30,6 +30,11 @@ public class Peso extends Registro {
 	}
 	
 	@Override
+	public Long getId() {
+		return id;
+	}
+	
+	@Override
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -38,37 +43,5 @@ public class Peso extends Registro {
 	public LocalDateTime getDataRegistro() {
 		return data;
 	}
-	
-
-	@Override
-	public String toString() {
-		return "Peso [peso=" + peso + ", dataRegistro=" + data + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((peso == null) ? 0 : peso.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Peso other = (Peso) obj;
-		if (peso == null) {
-			if (other.peso != null)
-				return false;
-		} else if (!peso.equals(other.peso))
-			return false;
-		return true;
-	}
-	
 	
 }
