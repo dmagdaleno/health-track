@@ -44,7 +44,7 @@ public class PesoDAO {
 		builder.append(" id_peso,"); 
 		builder.append(" fk_id_usuario,"); 
 		builder.append(" vl_peso,"); 
-		builder.append(" dt_medida,"); 
+		builder.append(" dt_medida) "); 
 		builder.append("VALUES (?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'))");
 		String insert = builder.toString();
 		
