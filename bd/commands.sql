@@ -79,6 +79,8 @@ INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
  VALUES (4, 'LANCHE_LEVE');
 INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
  VALUES (5, 'FRUTA');
+ 
+SELECT * FROM T_HTK_TP_ALIMENTO;
 
 INSERT INTO T_HTK_ALIMENTO (id_alimento, fk_id_usuario, fk_id_tp_alimento, vl_caloria, dt_consumo, ds_alimento)
  VALUES (1, 1, 1, 800, TO_DATE('17/09/2018','DD/MM/YYYY'), 'feijoada');
