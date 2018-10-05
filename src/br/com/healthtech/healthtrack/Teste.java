@@ -11,11 +11,20 @@ import br.com.healthtech.healthtrack.modelo.registro.Alimentacao;
 
 public class Teste {
 
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 		AlimentacaoDAO dao = new AlimentacaoDAO();
+		
+		// limpa a base
+		dao.deleteAll();
+		
+		// insere novos registros
 		adicionaRegistrosDeAlimentacao(dao);
+		
+		// exibe os registros
 		System.out.println("Lista de alimentações registradas:");
 		dao.getAll().forEach(alimentacao -> System.out.println(alimentacao));
+		
+		// fecha conexão com o banco
 		dao.fechaConexao();
 	}
 
