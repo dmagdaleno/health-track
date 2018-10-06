@@ -53,6 +53,12 @@ public class PressaoArterial extends Registro {
 	}
 	
 	@Override
+	public String toString() {
+		return "PressaoArterial [pressaoMaxima=" + pressaoMaxima + ", pressaoMinima=" + pressaoMinima + ", id=" + id
+				 + ", usuario=[id=" + usuario.getId() + "]" + ", data=" + data + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
@@ -81,11 +87,5 @@ public class PressaoArterial extends Registro {
 		} else if (!pressaoMinima.equals(other.pressaoMinima))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "PressaoArterial [pressaoMaxima=" + pressaoMaxima + ", pressaoMinima=" + pressaoMinima + 
-				", dataRegistro=" + data + "]";
 	}
 }

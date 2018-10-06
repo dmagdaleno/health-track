@@ -69,7 +69,7 @@ public class AtividadeFisica extends Registro {
 	@Override
 	public String toString() {
 		return "AtividadeFisica [id=" + id + ", tipo=" + tipo + ", descricao=" + descricao + 
-				", gastoCalorico=" + gastoCalorico + ", usuario=" + usuario + 
+				", gastoCalorico=" + gastoCalorico + ", usuario=[id=" + usuario.getId() + "]" + 
 				", dataRegistro=" + data + "]";
 	}
 

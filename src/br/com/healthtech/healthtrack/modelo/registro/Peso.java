@@ -46,7 +46,7 @@ public class Peso extends Registro {
 
 	@Override
 	public String toString() {
-		return "Peso [peso=" + peso + ", id=" + id + ", usuario=" + usuario + ", data=" + data + "]";
+		return "Peso [peso=" + peso + ", id=" + id + ", usuario=[id=" + usuario.getId() + "]" + ", data=" + data + "]";
 	}
 
 	@Override

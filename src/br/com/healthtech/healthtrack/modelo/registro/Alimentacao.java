@@ -70,7 +70,7 @@ public class Alimentacao extends Registro {
 	@Override
 	public String toString() {
 		return "Alimentacao [id=" + id + ", tipo=" + tipo + ", descricao=" + descricao + 
-				", valorCalorico=" + valorCalorico + ", usuario=" + usuario + 
+				", valorCalorico=" + valorCalorico + ", usuario=[id=" + usuario.getId() + "]" + 
 				", dataRegistro=" + data + "]";
 	}
 
