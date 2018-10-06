@@ -1,17 +1,17 @@
-package br.com.healthtech.healthtrack;
+package br.com.healthtech.healthtrack.teste;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import br.com.healthtech.healthtrack.dao.AlimentacaoDAO;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Alimentacao;
+import br.com.healthtech.healthtrack.utils.DateUtil;
 
-public class Teste {
+public class TesteAlimentacao {
 
-	public static void main(String[] args) {
+	public static void testa() {
 		AlimentacaoDAO dao = new AlimentacaoDAO();
 		
 		// limpa a base
@@ -55,8 +55,7 @@ public class Teste {
 	
 	private static Usuario constroiUsuario() {
 		String nome = "João da Silva";
-		LocalDate dataNascimento = LocalDate.parse(
-				"26/09/1989", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		LocalDate dataNascimento = DateUtil.toDate("26/09/1989 00:00").toLocalDate();
 		String genero = "Masculino";
 		BigDecimal altura = new BigDecimal(1.70);
 		BigDecimal limiteCaloriaDiaria = new BigDecimal(2000);
@@ -65,8 +64,7 @@ public class Teste {
 	}
 	
 	private static LocalDateTime novaData(String data) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-		return LocalDateTime.parse(data, formatter);
+		return DateUtil.toDate(data);
 	}
 
 }
