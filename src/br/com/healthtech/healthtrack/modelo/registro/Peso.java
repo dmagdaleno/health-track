@@ -19,7 +19,7 @@ public class Peso extends Registro {
 	
 	public Peso(final Long id, BigDecimal peso, LocalDateTime dataRegistro, final Usuario usuario) {
 		super(id, usuario, dataRegistro);
-		this.peso = peso;
+		this.peso = peso.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
 
 	public BigDecimal getPeso() {
