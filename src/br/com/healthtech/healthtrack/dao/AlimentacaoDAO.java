@@ -47,7 +47,7 @@ public class AlimentacaoDAO {
 		builder.append(" vl_caloria,"); 
 		builder.append(" dt_consumo,"); 
 		builder.append(" ds_alimento) "); 
-		builder.append("VALUES (SQ_TB_ALIMENTO.NEXTVAL, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'), ?)");
+		builder.append("VALUES (SQ_TB_ALIMENTO.NEXTVAL, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'), ?)");
 		String insert = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
@@ -95,7 +95,7 @@ public class AlimentacaoDAO {
 	 */
 	public List<Alimentacao> getAll() {
 		List<Alimentacao> alimentacoes = new ArrayList<>();
-		String query = "SELECT A.*, TO_CHAR(A.dt_consumo, 'DD/MM/YYYY HH24:MI') AS dt_text FROM T_HTK_ALIMENTO A";
+		String query = "SELECT A.*, TO_CHAR(A.dt_consumo, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_ALIMENTO A";
 		
 		try (
 			PreparedStatement stmt = conexao.prepareStatement(query);
@@ -106,7 +106,7 @@ public class AlimentacaoDAO {
 				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
 				int tipo = rs.getInt("fk_id_tp_alimento");
 				BigDecimal calorias = new BigDecimal(rs.getDouble("vl_caloria"));
-				LocalDateTime dataRegistro = DateUtil.toDate(rs.getString("dt_text"));
+				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
 				String descricao = rs.getString("ds_alimento");
 				
 				Alimentacao alimentacao = new Alimentacao(id, tipo, descricao, calorias, dataRegistro, usuario);

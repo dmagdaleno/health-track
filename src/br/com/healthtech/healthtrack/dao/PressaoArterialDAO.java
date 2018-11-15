@@ -46,7 +46,7 @@ public class PressaoArterialDAO {
 		builder.append(" vl_pressao_max,"); 
 		builder.append(" vl_pressao_min,"); 
 		builder.append(" dt_medida) "); 
-		builder.append("VALUES (SQ_TB_PRESSAO.NEXTVAL, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'))");
+		builder.append("VALUES (SQ_TB_PRESSAO.NEXTVAL, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'))");
 		String insert = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
@@ -93,7 +93,7 @@ public class PressaoArterialDAO {
 	 */
 	public List<PressaoArterial> getAll() {
 		List<PressaoArterial> pressoes = new ArrayList<>();
-		String query = "SELECT P.*, TO_CHAR(P.dt_medida, 'DD/MM/YYYY HH24:MI') AS dt_text FROM T_HTK_PRESSAO P";
+		String query = "SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_PRESSAO P";
 		
 		try (
 			PreparedStatement stmt = conexao.prepareStatement(query);
@@ -104,7 +104,7 @@ public class PressaoArterialDAO {
 				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
 				BigDecimal pressaoMax = new BigDecimal(rs.getDouble("vl_pressao_max"));
 				BigDecimal pressaoMin = new BigDecimal(rs.getDouble("vl_pressao_min"));
-				LocalDateTime dataRegistro = DateUtil.toDate(rs.getString("dt_text"));
+				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
 				
 				PressaoArterial registro = new PressaoArterial(id, pressaoMax, pressaoMin, dataRegistro, usuario);
 				

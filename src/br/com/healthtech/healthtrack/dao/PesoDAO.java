@@ -45,7 +45,7 @@ public class PesoDAO {
 		builder.append(" fk_id_usuario,"); 
 		builder.append(" vl_peso,"); 
 		builder.append(" dt_medida) "); 
-		builder.append("VALUES (SQ_TB_PESO.NEXTVAL, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'))");
+		builder.append("VALUES (SQ_TB_PESO.NEXTVAL, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'))");
 		String insert = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
@@ -91,7 +91,7 @@ public class PesoDAO {
 	 */
 	public List<Peso> getAll() {
 		List<Peso> pesos = new ArrayList<>();
-		String query = "SELECT P.*, TO_CHAR(P.dt_medida, 'DD/MM/YYYY HH24:MI') AS dt_text FROM T_HTK_PESO P";
+		String query = "SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_PESO P";
 		
 		try (
 			PreparedStatement stmt = conexao.prepareStatement(query);
@@ -101,7 +101,7 @@ public class PesoDAO {
 				Long id = rs.getLong("id_peso");
 				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
 				BigDecimal peso = new BigDecimal(rs.getDouble("vl_peso"));
-				LocalDateTime dataRegistro = DateUtil.toDate(rs.getString("dt_text"));
+				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
 				
 				Peso registro = new Peso(id, peso, dataRegistro, usuario);
 				

@@ -47,7 +47,7 @@ public class AtividadeFisicaDAO {
 		builder.append(" vl_caloria,"); 
 		builder.append(" dt_atv_fisica,"); 
 		builder.append(" ds_atv_fisica) "); 
-		builder.append("VALUES (SQ_TB_ATV_FISICA.NEXTVAL, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'), ?)");
+		builder.append("VALUES (SQ_TB_ATV_FISICA.NEXTVAL, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'), ?)");
 		String insert = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
@@ -95,7 +95,7 @@ public class AtividadeFisicaDAO {
 	 */
 	public List<AtividadeFisica> getAll() {
 		List<AtividadeFisica> atividades = new ArrayList<>();
-		String query = "SELECT A.*, TO_CHAR(A.dt_atv_fisica, 'DD/MM/YYYY HH24:MI') AS dt_text FROM T_HTK_ATV_FISICA A";
+		String query = "SELECT A.*, TO_CHAR(A.dt_atv_fisica, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_ATV_FISICA A";
 		
 		try (
 			PreparedStatement stmt = conexao.prepareStatement(query);
@@ -106,7 +106,7 @@ public class AtividadeFisicaDAO {
 				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
 				int tipo = rs.getInt("fk_id_tp_atv_fisica");
 				BigDecimal calorias = new BigDecimal(rs.getDouble("vl_caloria"));
-				LocalDateTime dataRegistro = DateUtil.toDate(rs.getString("dt_text"));
+				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
 				String descricao = rs.getString("ds_atv_fisica");
 				
 				AtividadeFisica atividade = 
