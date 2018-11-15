@@ -15,13 +15,15 @@ public class Alimentacao extends Registro {
 	private String descricao;
 	private BigDecimal valorCalorico;
 	
-	public Alimentacao(final Long id, final Usuario usuario, final LocalDateTime dataRegistro) {
-		super(id, usuario, dataRegistro);
+	public Alimentacao(int tipo, String descricao, BigDecimal valorCalorico, 
+			LocalDateTime dataRegistro, Usuario usuario) {
+		
+		this(null, tipo, descricao, valorCalorico, dataRegistro, usuario);
 	}
 
 	public Alimentacao(Long id, int tipo, String descricao, BigDecimal valorCalorico, 
 			LocalDateTime dataRegistro, Usuario usuario) {
-		super(id, usuario, dataRegistro);
+		super(id, dataRegistro, usuario);
 		
 		this.tipo = tipo;
 		this.descricao = descricao;

@@ -14,12 +14,12 @@ public class PressaoArterial extends Registro {
 	private BigDecimal pressaoMaxima;
 	private BigDecimal pressaoMinima;
 	
-	public PressaoArterial(final Long id, final Usuario usuario, final LocalDateTime dataRegistro) {
-		super(id, usuario, dataRegistro);
+	public PressaoArterial(BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataRegistro, final Usuario usuario) {
+		this(null, pressaoMaxima, pressaoMinima, dataRegistro, usuario);
 	}
-
+	
 	public PressaoArterial(final Long id, BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataRegistro, final Usuario usuario) {
-		super(id, usuario, dataRegistro);
+		super(id, dataRegistro, usuario);
 		this.pressaoMaxima = pressaoMaxima;
 		this.pressaoMinima = pressaoMinima;
 	}

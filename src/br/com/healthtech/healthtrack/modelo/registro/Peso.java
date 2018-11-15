@@ -13,12 +13,12 @@ import br.com.healthtech.healthtrack.modelo.Usuario;
 public class Peso extends Registro {
 	private BigDecimal peso;
 	
-	public Peso(final Long id, final Usuario usuario, final LocalDateTime dataRegistro) {
-		super(id, usuario, dataRegistro);
+	public Peso(BigDecimal peso, LocalDateTime dataRegistro, final Usuario usuario) {
+		this(null, peso, dataRegistro, usuario);
 	}
 	
 	public Peso(final Long id, BigDecimal peso, LocalDateTime dataRegistro, final Usuario usuario) {
-		super(id, usuario, dataRegistro);
+		super(id, dataRegistro, usuario);
 		this.peso = peso.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
 

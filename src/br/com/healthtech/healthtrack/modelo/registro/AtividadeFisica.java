@@ -14,14 +14,15 @@ public class AtividadeFisica extends Registro {
 	private int tipo;
 	private String descricao;
 	private BigDecimal gastoCalorico;
-
-	public AtividadeFisica(final Long id, final Usuario usuario, final LocalDateTime dataRegistro) {
-		super(id, usuario, dataRegistro);
+	
+	public AtividadeFisica(int tipo, String descricao, BigDecimal gastoCalorico,
+			LocalDateTime dataRegistro, Usuario usuario) {
+		this(null, tipo, descricao, gastoCalorico, dataRegistro, usuario);
 	}
 
 	public AtividadeFisica(Long id, int tipo, String descricao, BigDecimal gastoCalorico,
 			LocalDateTime dataRegistro, Usuario usuario) {
-		super(id, usuario, dataRegistro);
+		super(id, dataRegistro, usuario);
 		this.tipo = tipo;
 		this.descricao = descricao;
 		this.gastoCalorico = gastoCalorico;

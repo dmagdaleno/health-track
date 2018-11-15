@@ -40,10 +40,10 @@ public abstract class Registro {
 	 */
 	public abstract LocalDateTime getDataRegistro();
 	
-	protected Registro(final Long id, final Usuario usuario, final LocalDateTime data){
+	protected Registro(final Long id, final LocalDateTime data, final Usuario usuario){
 		this.id = id;
-		this.usuario = usuario;
 		this.data = data;
+		this.usuario = usuario;
 	}
 
 	@Override
