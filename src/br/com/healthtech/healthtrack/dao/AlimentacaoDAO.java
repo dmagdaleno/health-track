@@ -47,16 +47,15 @@ public class AlimentacaoDAO {
 		builder.append(" vl_caloria,"); 
 		builder.append(" dt_consumo,"); 
 		builder.append(" ds_alimento) "); 
-		builder.append("VALUES (?, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'), ?)");
+		builder.append("VALUES (SQ_TB_ALIMENTO.NEXTVAL, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'), ?)");
 		String insert = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
-			stmt.setLong(1, alimentacao.getId());
-			stmt.setLong(2, alimentacao.getUsuario().getId());
-			stmt.setInt(3, alimentacao.getTipo());
-			stmt.setDouble(4, alimentacao.getValorCalorico().doubleValue());
-			stmt.setString(5, DateUtil.toText(alimentacao.getDataRegistro()));
-			stmt.setString(6, alimentacao.getDescricao());
+			stmt.setLong(1, alimentacao.getUsuario().getId());
+			stmt.setInt(2, alimentacao.getTipo());
+			stmt.setDouble(3, alimentacao.getValorCalorico().doubleValue());
+			stmt.setString(4, DateUtil.toText(alimentacao.getDataRegistro()));
+			stmt.setString(5, alimentacao.getDescricao());
 			stmt.executeUpdate();
 		} 
 		catch (SQLIntegrityConstraintViolationException e) {

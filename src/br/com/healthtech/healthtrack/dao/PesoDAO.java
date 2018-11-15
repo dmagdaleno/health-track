@@ -45,14 +45,13 @@ public class PesoDAO {
 		builder.append(" fk_id_usuario,"); 
 		builder.append(" vl_peso,"); 
 		builder.append(" dt_medida) "); 
-		builder.append("VALUES (?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'))");
+		builder.append("VALUES (SQ_TB_PESO.NEXTVAL, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'))");
 		String insert = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
-			stmt.setLong(1, registro.getId());
-			stmt.setLong(2, registro.getUsuario().getId());
-			stmt.setDouble(3, registro.getPeso().doubleValue());
-			stmt.setString(4, DateUtil.toText(registro.getDataRegistro()));
+			stmt.setLong(1, registro.getUsuario().getId());
+			stmt.setDouble(2, registro.getPeso().doubleValue());
+			stmt.setString(3, DateUtil.toText(registro.getDataRegistro()));
 			stmt.executeUpdate();
 		} 
 		catch (SQLIntegrityConstraintViolationException e) {

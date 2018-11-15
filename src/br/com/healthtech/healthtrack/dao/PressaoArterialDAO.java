@@ -46,15 +46,14 @@ public class PressaoArterialDAO {
 		builder.append(" vl_pressao_max,"); 
 		builder.append(" vl_pressao_min,"); 
 		builder.append(" dt_medida) "); 
-		builder.append("VALUES (?, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'))");
+		builder.append("VALUES (SQ_TB_PRESSAO.NEXTVAL, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'))");
 		String insert = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
-			stmt.setLong(1, registro.getId());
-			stmt.setLong(2, registro.getUsuario().getId());
-			stmt.setDouble(3, registro.getPressaoMaxima().doubleValue());
-			stmt.setDouble(4, registro.getPressaoMinima().doubleValue());
-			stmt.setString(5, DateUtil.toText(registro.getDataRegistro()));
+			stmt.setLong(1, registro.getUsuario().getId());
+			stmt.setDouble(2, registro.getPressaoMaxima().doubleValue());
+			stmt.setDouble(3, registro.getPressaoMinima().doubleValue());
+			stmt.setString(4, DateUtil.toText(registro.getDataRegistro()));
 			stmt.executeUpdate();
 		} 
 		catch (SQLIntegrityConstraintViolationException e) {

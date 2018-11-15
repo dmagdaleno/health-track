@@ -47,16 +47,15 @@ public class AtividadeFisicaDAO {
 		builder.append(" vl_caloria,"); 
 		builder.append(" dt_atv_fisica,"); 
 		builder.append(" ds_atv_fisica) "); 
-		builder.append("VALUES (?, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'), ?)");
+		builder.append("VALUES (SQ_TB_ATV_FISICA.NEXTVAL, ?, ?, ?, TO_DATE(?,'DD/MM/YYYY HH24:MI'), ?)");
 		String insert = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
-			stmt.setLong(1, atividade.getId());
-			stmt.setLong(2, atividade.getUsuario().getId());
-			stmt.setInt(3, atividade.getTipo());
-			stmt.setDouble(4, atividade.getGastoCalorico().doubleValue());
-			stmt.setString(5, DateUtil.toText(atividade.getDataRegistro()));
-			stmt.setString(6, atividade.getDescricao());
+			stmt.setLong(1, atividade.getUsuario().getId());
+			stmt.setInt(2, atividade.getTipo());
+			stmt.setDouble(3, atividade.getGastoCalorico().doubleValue());
+			stmt.setString(4, DateUtil.toText(atividade.getDataRegistro()));
+			stmt.setString(5, atividade.getDescricao());
 			stmt.executeUpdate();
 		} 
 		catch (SQLIntegrityConstraintViolationException e) {
