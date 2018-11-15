@@ -1,18 +1,24 @@
 package br.com.healthtech.healthtrack.utils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DateUtil {
 	
-	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+	private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_DATE;
 	
-	public static LocalDateTime toDate(String text) {
-		return LocalDateTime.parse(text, formatter);
+	public static LocalDateTime toDateTime(String text) {
+		return LocalDateTime.parse(text, dateTimeFormatter);
 	}
 	
 	public static String toText(LocalDateTime date) {
-		return date.format(formatter);
+		return date.format(dateTimeFormatter);
+	}
+
+	public static LocalDate toDate(String text) {
+		return LocalDate.parse(text, dateFormatter);
 	}
 
 }
