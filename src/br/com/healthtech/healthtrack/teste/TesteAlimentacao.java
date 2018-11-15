@@ -32,30 +32,30 @@ public class TesteAlimentacao {
 		Usuario usuario = constroiUsuario();
 		
 		dao.insert(new Alimentacao(1, "Cereal, iogurte e mel", 
-				new BigDecimal(350), novaData("10/09/2018 07:00"), usuario));
+				new BigDecimal(350), novaData("2018-09-10T07:00"), usuario));
 		dao.insert(new Alimentacao(2, "Uma maçã grande", 
-				new BigDecimal(100), novaData("10/09/2018 09:30"), usuario));
+				new BigDecimal(100), novaData("2018-09-10T09:30"), usuario));
 		dao.insert(new Alimentacao(3, "Arroz, feijão, carne e salada", 
-				new BigDecimal(650), novaData("10/09/2018 12:00"), usuario));
+				new BigDecimal(650), novaData("2018-09-10T12:00"), usuario));
 		dao.insert(new Alimentacao(4, "Lanche", 
-				new BigDecimal(220), novaData("10/09/2018 16:00"), usuario));
+				new BigDecimal(220), novaData("2018-09-10T16:00"), usuario));
 		dao.insert(new Alimentacao(5, "Filé de frango e salada", 
-				new BigDecimal(580), novaData("10/09/2018 19:00"), usuario));
+				new BigDecimal(580), novaData("2018-09-10T19:00"), usuario));
 		dao.insert(new Alimentacao(1, "Cereal, iogurte e mel", 
-				new BigDecimal(350), novaData("11/09/2018 07:00"), usuario));
+				new BigDecimal(350), novaData("2018-09-11T07:00"), usuario));
 		dao.insert(new Alimentacao(2, "Uma maçã grande", 
-				new BigDecimal(100), novaData("11/09/2018 09:30"), usuario));
+				new BigDecimal(100), novaData("2018-09-11T09:30"), usuario));
 		dao.insert(new Alimentacao(3, "Arroz, feijão, carne e salada", 
-				new BigDecimal(650), novaData("11/09/2018 12:00"), usuario));
+				new BigDecimal(650), novaData("2018-09-11T12:00"), usuario));
 		dao.insert(new Alimentacao(4, "Lanche", 
-				new BigDecimal(220), novaData("11/09/2018 16:00"), usuario));
+				new BigDecimal(220), novaData("2018-09-11T16:00"), usuario));
 		dao.insert(new Alimentacao(5, "Filé de frango e salada", 
-				new BigDecimal(580), novaData("11/09/2018 19:00"), usuario));
+				new BigDecimal(580), novaData("2018-09-11T19:00"), usuario));
 	}
 	
 	private static Usuario constroiUsuario() {
 		String nome = "João da Silva";
-		LocalDate dataNascimento = DateUtil.toDate("26/09/1989 00:00").toLocalDate();
+		LocalDate dataNascimento = DateUtil.toDate("1989-01-01");
 		String genero = "Masculino";
 		BigDecimal altura = new BigDecimal(1.70);
 		BigDecimal limiteCaloriaDiaria = new BigDecimal(2000);
@@ -64,7 +64,7 @@ public class TesteAlimentacao {
 	}
 	
 	private static LocalDateTime novaData(String data) {
-		return DateUtil.toDate(data);
+		return DateUtil.toDateTime(data);
 	}
 
 }

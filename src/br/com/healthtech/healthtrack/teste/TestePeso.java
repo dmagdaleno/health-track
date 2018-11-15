@@ -10,7 +10,7 @@ import br.com.healthtech.healthtrack.modelo.registro.Peso;
 import br.com.healthtech.healthtrack.utils.DateUtil;
 
 public class TestePeso {
-
+	
 	public static void testa() {
 		PesoDAO dao = new PesoDAO();
 		
@@ -31,16 +31,16 @@ public class TestePeso {
 	private static void adicionaRegistrosDePeso(PesoDAO dao) {
 		Usuario usuario = constroiUsuario();
 		
-		dao.insert(new Peso(new BigDecimal(83), novaData("10/09/2018 07:00"), usuario));
-		dao.insert(new Peso(new BigDecimal(81), novaData("19/09/2018 07:10"), usuario));
-		dao.insert(new Peso(new BigDecimal(79.3), novaData("01/10/2018 08:00"), usuario));
-		dao.insert(new Peso(new BigDecimal(79), novaData("02/10/2018 08:00"), usuario));
-		dao.insert(new Peso(new BigDecimal(78.5), novaData("03/10/2018 08:00"), usuario));
+		dao.insert(new Peso(new BigDecimal(83), novaData("2018-09-10T07:00"), usuario));
+		dao.insert(new Peso(new BigDecimal(81), novaData("2018-09-19T07:10"), usuario));
+		dao.insert(new Peso(new BigDecimal(79.3), novaData("2018-10-01T08:00"), usuario));
+		dao.insert(new Peso(new BigDecimal(79), novaData("2018-10-02T08:00"), usuario));
+		dao.insert(new Peso(new BigDecimal(78.5), novaData("2018-10-03T08:00"), usuario));
 	}
 	
 	private static Usuario constroiUsuario() {
 		String nome = "João da Silva";
-		LocalDate dataNascimento = DateUtil.toDate("26/09/1989 00:00").toLocalDate();
+		LocalDate dataNascimento = DateUtil.toDate("1989-01-01");
 		String genero = "Masculino";
 		BigDecimal altura = new BigDecimal(1.70);
 		BigDecimal limiteCaloriaDiaria = new BigDecimal(2000);
@@ -49,7 +49,7 @@ public class TestePeso {
 	}
 	
 	private static LocalDateTime novaData(String data) {
-		return DateUtil.toDate(data);
+		return DateUtil.toDateTime(data);
 	}
 
 }

@@ -32,20 +32,20 @@ public class TesteAtividadeFisica {
 		Usuario usuario = constroiUsuario();
 		
 		dao.insert(new AtividadeFisica(1, "Caminhada", new BigDecimal(150), 
-				novaData("10/09/2018 07:00"), usuario));
+				novaData("2018-09-10T07:00"), usuario));
 		dao.insert(new AtividadeFisica(2, "Corrida", new BigDecimal(800), 
-				novaData("11/09/2018 09:30"), usuario));
+				novaData("2018-09-11T09:30"), usuario));
 		dao.insert(new AtividadeFisica(3, "Pedalada", new BigDecimal(1200), 
-				novaData("12/09/2018 12:00"), usuario));
+				novaData("2018-09-12T12:00"), usuario));
 		dao.insert(new AtividadeFisica(4, "Musculação", new BigDecimal(100), 
-				novaData("13/09/2018 16:00"), usuario));
+				novaData("2018-09-13T16:00"), usuario));
 		dao.insert(new AtividadeFisica(4, "Musculação", new BigDecimal(100), 
-				novaData("14/09/2018 16:00"), usuario));
+				novaData("2018-09-14T16:00"), usuario));
 	}
 	
 	private static Usuario constroiUsuario() {
 		String nome = "João da Silva";
-		LocalDate dataNascimento = DateUtil.toDate("26/09/1989 00:00").toLocalDate();
+		LocalDate dataNascimento = DateUtil.toDate("1989-01-01");
 		String genero = "Masculino";
 		BigDecimal altura = new BigDecimal(1.70);
 		BigDecimal limiteCaloriaDiaria = new BigDecimal(2000);
@@ -54,7 +54,7 @@ public class TesteAtividadeFisica {
 	}
 	
 	private static LocalDateTime novaData(String data) {
-		return DateUtil.toDate(data);
+		return DateUtil.toDateTime(data);
 	}
 
 }
