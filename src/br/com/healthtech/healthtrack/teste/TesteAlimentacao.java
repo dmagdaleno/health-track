@@ -31,25 +31,25 @@ public class TesteAlimentacao {
 	private static void adicionaRegistrosDeAlimentacao(AlimentacaoDAO dao) {
 		Usuario usuario = constroiUsuario();
 		
-		dao.insert(new Alimentacao(1L, 1, "Cereal, iogurte e mel", 
+		dao.insert(new Alimentacao(null, 1, "Cereal, iogurte e mel", 
 				new BigDecimal(350), novaData("10/09/2018 07:00"), usuario));
-		dao.insert(new Alimentacao(2L, 2, "Uma maçã grande", 
+		dao.insert(new Alimentacao(null, 2, "Uma maçã grande", 
 				new BigDecimal(100), novaData("10/09/2018 09:30"), usuario));
-		dao.insert(new Alimentacao(3L, 3, "Arroz, feijão, carne e salada", 
+		dao.insert(new Alimentacao(null, 3, "Arroz, feijão, carne e salada", 
 				new BigDecimal(650), novaData("10/09/2018 12:00"), usuario));
-		dao.insert(new Alimentacao(4L, 4, "Lanche", 
+		dao.insert(new Alimentacao(null, 4, "Lanche", 
 				new BigDecimal(220), novaData("10/09/2018 16:00"), usuario));
-		dao.insert(new Alimentacao(5L, 5, "Filé de frango e salada", 
+		dao.insert(new Alimentacao(null, 5, "Filé de frango e salada", 
 				new BigDecimal(580), novaData("10/09/2018 19:00"), usuario));
-		dao.insert(new Alimentacao(6L, 1, "Cereal, iogurte e mel", 
+		dao.insert(new Alimentacao(null, 1, "Cereal, iogurte e mel", 
 				new BigDecimal(350), novaData("11/09/2018 07:00"), usuario));
-		dao.insert(new Alimentacao(7L, 2, "Uma maçã grande", 
+		dao.insert(new Alimentacao(null, 2, "Uma maçã grande", 
 				new BigDecimal(100), novaData("11/09/2018 09:30"), usuario));
-		dao.insert(new Alimentacao(8L, 3, "Arroz, feijão, carne e salada", 
+		dao.insert(new Alimentacao(null, 3, "Arroz, feijão, carne e salada", 
 				new BigDecimal(650), novaData("11/09/2018 12:00"), usuario));
-		dao.insert(new Alimentacao(9L, 4, "Lanche", 
+		dao.insert(new Alimentacao(null, 4, "Lanche", 
 				new BigDecimal(220), novaData("11/09/2018 16:00"), usuario));
-		dao.insert(new Alimentacao(10L, 5, "Filé de frango e salada", 
+		dao.insert(new Alimentacao(null, 5, "Filé de frango e salada", 
 				new BigDecimal(580), novaData("11/09/2018 19:00"), usuario));
 	}
 	
