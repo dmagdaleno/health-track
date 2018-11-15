@@ -11,7 +11,7 @@ $().ready(function(){
         required: true,
         date: true,
         min: "1970-01-01",
-        max: hoje()
+        max: amanha()
       }
     },
     messages: {
