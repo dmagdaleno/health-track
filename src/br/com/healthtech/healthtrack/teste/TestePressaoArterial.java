@@ -31,11 +31,11 @@ public class TestePressaoArterial {
 	private static void adicionaRegistrosDePressaoArterial(PressaoArterialDAO dao) {
 		Usuario usuario = constroiUsuario();
 		
-		dao.insert(new PressaoArterial(null, new BigDecimal(140), new BigDecimal(100), novaData("10/09/2018 07:00"), usuario));
-		dao.insert(new PressaoArterial(null, new BigDecimal(130), new BigDecimal(90), novaData("19/09/2018 07:10"), usuario));
-		dao.insert(new PressaoArterial(null, new BigDecimal(120), new BigDecimal(80), novaData("01/10/2018 08:00"), usuario));
-		dao.insert(new PressaoArterial(null, new BigDecimal(120), new BigDecimal(80), novaData("02/10/2018 08:00"), usuario));
-		dao.insert(new PressaoArterial(null, new BigDecimal(120), new BigDecimal(80), novaData("03/10/2018 08:00"), usuario));
+		dao.insert(new PressaoArterial(new BigDecimal(140), new BigDecimal(100), novaData("10/09/2018 07:00"), usuario));
+		dao.insert(new PressaoArterial(new BigDecimal(130), new BigDecimal(90), novaData("19/09/2018 07:10"), usuario));
+		dao.insert(new PressaoArterial(new BigDecimal(120), new BigDecimal(80), novaData("01/10/2018 08:00"), usuario));
+		dao.insert(new PressaoArterial(new BigDecimal(120), new BigDecimal(80), novaData("02/10/2018 08:00"), usuario));
+		dao.insert(new PressaoArterial(new BigDecimal(120), new BigDecimal(80), novaData("03/10/2018 08:00"), usuario));
 	}
 	
 	private static Usuario constroiUsuario() {

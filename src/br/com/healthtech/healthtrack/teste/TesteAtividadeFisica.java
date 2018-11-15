@@ -31,16 +31,16 @@ public class TesteAtividadeFisica {
 	private static void adicionaRegistrosDeAtividadeFisica(AtividadeFisicaDAO dao) {
 		Usuario usuario = constroiUsuario();
 		
-		dao.insert(new AtividadeFisica(null, 1, "Caminhada", 
-				new BigDecimal(150), novaData("10/09/2018 07:00"), usuario));
-		dao.insert(new AtividadeFisica(null, 2, "Corrida", 
-				new BigDecimal(800), novaData("11/09/2018 09:30"), usuario));
-		dao.insert(new AtividadeFisica(null, 3, "Pedalada", 
-				new BigDecimal(1200), novaData("12/09/2018 12:00"), usuario));
-		dao.insert(new AtividadeFisica(null, 4, "Musculação", 
-				new BigDecimal(100), novaData("13/09/2018 16:00"), usuario));
-		dao.insert(new AtividadeFisica(null, 4, "Musculação", 
-				new BigDecimal(100), novaData("14/09/2018 16:00"), usuario));
+		dao.insert(new AtividadeFisica(1, "Caminhada", new BigDecimal(150), 
+				novaData("10/09/2018 07:00"), usuario));
+		dao.insert(new AtividadeFisica(2, "Corrida", new BigDecimal(800), 
+				novaData("11/09/2018 09:30"), usuario));
+		dao.insert(new AtividadeFisica(3, "Pedalada", new BigDecimal(1200), 
+				novaData("12/09/2018 12:00"), usuario));
+		dao.insert(new AtividadeFisica(4, "Musculação", new BigDecimal(100), 
+				novaData("13/09/2018 16:00"), usuario));
+		dao.insert(new AtividadeFisica(4, "Musculação", new BigDecimal(100), 
+				novaData("14/09/2018 16:00"), usuario));
 	}
 	
 	private static Usuario constroiUsuario() {

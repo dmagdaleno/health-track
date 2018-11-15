@@ -31,11 +31,11 @@ public class TestePeso {
 	private static void adicionaRegistrosDePeso(PesoDAO dao) {
 		Usuario usuario = constroiUsuario();
 		
-		dao.insert(new Peso(null, new BigDecimal(83), novaData("10/09/2018 07:00"), usuario));
-		dao.insert(new Peso(null, new BigDecimal(81), novaData("19/09/2018 07:10"), usuario));
-		dao.insert(new Peso(null, new BigDecimal(79.3), novaData("01/10/2018 08:00"), usuario));
-		dao.insert(new Peso(null, new BigDecimal(79), novaData("02/10/2018 08:00"), usuario));
-		dao.insert(new Peso(null, new BigDecimal(78.5), novaData("03/10/2018 08:00"), usuario));
+		dao.insert(new Peso(new BigDecimal(83), novaData("10/09/2018 07:00"), usuario));
+		dao.insert(new Peso(new BigDecimal(81), novaData("19/09/2018 07:10"), usuario));
+		dao.insert(new Peso(new BigDecimal(79.3), novaData("01/10/2018 08:00"), usuario));
+		dao.insert(new Peso(new BigDecimal(79), novaData("02/10/2018 08:00"), usuario));
+		dao.insert(new Peso(new BigDecimal(78.5), novaData("03/10/2018 08:00"), usuario));
 	}
 	
 	private static Usuario constroiUsuario() {
