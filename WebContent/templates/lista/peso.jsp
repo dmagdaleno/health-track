@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
 <!Doctype html>
 <html lang="pt">
@@ -26,24 +28,32 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>70 kg</td>
-              <td>20/02/2018</td>
-              <td class="center"><a href="#" title="Alterar registro"><span class="fas fa-edit"></span></a></td>
-              <td class="center"><a href="#" title="Remover registro"><span class="fas fa-eraser"></span></a></td>
-            </tr>
-            <tr>
-              <td>72,1 kg</td>
-              <td>10/02/2018</td>
-              <td class="center"><a href="#" title="Alterar registro"><span class="fas fa-edit"></span></a></td>
-              <td class="center"><a href="#" title="Remover registro"><span class="fas fa-eraser"></span></a></td>
-            </tr>
-            <tr>
-              <td>73,4 kg</td>
-              <td>08/02/2018</td>
-              <td class="center"><a href="#" title="Alterar registro"><span class="fas fa-edit"></span></a></td>
-              <td class="center"><a href="#" title="Remover registro"><span class="fas fa-eraser"></span></a></td>
-            </tr>
+            <c:forEach items="${registros}" var="registro">
+	          <tr>
+	            <td>${registro.peso} kg</td>
+	            <td>
+	              <javatime:format value="${registro.dataRegistro}" pattern="dd/MM/yyyy" />
+	            </td>
+                <td class="center">
+                  <c:url value="peso" var="link">
+                    <c:param name="acao" value="editar"/>
+                    <c:param name="id" value="${registro.id}"/>
+                  </c:url>
+                  <a href="${link}" title="Alterar registro">
+                    <span class="fas fa-edit"></span>
+                  </a>
+                </td>
+                <td class="center">
+                  <c:url value="peso" var="link">
+                    <c:param name="acao" value="remover"/>
+                    <c:param name="id" value="${registro.id}"/>
+                  </c:url>
+                  <a href="${link}" title="Remover registro">
+                    <span class="fas fa-eraser"></span>
+                  </a>
+                </td>
+	          </tr>
+	        </c:forEach>
           </tbody>
         </table>
       </div>
