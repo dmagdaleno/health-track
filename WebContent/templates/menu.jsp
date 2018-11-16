@@ -22,10 +22,10 @@
       <li class="nav-item">
       	<c:choose>
 	      	<c:when test="${param.menu == 2}">
-	      		<a class="nav-link active" href="#">Peso<span class="sr-only">(atual)</span></a>
+	      		<a class="nav-link active" href="${pageContext.servletContext.contextPath}/peso?acao=listar">Peso<span class="sr-only">(atual)</span></a>
 	      	</c:when>
 	      	<c:otherwise>
-		        <a class="nav-link" href="${pageContext.servletContext.contextPath}/templates/lista/peso.jsp">Peso</a>
+		        <a class="nav-link" href="${pageContext.servletContext.contextPath}/peso?acao=listar">Peso</a>
 	      	</c:otherwise>
       	</c:choose>
       </li>
