@@ -56,12 +56,34 @@ public class PesoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 		
-		System.out.println(">>> PesoServlet.doGet");
-		List<Peso> registros = dao.getAll();
-		System.out.println("Registros: " + registros);
-		System.out.println("<<< PesoServlet.doGet");
-		req.setAttribute("registros", registros);
-		req.getRequestDispatcher("templates/lista/peso.jsp").forward(req, resp);
+		try {
+			String acao = req.getParameter("acao");
+			
+			if(acao == null) 
+				throw new IllegalArgumentException("Ação não pode ser nula");
+			
+			switch (acao) {
+			case "listar":
+				List<Peso> registros = dao.getAll();
+				req.setAttribute("registros", registros);
+				req.getRequestDispatcher("templates/lista/peso.jsp").forward(req, resp);
+				break;
+				
+			case "editar":
+				Long id = Long.parseLong(req.getParameter("id"));
+				Peso registro = dao.busca(id);
+				req.setAttribute("registro", registro);
+				req.getRequestDispatcher("templates/edicao/peso.jsp").forward(req, resp);
+				break;
+
+			default:
+				break;
+			}			
+		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			req.setAttribute("erro", e.getMessage());
+		}
 	}
 
 }
