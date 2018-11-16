@@ -16,7 +16,7 @@
 
     <div class="container">
       <h1>Cadastro de Pressão Arterial</h1>
-      <form id="pressaoForm">
+      <form id="pressaoForm" action="${pageContext.servletContext.contextPath}/pressao" method="post">
         <div class="form-group">
           <label for="pressaoMax">Pressão arterial sistólica (máxima)</label>
           <input type="number" id="pressaoMax" name="pressaoMax" class="form-control" placeholder="Pressão arterial em mmHg. Ex: 120">
