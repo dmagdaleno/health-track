@@ -109,7 +109,8 @@ public class PesoDAOOracle implements PesoDAO {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
 		query.append("FROM T_HTK_PESO P ");
-		query.append("WHERE P.fk_id_usuario = ?");
+		query.append("WHERE P.fk_id_usuario = ? ");
+		query.append("ORDER BY P.dt_medida DESC");
 		
 		List<Peso> registros = new ArrayList<>();
 		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
