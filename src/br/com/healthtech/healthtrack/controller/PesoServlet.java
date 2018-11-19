@@ -35,22 +35,73 @@ public class PesoServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		try {
+			String acao = req.getParameter("acao");
+			
+			if(acao == null) 
+				throw new IllegalArgumentException("Ação não pode ser nula");
+			
+			switch (acao) {
+			case "cadastrar":
+				cadastrar(req, resp);
+				break;
+				
+			case "editar":
+				editar(req, resp);
+				break;
+
+			default:
+				break;
+			}			
+		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			req.setAttribute("erro", e.getMessage());
+		}
+		
+	}
+	
+	private void cadastrar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		try {
 			BigDecimal peso = new BigDecimal(req.getParameter("peso"));
 			LocalDateTime data = DateUtil.toDateTime(req.getParameter("data"));
 			
 			Peso registro = new Peso(peso, data, new Usuario(1L));
 			
-			dao.insert(registro);
+			dao.insere(registro);
 			
 			req.setAttribute("sucesso", "Peso cadastrado com sucesso!");
+			listar(req, resp);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			req.setAttribute("erro", "Não foi possível cadastrar o peso.");
+			req.getRequestDispatcher("templates/cadastro/peso.jsp").forward(req, resp);
 		}
 		
-		req.getRequestDispatcher("templates/cadastro/peso.jsp").forward(req, resp);
 	}
+
+	private void editar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		try {
+			Long id = Long.parseLong(req.getParameter("id"));
+			Long idUsuario = Long.parseLong(req.getParameter("idUsuario"));
+			BigDecimal peso = new BigDecimal(req.getParameter("peso"));
+			LocalDateTime data = DateUtil.toDateTime(req.getParameter("data"));
+			
+			Peso registro = new Peso(id, peso, data, new Usuario(idUsuario));
+			
+			dao.atualiza(registro);
+			
+			req.setAttribute("sucesso", "Peso editado com sucesso!");
+			listar(req, resp);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			req.setAttribute("erro", "Não foi possível editar o peso.");
+			req.getRequestDispatcher("templates/edicao/peso.jsp").forward(req, resp);
+		}
+		
+	}
+	
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
@@ -64,16 +115,11 @@ public class PesoServlet extends HttpServlet {
 			
 			switch (acao) {
 			case "listar":
-				List<Peso> registros = dao.getAll();
-				req.setAttribute("registros", registros);
-				req.getRequestDispatcher("templates/lista/peso.jsp").forward(req, resp);
+				listar(req, resp);
 				break;
 				
 			case "editar":
-				Long id = Long.parseLong(req.getParameter("id"));
-				Peso registro = dao.busca(id);
-				req.setAttribute("registro", registro);
-				req.getRequestDispatcher("templates/edicao/peso.jsp").forward(req, resp);
+				abrirFormularioEdicao(req, resp);
 				break;
 
 			default:
@@ -84,6 +130,21 @@ public class PesoServlet extends HttpServlet {
 			e.printStackTrace();
 			req.setAttribute("erro", e.getMessage());
 		}
+	}
+
+	private void abrirFormularioEdicao(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		Long id = Long.parseLong(req.getParameter("id"));
+		Peso registro = dao.busca(id);
+		req.setAttribute("registro", registro);
+		req.getRequestDispatcher("templates/edicao/peso.jsp").forward(req, resp);
+	}
+
+	private void listar(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		List<Peso> registros = dao.buscaTodos();
+		req.setAttribute("registros", registros);
+		req.getRequestDispatcher("templates/lista/peso.jsp").forward(req, resp);
 	}
 
 }
