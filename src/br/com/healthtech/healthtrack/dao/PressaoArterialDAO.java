@@ -1,88 +1,48 @@
 package br.com.healthtech.healthtrack.dao;
 
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import br.com.healthtech.healthtrack.db.ConnectionManager;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.PressaoArterial;
-import br.com.healthtech.healthtrack.utils.DateUtil;
 
-/**
- * Classe responsável por abstrair a comunicação com o banco de dados
- * da entidade {@link PressaoArterial}
- * 
- * @author dmagdaleno
- *
- */
-public class PressaoArterialDAO {
-	
-	private Connection conexao;
-	
-	public PressaoArterialDAO() {
-		ConnectionManager manager = ConnectionManager.getInstance();
-		conexao = manager.obterConexao();
-	}
-	
+public interface PressaoArterialDAO {
 	/**
-	 * Registra {@link PressaoArterial} relacionada com um {@link Usuario}
+	 * Registra {@link PressaoArterial} relacionado com um {@link Usuario}
 	 * 
 	 * @param registro
 	 * 		{@link PressaoArterial}
 	 */
-	public void insert(PressaoArterial registro) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("INSERT INTO T_HTK_PRESSAO (");
-		builder.append(" id_pressao,"); 
-		builder.append(" fk_id_usuario,"); 
-		builder.append(" vl_pressao_max,"); 
-		builder.append(" vl_pressao_min,"); 
-		builder.append(" dt_medida) "); 
-		builder.append("VALUES (SQ_TB_PRESSAO.NEXTVAL, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'))");
-		String insert = builder.toString();
-		
-		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
-			stmt.setLong(1, registro.getUsuario().getId());
-			stmt.setDouble(2, registro.getPressaoMaxima().doubleValue());
-			stmt.setDouble(3, registro.getPressaoMinima().doubleValue());
-			stmt.setString(4, DateUtil.toText(registro.getDataRegistro()));
-			stmt.executeUpdate();
-		} 
-		catch (SQLIntegrityConstraintViolationException e) {
-			String msg = String.format("Chave primária [%d] ou estranjeira [%d] inválida", 
-					registro.getId(), registro.getUsuario().getId());
-			System.out.println(msg);
-			e.printStackTrace();
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-		
-	}
+	public void insere(PressaoArterial registro);
 	
 	/**
 	 * Registra uma lista de {@link PressaoArterial}
 	 * 
-	 * @param pressoes
+	 * @param pesos
 	 * 		{@link List}<{@link PressaoArterial}>
 	 */
-	public void insertAll(List<PressaoArterial> pressoes) {
-		pressoes.forEach(pressao -> {
-			this.insert(pressao);
-		});
-	}
+	public void insereTodos(List<PressaoArterial> registros);
+
+	/**
+	 * Recupera registro de {@link PressaoArterial} específico por id
+	 * 
+	 * @param id
+	 * 		{@link Long}
+	 * 
+	 * @return
+	 * 		{@link List}<{@link PressaoArterial}>
+	 */
+	public PressaoArterial buscaPor(Long id);
 	
+	/**
+	 * Recupera lista de {@link PressaoArterial} por {@link Usuario}
+	 * 
+	 * @param usuario
+	 * 		{@link Usuario} 
+	 * 
+	 * @return
+	 * 		{@link List}<{@link PressaoArterial}>
+	 */
+	public List<PressaoArterial> buscaPor(Usuario usuario);	
 	
 	/**
 	 * Recupera lista de {@link PressaoArterial}<br>
@@ -91,60 +51,29 @@ public class PressaoArterialDAO {
 	 * @return
 	 * 		{@link List}<{@link PressaoArterial}>
 	 */
-	public List<PressaoArterial> getAll() {
-		List<PressaoArterial> pressoes = new ArrayList<>();
-		String query = "SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_PRESSAO P";
-		
-		try (
-			PreparedStatement stmt = conexao.prepareStatement(query);
-			ResultSet rs = stmt.executeQuery();
-		){
-			while (rs.next()) {
-				Long id = rs.getLong("id_pressao");
-				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
-				BigDecimal pressaoMax = new BigDecimal(rs.getDouble("vl_pressao_max"));
-				BigDecimal pressaoMin = new BigDecimal(rs.getDouble("vl_pressao_min"));
-				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
-				
-				PressaoArterial registro = new PressaoArterial(id, pressaoMax, pressaoMin, dataRegistro, usuario);
-				
-				pressoes.add(registro);
-			}
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return Collections.unmodifiableList(pressoes);
-	}
+	public List<PressaoArterial> buscaTodos();
+
+	/**
+	 * Atualiza registro de {@link PressaoArterial} por id
+	 * 
+	 * @param registro
+	 */
+	public void atualiza(PressaoArterial registro);
 	
 	/**
-	 * Remove todos os registros de peso
+	 * Exclui todos os registros de {@link PressaoArterial}
 	 */
-	public void deleteAll() {
-		String delete = "DELETE FROM T_HTK_PRESSAO";
-		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
-			stmt.executeUpdate();
-		}  
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-	}
-	
+	public void excluiTodos();
+
+	/**
+	 * Exclui registro expecífico por id 
+	 * 
+	 * @param id
+	 */
+	public void exclui(Long id);
+
 	/**
 	 * Fecha a conexão com o banco de dados
 	 */
-	public void fechaConexao() {
-		try {
-			this.conexao.close();
-		} catch (SQLException e) {
-			System.out.println("Erro ao fechar conexão.");
-			e.printStackTrace();
-		}
-	}
-
+	public void fechaConexao();
 }
