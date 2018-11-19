@@ -31,8 +31,7 @@ public class PesoServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		try {
 			String acao = req.getParameter("acao");
@@ -48,6 +47,10 @@ public class PesoServlet extends HttpServlet {
 			case "editar":
 				editar(req, resp);
 				break;
+				
+			case "excluir":
+				excluir(req, resp);
+				break;
 
 			default:
 				break;
@@ -59,7 +62,7 @@ public class PesoServlet extends HttpServlet {
 		}
 		
 	}
-	
+
 	private void cadastrar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			BigDecimal peso = new BigDecimal(req.getParameter("peso"));
@@ -99,13 +102,27 @@ public class PesoServlet extends HttpServlet {
 			req.setAttribute("erro", "Não foi possível editar o peso.");
 			req.getRequestDispatcher("templates/edicao/peso.jsp").forward(req, resp);
 		}
+	}
+	
+	private void excluir(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		try {
+			Long id = Long.parseLong(req.getParameter("id"));
+			
+			dao.exclui(id);
+			
+			req.setAttribute("sucesso", "Peso excluído com sucesso!");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			req.setAttribute("erro", "Não foi possível excluir o peso.");
+		}
 		
+		listar(req, resp);
 	}
 	
 	
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		try {
 			String acao = req.getParameter("acao");
