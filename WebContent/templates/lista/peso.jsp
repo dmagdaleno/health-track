@@ -18,12 +18,14 @@
 
     <div class="container">
       <h1>Registros de Pesagem</h1>
+      
       <c:if test="${not empty sucesso }">
 		<div class="alert alert-success">${sucesso}</div>
 	  </c:if>
 	  <c:if test="${not empty erro }">
 		<div class="alert alert-danger">${erro}</div>
 	  </c:if>
+	  
       <div class="table-responsive">
         <table class="table">
           <thead>
