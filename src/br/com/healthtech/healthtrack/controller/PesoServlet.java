@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.dao.PesoDAO;
+import br.com.healthtech.healthtrack.exception.DBException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Peso;
 import br.com.healthtech.healthtrack.utils.DateUtil;
@@ -72,12 +73,12 @@ public class PesoServlet extends HttpServlet {
 			
 			dao.insere(registro);
 			
-			req.setAttribute("sucesso", "Peso cadastrado com sucesso!");
+			req.setAttribute("sucesso", "Cadastro realizado com sucesso!");
 			listar(req, resp);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			req.setAttribute("erro", "Não foi possível cadastrar o peso.");
+			req.setAttribute("erro", "Não foi possível realizar o cadastro.");
 			req.getRequestDispatcher("templates/cadastro/peso.jsp").forward(req, resp);
 		}
 		
@@ -94,12 +95,12 @@ public class PesoServlet extends HttpServlet {
 			
 			dao.atualiza(registro);
 			
-			req.setAttribute("sucesso", "Peso editado com sucesso!");
+			req.setAttribute("sucesso", "Registro editado com sucesso!");
 			listar(req, resp);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			req.setAttribute("erro", "Não foi possível editar o peso.");
+			req.setAttribute("erro", "Não foi possível editar o registro.");
 			req.getRequestDispatcher("templates/edicao/peso.jsp").forward(req, resp);
 		}
 	}
@@ -114,7 +115,7 @@ public class PesoServlet extends HttpServlet {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			req.setAttribute("erro", "Não foi possível excluir o peso.");
+			req.setAttribute("erro", "Não foi possível excluir o registro.");
 		}
 		
 		listar(req, resp);
@@ -152,15 +153,23 @@ public class PesoServlet extends HttpServlet {
 	private void abrirFormularioEdicao(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		Long id = Long.parseLong(req.getParameter("id"));
-		Peso registro = dao.buscaPor(id);
-		req.setAttribute("registro", registro);
+		try {
+			Peso registro = dao.buscaPor(id);
+			req.setAttribute("registro", registro);
+		} catch (DBException e) {
+			req.setAttribute("erro", "Não foi possível carregar dados para edição.");
+		}
 		req.getRequestDispatcher("templates/edicao/peso.jsp").forward(req, resp);
 	}
 
 	private void listar(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		List<Peso> registros = dao.buscaPor(new Usuario(1L));
-		req.setAttribute("registros", registros);
+		try {
+			List<Peso> registros = dao.buscaPor(new Usuario(1L));
+			req.setAttribute("registros", registros);
+		} catch (DBException e) {
+			req.setAttribute("erro", "Não foi possível carregar os registros.");
+		}
 		req.getRequestDispatcher("templates/lista/peso.jsp").forward(req, resp);
 	}
 
