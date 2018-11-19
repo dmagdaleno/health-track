@@ -30,13 +30,17 @@
           <label for="peso">Peso</label>
           <input type="number" id="peso" name="peso" class="form-control" placeholder="Peso em kilogramas">
         </div>
+        
         <div class="form-group">
           <label for="data">Data Hora</label>
           <input type="datetime-local" id="data" name="data" class="form-control">
         </div>
+        
         <input type="hidden" name="acao" value="cadastrar" />
+        
         <button type="submit" class="btn btn-primary">Salvar</button>
         <a href="${pageContext.servletContext.contextPath}/peso?acao=listar" class="btn btn-danger">Cancelar</a>
+        
       </form>
     </div>
 
