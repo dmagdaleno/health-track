@@ -119,23 +119,6 @@ public class PesoDAO {
 	}
 	
 	/**
-	 * Remove todos os registros de peso
-	 */
-	public void removeTodos() {
-		String delete = "DELETE FROM T_HTK_PESO";
-		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
-			stmt.executeUpdate();
-		}  
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-	}
-	
-	/**
 	 * Fecha a conexão com o banco de dados
 	 */
 	public void fechaConexao() {
@@ -207,6 +190,43 @@ public class PesoDAO {
 			System.out.println(msg);
 			e.printStackTrace();
 		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Exclui todos os registros de peso
+	 */
+	public void excluiTodos() {
+		String delete = "DELETE FROM T_HTK_PESO";
+		
+		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+			stmt.executeUpdate();
+		}  
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+
+	/**
+	 * Exclui registro expecífico por id 
+	 * 
+	 * @param id
+	 */
+	public void exclui(Long id) {
+		String delete = "DELETE FROM T_HTK_PESO P WHERE P.id_peso = ?";
+		
+		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+			stmt.setLong(1, id);
+			stmt.executeUpdate();
+		}  
 		catch (SQLException e) {
 			e.printStackTrace();
 		} 
