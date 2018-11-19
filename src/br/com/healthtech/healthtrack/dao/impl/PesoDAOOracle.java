@@ -13,6 +13,7 @@ import java.util.List;
 
 import br.com.healthtech.healthtrack.dao.PesoDAO;
 import br.com.healthtech.healthtrack.db.ConnectionManager;
+import br.com.healthtech.healthtrack.exception.DBException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Peso;
 import br.com.healthtech.healthtrack.utils.DateUtil;
@@ -34,7 +35,7 @@ public class PesoDAOOracle implements PesoDAO {
 	}
 	
 	@Override
-	public void insere(Peso registro) {
+	public void insere(Peso registro) throws DBException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO T_HTK_PESO (");
 		builder.append(" id_peso,"); 
@@ -55,24 +56,27 @@ public class PesoDAOOracle implements PesoDAO {
 					registro.getId(), registro.getUsuario().getId());
 			System.out.println(msg);
 			e.printStackTrace();
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
+			throw new DBException(e);
+		}
 		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		} 
 	}
 	
 	@Override
-	public void insereTodos(List<Peso> pesos) {
+	public void insereTodos(List<Peso> pesos) throws DBException {
 		pesos.forEach(peso -> {
-			this.insere(peso);
+			try {
+				this.insere(peso);
+			} catch (DBException e) {
+				System.out.println("Não foi possível inserir: " + peso);
+			}
 		});
 	}
 	
 	@Override
-	public Peso buscaPor(Long id) {
+	public Peso buscaPor(Long id) throws DBException {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
 		query.append("FROM T_HTK_PESO P ");
@@ -92,15 +96,16 @@ public class PesoDAOOracle implements PesoDAO {
 				}
 			}
 		} 
-		catch (SQLException e) {
+		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		}
 		
 		return registro;
 	}
 
 	@Override
-	public List<Peso> buscaPor(Usuario usuario) {
+	public List<Peso> buscaPor(Usuario usuario) throws DBException {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
 		query.append("FROM T_HTK_PESO P ");
@@ -124,6 +129,7 @@ public class PesoDAOOracle implements PesoDAO {
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		}
 		
 		return registros;
@@ -161,7 +167,7 @@ public class PesoDAOOracle implements PesoDAO {
 	}
 
 	@Override
-	public void atualiza(Peso registro) {
+	public void atualiza(Peso registro) throws DBException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE T_HTK_PESO P SET");
 		builder.append(" P.vl_peso = ?,"); 
@@ -181,36 +187,36 @@ public class PesoDAOOracle implements PesoDAO {
 					registro.getId(), registro.getUsuario().getId());
 			System.out.println(msg);
 			e.printStackTrace();
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
+			throw new DBException(e);
+		}
 		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		}
 	}
 	
 	@Override
-	public void exclui(Long id) {
+	public void exclui(Long id) throws DBException {
 		String delete = "DELETE FROM T_HTK_PESO P WHERE P.id_peso = ?";
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
 			stmt.setLong(1, id);
 			stmt.executeUpdate();
 		}  
-		catch (SQLException e) {
+		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		}
 	}
 	
 	@Override
-	public void excluiTodos() {
+	public void excluiTodos() throws DBException {
 		String delete = "DELETE FROM T_HTK_PESO";
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
 			stmt.executeUpdate();
 		}  
-		catch (SQLException e) {
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
