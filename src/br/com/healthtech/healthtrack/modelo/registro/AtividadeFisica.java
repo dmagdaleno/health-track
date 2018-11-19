@@ -113,7 +113,10 @@ public class AtividadeFisica extends Registro {
 				return false;
 		} else if (!gastoCalorico.equals(other.gastoCalorico))
 			return false;
-		if (tipo != other.tipo)
+		if (tipo == null) {
+			if (other.tipo != null)
+				return false;
+		} else if (!tipo.equals(other.tipo))
 			return false;
 		return true;
 	}
