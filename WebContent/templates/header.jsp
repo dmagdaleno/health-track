@@ -1,4 +1,4 @@
-<meta charset="utf-8">
+
 <meta name="description" content="healthtrack page">
 <meta name="author" content="Diego Magdaleno">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
