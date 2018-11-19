@@ -10,42 +10,50 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
+      	<c:set var="url" value="${pageContext.servletContext.contextPath}/templates/lista/atividade.jsp" />
+      	<c:set var="desc" value="Atividade Física" />
       	<c:choose>
 	      	<c:when test="${param.menu == 1}">
-	      		<a class="nav-link active" href="#">Atividade Física<span class="sr-only">(atual)</span></a>
+	      		<a class="nav-link active" href="${url}">${desc}<span class="sr-only">(atual)</span></a>
 	      	</c:when>
 	      	<c:otherwise>
-		        <a class="nav-link" href="${pageContext.servletContext.contextPath}/templates/lista/atividade.jsp">Atividade Física</a>
+		        <a class="nav-link" href="${url}">${desc}</a>
 	      	</c:otherwise>
       	</c:choose>
       </li>
       <li class="nav-item">
+      	<c:set var="url" value="${pageContext.servletContext.contextPath}/peso?acao=listar" />
+      	<c:set var="desc" value="Peso" />
       	<c:choose>
 	      	<c:when test="${param.menu == 2}">
-	      		<a class="nav-link active" href="${pageContext.servletContext.contextPath}/peso?acao=listar">Peso<span class="sr-only">(atual)</span></a>
+	      		<a class="nav-link active" href="${url}">${desc}<span class="sr-only">(atual)</span></a>
 	      	</c:when>
 	      	<c:otherwise>
-		        <a class="nav-link" href="${pageContext.servletContext.contextPath}/peso?acao=listar">Peso</a>
+		        <a class="nav-link" href="${url}">${desc}</a>
 	      	</c:otherwise>
       	</c:choose>
       </li>
       <li class="nav-item">
+      	<c:set var="url" value="${pageContext.servletContext.contextPath}/pressao-arterial?acao=listar" />
+      	<c:set var="desc" value="Pressão Arterial" />
       	<c:choose>
 	      	<c:when test="${param.menu == 3}">
-	      		<a class="nav-link active" href="#">Pressão Arterial<span class="sr-only">(atual)</span></a>
+	      		<a class="nav-link active" href="${url}">${desc}<span class="sr-only">(atual)</span></a>
 	      	</c:when>
 	      	<c:otherwise>
-		        <a class="nav-link" href="${pageContext.servletContext.contextPath}/templates/lista/pressao-arterial.jsp">Pressão Arterial</a>
+		        <a class="nav-link" href="${url}">${desc}</a>
 	      	</c:otherwise>
       	</c:choose>
       </li>
       <li class="nav-item">
+      	<c:set var="url" value="${pageContext.servletContext.contextPath}/templates/lista/alimentacao.jsp" />
+      	<c:set var="desc" value="Alimentação" />
       	<c:choose>
 	      	<c:when test="${param.menu == 4}">
-	      		<a class="nav-link active" href="#">Alimentação<span class="sr-only">(atual)</span></a>
+	      		<a class="nav-link active" href="${url}">${desc}<span class="sr-only">(atual)</span></a>
 	      	</c:when>
 	      	<c:otherwise>
-		        <a class="nav-link" href="${pageContext.servletContext.contextPath}/templates/lista/alimentacao.jsp">Alimentação</a>
+		        <a class="nav-link" href="${url}">${desc}</a>
 	      	</c:otherwise>
       	</c:choose>
       </li>
