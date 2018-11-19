@@ -32,6 +32,7 @@
           <label for="data">Data Hora</label>
           <input type="datetime-local" id="data" name="data" class="form-control">
         </div>
+        <input type="hidden" name="acao" value="cadastrar" />
         <button type="submit" class="btn btn-primary">Adicionar peso</button>
       </form>
     </div>
