@@ -12,6 +12,10 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
 
 public class TestePeso {
 	
+	public static void main(String[] args) {
+		testa();
+	}
+	
 	public static void testa() {
 		PesoDAO dao = DAOFactory.getPesoDAO();
 		
@@ -23,7 +27,8 @@ public class TestePeso {
 		
 		// exibe os registros
 		System.out.println("\nLista de pesos registrados:");
-		dao.buscaTodos().forEach(peso -> System.out.println(peso));
+		Usuario usuario = constroiUsuario();
+		dao.buscaPor(usuario).forEach(peso -> System.out.println(peso));
 		
 		// fecha conexão com o banco
 		dao.fechaConexao();
