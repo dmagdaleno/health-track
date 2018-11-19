@@ -16,7 +16,7 @@
     </jsp:include>
 
     <div class="container">
-      <h1>Cadastro de Peso</h1>
+      <h1>Editar Peso</h1>
       <c:if test="${not empty sucesso }">
 		<div class="alert alert-success">${sucesso}</div>
 	  </c:if>
@@ -26,14 +26,17 @@
       <form id="pesoForm" action="${pageContext.servletContext.contextPath}/peso" method="post">
         <div class="form-group">
           <label for="peso">Peso</label>
-          <input type="number" id="peso" name="peso" class="form-control" placeholder="Peso em kilogramas" value="${registr.peso}">
+          <input type="number" id="peso" name="peso" class="form-control" placeholder="Peso em kilogramas" 
+          	value="${registro.peso}" />
         </div>
         <div class="form-group">
           <label for="data">Data Hora</label>
-          <input type="datetime-local" id="data" name="data" class="form-control" value="${registr.dataRegistrada}">
+          <input type="datetime-local" id="data" name="data" class="form-control" value="${registro.dataRegistro}">
         </div>
-        <input type="hidden" name="id" value="${registr.id}" />
-        <button type="submit" class="btn btn-primary">Adicionar peso</button>
+        <input type="hidden" name="id" value="${registro.id}" />
+        <input type="hidden" name="idUsuario" value="${registro.usuario.id}" />
+        <input type="hidden" name="acao" value="editar" />
+        <button type="submit" class="btn btn-primary">Atualizar</button>
       </form>
     </div>
 
