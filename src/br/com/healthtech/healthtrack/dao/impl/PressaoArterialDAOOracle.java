@@ -80,9 +80,9 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	@Override
 	public PressaoArterial buscaPor(Long id) throws DBException {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
-		query.append("FROM T_HTK_PRESSAO P ");
-		query.append("WHERE P.id_pressao = ?");
+		query.append("SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		query.append("FROM T_HTK_PRESSAO T ");
+		query.append("WHERE T.id_pressao = ?");
 		
 		PressaoArterial registro = null;
 		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
@@ -110,10 +110,10 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	@Override
 	public List<PressaoArterial> buscaPor(Usuario usuario) throws DBException {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
-		query.append("FROM T_HTK_PRESSAO P ");
-		query.append("WHERE P.fk_id_usuario = ? ");
-		query.append("ORDER BY P.dt_medida DESC");
+		query.append("SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		query.append("FROM T_HTK_PRESSAO T ");
+		query.append("WHERE T.fk_id_usuario = ? ");
+		query.append("ORDER BY T.dt_medida DESC");
 		
 		List<PressaoArterial> registros = new ArrayList<>();
 		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
@@ -143,7 +143,7 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	@Override
 	public List<PressaoArterial> buscaTodos() {
 		List<PressaoArterial> registros = new ArrayList<>();
-		String query = "SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_PRESSAO P";
+		String query = "SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_PRESSAO P";
 		
 		try (
 			PreparedStatement stmt = conexao.prepareStatement(query);
@@ -171,11 +171,11 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	@Override
 	public void atualiza(PressaoArterial registro) throws DBException {
 		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE T_HTK_PRESSAO P SET");
-		builder.append(" P.vl_pressao_max = ?,"); 
-		builder.append(" P.vl_pressao_min = ?,"); 
-		builder.append(" P.dt_medida = TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS') "); 
-		builder.append("WHERE P.id_pressao = ? AND P.fk_id_usuario = ?");
+		builder.append("UPDATE T_HTK_PRESSAO T SET");
+		builder.append(" T.vl_pressao_max = ?,"); 
+		builder.append(" T.vl_pressao_min = ?,"); 
+		builder.append(" T.dt_medida = TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS') "); 
+		builder.append("WHERE T.id_pressao = ? AND T.fk_id_usuario = ?");
 		String atualizar = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(atualizar)) {
@@ -200,7 +200,7 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	
 	@Override
 	public void exclui(Long id) throws DBException {
-		String delete = "DELETE FROM T_HTK_PRESSAO P WHERE P.id_pressao = ?";
+		String delete = "DELETE FROM T_HTK_PRESSAO T WHERE T.id_pressao = ?";
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
 			stmt.setLong(1, id);

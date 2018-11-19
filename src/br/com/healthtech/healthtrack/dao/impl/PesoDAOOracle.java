@@ -65,12 +65,12 @@ public class PesoDAOOracle implements PesoDAO {
 	}
 	
 	@Override
-	public void insereTodos(List<Peso> pesos) throws DBException {
-		pesos.forEach(peso -> {
+	public void insereTodos(List<Peso> registros) throws DBException {
+		registros.forEach(registro -> {
 			try {
-				this.insere(peso);
+				this.insere(registro);
 			} catch (DBException e) {
-				System.out.println("Não foi possível inserir: " + peso);
+				System.out.println("Não foi possível inserir: " + registro);
 			}
 		});
 	}
@@ -78,9 +78,9 @@ public class PesoDAOOracle implements PesoDAO {
 	@Override
 	public Peso buscaPor(Long id) throws DBException {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
-		query.append("FROM T_HTK_PESO P ");
-		query.append("WHERE P.id_peso = ?");
+		query.append("SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		query.append("FROM T_HTK_PESO T ");
+		query.append("WHERE T.id_peso = ?");
 		
 		Peso registro = null;
 		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
@@ -107,10 +107,10 @@ public class PesoDAOOracle implements PesoDAO {
 	@Override
 	public List<Peso> buscaPor(Usuario usuario) throws DBException {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
-		query.append("FROM T_HTK_PESO P ");
-		query.append("WHERE P.fk_id_usuario = ? ");
-		query.append("ORDER BY P.dt_medida DESC");
+		query.append("SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		query.append("FROM T_HTK_PESO T ");
+		query.append("WHERE T.fk_id_usuario = ? ");
+		query.append("ORDER BY T.dt_medida DESC");
 		
 		List<Peso> registros = new ArrayList<>();
 		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
@@ -138,11 +138,11 @@ public class PesoDAOOracle implements PesoDAO {
 	
 	@Override
 	public List<Peso> buscaTodos() {
-		List<Peso> pesos = new ArrayList<>();
+		List<Peso> registros = new ArrayList<>();
 		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
-		builder.append("FROM T_HTK_PESO P ");
-		builder.append("ORDER BY P.dt_medida DESC");
+		builder.append("SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		builder.append("FROM T_HTK_PESO T ");
+		builder.append("ORDER BY T.dt_medida DESC");
 		String query = builder.toString();
 		
 		try (
@@ -157,23 +157,23 @@ public class PesoDAOOracle implements PesoDAO {
 				
 				Peso registro = new Peso(id, peso, dataRegistro, usuario);
 				
-				pesos.add(registro);
+				registros.add(registro);
 			}
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return Collections.unmodifiableList(pesos);
+		return Collections.unmodifiableList(registros);
 	}
 
 	@Override
 	public void atualiza(Peso registro) throws DBException {
 		StringBuilder builder = new StringBuilder();
-		builder.append("UPDATE T_HTK_PESO P SET");
-		builder.append(" P.vl_peso = ?,"); 
-		builder.append(" P.dt_medida = TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS') "); 
-		builder.append("WHERE P.id_peso = ? AND P.fk_id_usuario = ?");
+		builder.append("UPDATE T_HTK_PESO T SET");
+		builder.append(" T.vl_peso = ?,"); 
+		builder.append(" T.dt_medida = TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS') "); 
+		builder.append("WHERE T.id_peso = ? AND T.fk_id_usuario = ?");
 		String atualizar = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(atualizar)) {
@@ -198,7 +198,7 @@ public class PesoDAOOracle implements PesoDAO {
 	
 	@Override
 	public void exclui(Long id) throws DBException {
-		String delete = "DELETE FROM T_HTK_PESO P WHERE P.id_peso = ?";
+		String delete = "DELETE FROM T_HTK_PESO T WHERE T.id_peso = ?";
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
 			stmt.setLong(1, id);

@@ -1,5 +1,6 @@
 package br.com.healthtech.healthtrack.dao;
 
+import br.com.healthtech.healthtrack.dao.impl.AtividadeFisicaDAOOracle;
 import br.com.healthtech.healthtrack.dao.impl.PesoDAOOracle;
 import br.com.healthtech.healthtrack.dao.impl.PressaoArterialDAOOracle;
 
@@ -14,7 +15,7 @@ public class DAOFactory {
   }
   
   public static AtividadeFisicaDAO getAtividadeFisicaDAO() {
-	  return new AtividadeFisicaDAO();
+	  return new AtividadeFisicaDAOOracle();
   }
   
   public static AlimentacaoDAO getAlimentacaoDAO() {

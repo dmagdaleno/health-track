@@ -11,16 +11,16 @@ import br.com.healthtech.healthtrack.modelo.Usuario;
  *
  */
 public class AtividadeFisica extends Registro {
-	private int tipo;
+	private Tipo tipo;
 	private String descricao;
 	private BigDecimal gastoCalorico;
 	
-	public AtividadeFisica(int tipo, String descricao, BigDecimal gastoCalorico,
+	public AtividadeFisica(Tipo tipo, String descricao, BigDecimal gastoCalorico,
 			LocalDateTime dataRegistro, Usuario usuario) {
 		this(null, tipo, descricao, gastoCalorico, dataRegistro, usuario);
 	}
 
-	public AtividadeFisica(Long id, int tipo, String descricao, BigDecimal gastoCalorico,
+	public AtividadeFisica(Long id, Tipo tipo, String descricao, BigDecimal gastoCalorico,
 			LocalDateTime dataRegistro, Usuario usuario) {
 		super(id, dataRegistro, usuario);
 		this.tipo = tipo;
@@ -28,11 +28,21 @@ public class AtividadeFisica extends Registro {
 		this.gastoCalorico = gastoCalorico;
 	}
 
-	public int getTipo() {
+	public AtividadeFisica(Long id, int idTipo, String descricao, BigDecimal gastoCalorico,
+			LocalDateTime dataRegistro, Long idUsuario) {
+		this(id, new Tipo(idTipo), descricao, gastoCalorico, dataRegistro, new Usuario(idUsuario));
+	}
+	
+	public AtividadeFisica(int idTipo, String descricao, BigDecimal gastoCalorico,
+			LocalDateTime dataRegistro, Long idUsuario) {
+		this(null, new Tipo(idTipo), descricao, gastoCalorico, dataRegistro, new Usuario(idUsuario));
+	}
+
+	public Tipo getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(int tipo) {
+	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
 
@@ -80,7 +90,7 @@ public class AtividadeFisica extends Registro {
 		int result = super.hashCode();
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((gastoCalorico == null) ? 0 : gastoCalorico.hashCode());
-		result = prime * result + tipo;
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		return result;
 	}
 

@@ -10,7 +10,7 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-      	<c:set var="url" value="${pageContext.servletContext.contextPath}/templates/lista/atividade.jsp" />
+      	<c:set var="url" value="${pageContext.servletContext.contextPath}/atividade?acao=listar" />
       	<c:set var="desc" value="Atividade Física" />
       	<c:choose>
 	      	<c:when test="${param.menu == 1}">
@@ -46,7 +46,7 @@
       	</c:choose>
       </li>
       <li class="nav-item">
-      	<c:set var="url" value="${pageContext.servletContext.contextPath}/templates/lista/alimentacao.jsp" />
+      	<c:set var="url" value="${pageContext.servletContext.contextPath}/alimentacao?acao=listar" />
       	<c:set var="desc" value="Alimentação" />
       	<c:choose>
 	      	<c:when test="${param.menu == 4}">

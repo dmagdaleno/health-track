@@ -19,10 +19,10 @@ public interface PesoDAO {
 	/**
 	 * Registra uma lista de {@link Peso}
 	 * 
-	 * @param pesos
+	 * @param registros
 	 * 		{@link List}<{@link Peso}>
 	 */
-	public void insereTodos(List<Peso> pesos) throws DBException;
+	public void insereTodos(List<Peso> registros) throws DBException;
 
 	/**
 	 * Recupera registro de {@link Peso} específico por id

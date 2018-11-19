@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import br.com.healthtech.healthtrack.dao.AlimentacaoDAO;
+import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Alimentacao;
 import br.com.healthtech.healthtrack.utils.DateUtil;
@@ -12,7 +13,7 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
 public class TesteAlimentacao {
 
 	public static void testa() {
-		AlimentacaoDAO dao = new AlimentacaoDAO();
+		AlimentacaoDAO dao = DAOFactory.getAlimentacaoDAO();
 		
 		// limpa a base
 		dao.deleteAll();

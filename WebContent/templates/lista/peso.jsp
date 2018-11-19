@@ -60,6 +60,7 @@
           </tbody>
         </table>
       </div>
+      
       <a href="${pageContext.servletContext.contextPath}/templates/cadastro/peso.jsp">
         <button type="button" class="btn btn-primary">Adicionar</button>
       </a>
@@ -91,7 +92,6 @@
 	    </div>
 	  </div>
 	</div>
-    
     
   </body>
 </html>

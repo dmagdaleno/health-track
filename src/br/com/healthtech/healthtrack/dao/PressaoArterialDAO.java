@@ -18,7 +18,7 @@ public interface PressaoArterialDAO {
 	/**
 	 * Registra uma lista de {@link PressaoArterial}
 	 * 
-	 * @param pesos
+	 * @param registros
 	 * 		{@link List}<{@link PressaoArterial}>
 	 */
 	public void insereTodos(List<PressaoArterial> registros) throws DBException;
