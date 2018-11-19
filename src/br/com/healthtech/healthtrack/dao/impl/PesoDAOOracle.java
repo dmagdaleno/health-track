@@ -78,37 +78,55 @@ public class PesoDAOOracle implements PesoDAO {
 		query.append("FROM T_HTK_PESO P ");
 		query.append("WHERE P.id_peso = ?");
 		
-		ResultSet rs = null;
 		Peso registro = null;
 		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
 			stmt.setLong(1, id);
-			rs = stmt.executeQuery();
 			
-			if(rs.next()) {
-				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
-				BigDecimal peso = new BigDecimal(rs.getDouble("vl_peso"));
-				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
-				
-				registro = new Peso(id, peso, dataRegistro, usuario);
+			try(ResultSet rs = stmt.executeQuery()) {
+				if(rs.next()) {
+					Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
+					BigDecimal peso = new BigDecimal(rs.getDouble("vl_peso"));
+					LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
+					
+					registro = new Peso(id, peso, dataRegistro, usuario);
+				}
 			}
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-		finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 		
 		return registro;
+	}
+
+	@Override
+	public List<Peso> buscaPor(Usuario usuario) {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		query.append("FROM T_HTK_PESO P ");
+		query.append("WHERE P.fk_id_usuario = ?");
+		
+		List<Peso> registros = new ArrayList<>();
+		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+			stmt.setLong(1, usuario.getId());
+
+			try(ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					Long id = rs.getLong("id_peso");
+					BigDecimal peso = new BigDecimal(rs.getDouble("vl_peso"));
+					LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
+					
+					Peso registro = new Peso(id, peso, dataRegistro, usuario);
+					
+					registros.add(registro);
+				}
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return registros;
 	}
 	
 	@Override
