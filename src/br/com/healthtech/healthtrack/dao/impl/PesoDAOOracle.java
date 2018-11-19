@@ -191,21 +191,6 @@ public class PesoDAOOracle implements PesoDAO {
 	}
 	
 	@Override
-	public void excluiTodos() {
-		String delete = "DELETE FROM T_HTK_PESO";
-		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
-			stmt.executeUpdate();
-		}  
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-	}
-
-	@Override
 	public void exclui(Long id) {
 		String delete = "DELETE FROM T_HTK_PESO P WHERE P.id_peso = ?";
 		
@@ -215,8 +200,17 @@ public class PesoDAOOracle implements PesoDAO {
 		}  
 		catch (SQLException e) {
 			e.printStackTrace();
-		} 
-		catch (Exception e) {
+		}
+	}
+	
+	@Override
+	public void excluiTodos() {
+		String delete = "DELETE FROM T_HTK_PESO";
+		
+		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+			stmt.executeUpdate();
+		}  
+		catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
