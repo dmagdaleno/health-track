@@ -1,90 +1,49 @@
 package br.com.healthtech.healthtrack.dao;
 
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import br.com.healthtech.healthtrack.db.ConnectionManager;
+import br.com.healthtech.healthtrack.exception.DBException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Alimentacao;
-import br.com.healthtech.healthtrack.utils.DateUtil;
 
-/**
- * Classe responsável por abstrair a comunicação com o banco de dados
- * da entidade {@link Alimentacao}
- * 
- * @author dmagdaleno
- *
- */
-public class AlimentacaoDAO {
-	
-	private Connection conexao;
-	
-	public AlimentacaoDAO() {
-		ConnectionManager manager = ConnectionManager.getInstance();
-		conexao = manager.obterConexao();
-	}
-	
+public interface AlimentacaoDAO {
 	/**
 	 * Registra {@link Alimentacao} relacionada com um {@link Usuario}
 	 * 
-	 * @param alimentacao
+	 * @param registro
 	 * 		{@link Alimentacao}
 	 */
-	public void insert(Alimentacao alimentacao) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("INSERT INTO T_HTK_ALIMENTO (");
-		builder.append(" id_alimento,"); 
-		builder.append(" fk_id_usuario,"); 
-		builder.append(" fk_id_tp_alimento,"); 
-		builder.append(" vl_caloria,"); 
-		builder.append(" dt_consumo,"); 
-		builder.append(" ds_alimento) "); 
-		builder.append("VALUES (SQ_TB_ALIMENTO.NEXTVAL, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'), ?)");
-		String insert = builder.toString();
-		
-		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
-			stmt.setLong(1, alimentacao.getUsuario().getId());
-			stmt.setInt(2, alimentacao.getTipo());
-			stmt.setDouble(3, alimentacao.getValorCalorico().doubleValue());
-			stmt.setString(4, DateUtil.toText(alimentacao.getDataRegistro()));
-			stmt.setString(5, alimentacao.getDescricao());
-			stmt.executeUpdate();
-		} 
-		catch (SQLIntegrityConstraintViolationException e) {
-			String msg = String.format("Chave primária [%d] ou estranjeira [%d] inválida", 
-					alimentacao.getId(), alimentacao.getUsuario().getId());
-			System.out.println(msg);
-			e.printStackTrace();
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-		
-	}
+	public void insere(Alimentacao registro) throws DBException;
 	
 	/**
 	 * Registra uma lista de {@link Alimentacao}
 	 * 
-	 * @param alimentacoes
+	 * @param registros
 	 * 		{@link List}<{@link Alimentacao}>
 	 */
-	public void insertAll(List<Alimentacao> alimentacoes) {
-		alimentacoes.forEach(alimentacao -> {
-			this.insert(alimentacao);
-		});
-	}
+	public void insereTodos(List<Alimentacao> registros) throws DBException;
+
+	/**
+	 * Recupera registro de {@link Alimentacao} específico por id
+	 * 
+	 * @param id
+	 * 		{@link Long}
+	 * 
+	 * @return
+	 * 		{@link List}<{@link Alimentacao}>
+	 */
+	public Alimentacao buscaPor(Long id) throws DBException;
 	
+	/**
+	 * Recupera lista de {@link Alimentacao} por {@link Usuario}
+	 * 
+	 * @param usuario
+	 * 		{@link Usuario} 
+	 * 
+	 * @return
+	 * 		{@link List}<{@link Alimentacao}>
+	 */
+	public List<Alimentacao> buscaPor(Usuario usuario) throws DBException;
 	
 	/**
 	 * Recupera lista de {@link Alimentacao}<br>
@@ -93,60 +52,29 @@ public class AlimentacaoDAO {
 	 * @return
 	 * 		{@link List}<{@link Alimentacao}>
 	 */
-	public List<Alimentacao> getAll() {
-		List<Alimentacao> alimentacoes = new ArrayList<>();
-		String query = "SELECT A.*, TO_CHAR(A.dt_consumo, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_ALIMENTO A";
-		
-		try (
-			PreparedStatement stmt = conexao.prepareStatement(query);
-			ResultSet rs = stmt.executeQuery();
-		){
-			while (rs.next()) {
-				Long id = rs.getLong("id_alimento");
-				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
-				int tipo = rs.getInt("fk_id_tp_alimento");
-				BigDecimal calorias = new BigDecimal(rs.getDouble("vl_caloria"));
-				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
-				String descricao = rs.getString("ds_alimento");
-				
-				Alimentacao alimentacao = new Alimentacao(id, tipo, descricao, calorias, dataRegistro, usuario);
-				alimentacoes.add(alimentacao);
-			}
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return Collections.unmodifiableList(alimentacoes);
-	}
+	public List<Alimentacao> buscaTodos();
+
+	/**
+	 * Atualiza registro de {@link Alimentacao} por id
+	 * 
+	 * @param registro
+	 */
+	public void atualiza(Alimentacao registro) throws DBException;
 	
 	/**
-	 * Remove todos os registros de alimentação
+	 * Exclui registro expecífico por id 
+	 * 
+	 * @param id
 	 */
-	public void deleteAll() {
-		String delete = "DELETE FROM T_HTK_ALIMENTO";
-		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
-			stmt.executeUpdate();
-		}  
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-	}
+	public void exclui(Long id) throws DBException;
 	
+	/**
+	 * Exclui todos os registros de {@link Alimentacao}
+	 */
+	public void excluiTodos() throws DBException;
+
 	/**
 	 * Fecha a conexão com o banco de dados
 	 */
-	public void fechaConexao() {
-		try {
-			this.conexao.close();
-		} catch (SQLException e) {
-			System.out.println("Erro ao fechar conexão.");
-			e.printStackTrace();
-		}
-	}
-
+	public void fechaConexao();
 }

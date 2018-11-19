@@ -11,19 +11,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import br.com.healthtech.healthtrack.dao.AlimentacaoDAO;
 import br.com.healthtech.healthtrack.db.ConnectionManager;
+import br.com.healthtech.healthtrack.exception.DBException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Alimentacao;
+import br.com.healthtech.healthtrack.modelo.registro.Tipo;
 import br.com.healthtech.healthtrack.utils.DateUtil;
 
 /**
- * Classe responsável por abstrair a comunicação com o banco de dados
+ * Classe responsável por abstrair a comunicação com o banco de dados Oracle
  * da entidade {@link Alimentacao}
  * 
  * @author dmagdaleno
  *
  */
-public class AlimentacaoDAOOracle {
+public class AlimentacaoDAOOracle implements AlimentacaoDAO {
 	
 	private Connection conexao;
 	
@@ -31,72 +34,138 @@ public class AlimentacaoDAOOracle {
 		ConnectionManager manager = ConnectionManager.getInstance();
 		conexao = manager.obterConexao();
 	}
-	
-	/**
-	 * Registra {@link Alimentacao} relacionada com um {@link Usuario}
-	 * 
-	 * @param alimentacao
-	 * 		{@link Alimentacao}
-	 */
-	public void insert(Alimentacao alimentacao) {
+
+	@Override
+	public void insere(Alimentacao registro) throws DBException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO T_HTK_ALIMENTO (");
 		builder.append(" id_alimento,"); 
 		builder.append(" fk_id_usuario,"); 
 		builder.append(" fk_id_tp_alimento,"); 
 		builder.append(" vl_caloria,"); 
-		builder.append(" dt_consumo,"); 
-		builder.append(" ds_alimento) "); 
-		builder.append("VALUES (SQ_TB_ALIMENTO.NEXTVAL, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'), ?)");
+		builder.append(" ds_alimento,"); 
+		builder.append(" dt_consumo) "); 
+		builder.append("VALUES (SQ_TB_ALIMENTO.NEXTVAL, ?, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'))");
 		String insert = builder.toString();
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
-			stmt.setLong(1, alimentacao.getUsuario().getId());
-			stmt.setInt(2, alimentacao.getTipo());
-			stmt.setDouble(3, alimentacao.getValorCalorico().doubleValue());
-			stmt.setString(4, DateUtil.toText(alimentacao.getDataRegistro()));
-			stmt.setString(5, alimentacao.getDescricao());
+			stmt.setLong(1, registro.getUsuario().getId());
+			stmt.setInt(2, registro.getTipo().getId());
+			stmt.setDouble(3, registro.getValorCalorico().doubleValue());
+			stmt.setString(4, registro.getDescricao());
+			stmt.setString(5, DateUtil.toText(registro.getDataRegistro()));
 			stmt.executeUpdate();
 		} 
 		catch (SQLIntegrityConstraintViolationException e) {
 			String msg = String.format("Chave primária [%d] ou estranjeira [%d] inválida", 
-					alimentacao.getId(), alimentacao.getUsuario().getId());
+					registro.getId(), registro.getUsuario().getId());
 			System.out.println(msg);
 			e.printStackTrace();
-		} 
-		catch (SQLException e) {
+			throw new DBException(e);
+		}
+		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
+		}
+
+	}
+
+	@Override
+	public void insereTodos(List<Alimentacao> registros) throws DBException {
+		registros.forEach(registro -> {
+			try {
+				this.insere(registro);
+			} catch (DBException e) {
+				System.out.println("Não foi possível inserir: " + registro);
+			}
+		});
+	}
+
+	@Override
+	public Alimentacao buscaPor(Long id) throws DBException {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT T.*, TO_CHAR(T.dt_consumo, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text, ");
+		builder.append(" TP.id_tp_alimento AS tp_id, TP.ds_tp_alimento AS tp_descricao ");
+		builder.append("FROM T_HTK_ALIMENTO T, T_HTK_TP_ALIMENTO TP ");
+		builder.append("WHERE T.id_alimento = ? AND T.fk_id_tp_alimento = TP.id_tp_alimento ");
+		String query = builder.toString();
+		
+		Alimentacao registro = null;
+		try(PreparedStatement stmt = conexao.prepareStatement(query)) {
+			stmt.setLong(1, id);
+			
+			try(ResultSet rs = stmt.executeQuery()) {
+				if(rs.next()) {
+					Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
+					BigDecimal calorias = new BigDecimal(rs.getDouble("vl_caloria"));
+					String descricao = rs.getString("ds_alimento");
+					LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
+					
+					int tipoId = rs.getInt("tp_id");
+					String tipoDesc = rs.getString("tp_descricao");
+					Tipo tipo = new Tipo(tipoId, tipoDesc);
+					
+					registro = new Alimentacao(id, tipo, descricao, calorias, dataRegistro, usuario);
+				}
+			}
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
+		}
+		
+		return registro;
+	}
+
+	@Override
+	public List<Alimentacao> buscaPor(Usuario usuario) throws DBException {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT T.*, TO_CHAR(T.dt_consumo, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text, ");
+		builder.append(" TP.id_tp_alimento AS tp_id, TP.ds_tp_alimento AS tp_descricao ");
+		builder.append("FROM T_HTK_ALIMENTO T, T_HTK_TP_ALIMENTO TP ");
+		builder.append("WHERE T.fk_id_usuario = ? AND T.fk_id_tp_alimento = TP.id_tp_alimento ");
+		builder.append("ORDER BY T.dt_consumo DESC");
+		String query = builder.toString();
+		
+		List<Alimentacao> registros = new ArrayList<>();
+		try(PreparedStatement stmt = conexao.prepareStatement(query)) {
+			stmt.setLong(1, usuario.getId());
+			
+			try(ResultSet rs = stmt.executeQuery()) {
+				while(rs.next()) {
+					Long id = rs.getLong("id_alimento");
+					BigDecimal calorias = new BigDecimal(rs.getDouble("vl_caloria"));
+					String descricao = rs.getString("ds_alimento");
+					LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
+					
+					int tipoId = rs.getInt("tp_id");
+					String tipoDesc = rs.getString("tp_descricao");
+					Tipo tipo = new Tipo(tipoId, tipoDesc);
+					
+					Alimentacao registro = new Alimentacao(id, tipo, descricao, calorias, dataRegistro, usuario);
+					registros.add(registro);
+				}
+			}
 		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
 		
+		return registros;
 	}
-	
-	/**
-	 * Registra uma lista de {@link Alimentacao}
-	 * 
-	 * @param alimentacoes
-	 * 		{@link List}<{@link Alimentacao}>
-	 */
-	public void insertAll(List<Alimentacao> alimentacoes) {
-		alimentacoes.forEach(alimentacao -> {
-			this.insert(alimentacao);
-		});
-	}
-	
-	
-	/**
-	 * Recupera lista de {@link Alimentacao}<br>
-	 * Sem nenhum filtro
-	 * 
-	 * @return
-	 * 		{@link List}<{@link Alimentacao}>
-	 */
-	public List<Alimentacao> getAll() {
-		List<Alimentacao> alimentacoes = new ArrayList<>();
-		String query = "SELECT A.*, TO_CHAR(A.dt_consumo, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_ALIMENTO A";
+
+	@Override
+	public List<Alimentacao> buscaTodos() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT T.*, TO_CHAR(T.dt_consumo, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text, ");
+		builder.append(" TP.fk_id_tp_alimento AS tp_id, TP.ds_tp_alimento AS tp_descricao ");
+		builder.append("FROM T_HTK_ALIMENTO T, T_HTK_TP_ALIMENTO TP ");
+		builder.append("WHERE T.fk_id_tp_alimento = TP.id_tp_alimento ");
+		builder.append("ORDER BY T.dt_consumo DESC");
+		String query = builder.toString();
 		
+		List<Alimentacao> registros = new ArrayList<>();
 		try (
 			PreparedStatement stmt = conexao.prepareStatement(query);
 			ResultSet rs = stmt.executeQuery();
@@ -104,42 +173,85 @@ public class AlimentacaoDAOOracle {
 			while (rs.next()) {
 				Long id = rs.getLong("id_alimento");
 				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
-				int tipo = rs.getInt("fk_id_tp_alimento");
 				BigDecimal calorias = new BigDecimal(rs.getDouble("vl_caloria"));
 				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
 				String descricao = rs.getString("ds_alimento");
 				
-				Alimentacao alimentacao = new Alimentacao(id, tipo, descricao, calorias, dataRegistro, usuario);
-				alimentacoes.add(alimentacao);
+				int tipoId = rs.getInt("tp_id");
+				String tipoDesc = rs.getString("tp_descricao");
+				Tipo tipo = new Tipo(tipoId, tipoDesc);
+				
+				Alimentacao registro = new Alimentacao(id, tipo, descricao, calorias, dataRegistro, usuario);
+				registros.add(registro);
 			}
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return Collections.unmodifiableList(alimentacoes);
+		return Collections.unmodifiableList(registros);
 	}
-	
-	/**
-	 * Remove todos os registros de alimentação
-	 */
-	public void deleteAll() {
+
+	@Override
+	public void atualiza(Alimentacao registro) throws DBException {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE T_HTK_ALIMENTO T SET");
+		builder.append(" T.fk_id_tp_alimento = ?,"); 
+		builder.append(" T.vl_caloria = ?,"); 
+		builder.append(" T.ds_alimento = ?,"); 
+		builder.append(" T.dt_consumo = TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS') "); 
+		builder.append("WHERE T.id_alimento = ? AND T.fk_id_usuario = ?");
+		String atualizar = builder.toString();
+		
+		try(PreparedStatement stmt = conexao.prepareStatement(atualizar)) {
+			stmt.setInt(1, registro.getTipo().getId());
+			stmt.setDouble(2, registro.getValorCalorico().doubleValue());
+			stmt.setString(3, registro.getDescricao());
+			stmt.setString(4, DateUtil.toText(registro.getDataRegistro()));
+			stmt.setLong(5, registro.getId());
+			stmt.setLong(6, registro.getUsuario().getId());
+			stmt.executeUpdate();
+		} 
+		catch (SQLIntegrityConstraintViolationException e) {
+			String msg = String.format("Chave primária [%d] ou estranjeira [%d] inválida", 
+					registro.getId(), registro.getUsuario().getId());
+			System.out.println(msg);
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+	}
+
+	@Override
+	public void exclui(Long id) throws DBException {
+		String delete = "DELETE FROM T_HTK_ALIMENTO T WHERE T.id_alimento = ?";
+		
+		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+			stmt.setLong(1, id);
+			stmt.executeUpdate();
+		}  
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+	}
+
+	@Override
+	public void excluiTodos() throws DBException {
 		String delete = "DELETE FROM T_HTK_ALIMENTO";
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
 			stmt.executeUpdate();
 		}  
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
 		catch (Exception e) {
 			e.printStackTrace();
-		} 
+			throw new DBException(e);
+		}
 	}
 	
-	/**
-	 * Fecha a conexão com o banco de dados
-	 */
 	public void fechaConexao() {
 		try {
 			this.conexao.close();
@@ -148,5 +260,4 @@ public class AlimentacaoDAOOracle {
 			e.printStackTrace();
 		}
 	}
-
 }

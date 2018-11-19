@@ -30,6 +30,14 @@ public class Alimentacao extends Registro {
 		this.valorCalorico = valorCalorico;
 	}
 
+	public Alimentacao(int idTipo, String descricao, BigDecimal valorCalorico, LocalDateTime dataRegistro, Long idUsuario) {
+		this(null, new Tipo(idTipo), descricao, valorCalorico, dataRegistro, new Usuario(idUsuario));
+	}
+
+	public Alimentacao(Long id, int idTipo, String descricao, BigDecimal valorCalorico, LocalDateTime dataRegistro, Long idUsuario) {
+		this(id, new Tipo(idTipo), descricao, valorCalorico, dataRegistro, new Usuario(idUsuario));
+	}
+
 	public Tipo getTipo() {
 		return tipo;
 	}

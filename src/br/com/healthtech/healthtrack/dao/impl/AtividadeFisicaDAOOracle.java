@@ -180,8 +180,7 @@ public class AtividadeFisicaDAOOracle implements AtividadeFisicaDAO {
 				String tipoDesc = rs.getString("tp_descricao");
 				Tipo tipo = new Tipo(tipoId, tipoDesc);
 				
-				AtividadeFisica registro = 
-						new AtividadeFisica(id, tipo, descricao, calorias, dataRegistro, usuario);
+				AtividadeFisica registro = new AtividadeFisica(id, tipo, descricao, calorias, dataRegistro, usuario);
 				
 				registros.add(registro);
 			}

@@ -46,13 +46,13 @@ SELECT PR.* FROM T_HTK_PRESSAO PR;
 
 
 INSERT INTO T_HTK_TP_ATV_FISICA (id_tp_atv_fisica, ds_tp_atv_fisica)
- VALUES (1, 'CAMINHADA');
+ VALUES (1, 'Caminhada');
 INSERT INTO T_HTK_TP_ATV_FISICA (id_tp_atv_fisica, ds_tp_atv_fisica)
- VALUES (2, 'CORRIDA');
+ VALUES (2, 'Corrida');
 INSERT INTO T_HTK_TP_ATV_FISICA (id_tp_atv_fisica, ds_tp_atv_fisica)
- VALUES (3, 'PEDALADA');
+ VALUES (3, 'Pedalada');
 INSERT INTO T_HTK_TP_ATV_FISICA (id_tp_atv_fisica, ds_tp_atv_fisica)
- VALUES (4, 'MUSCULACAO');
+ VALUES (4, 'Musculação');
 
 INSERT INTO T_HTK_ATV_FISICA (id_atv_fisica, fk_id_usuario, fk_id_tp_atv_fisica, vl_caloria, dt_atv_fisica, ds_atv_fisica)
  VALUES (1, 1, 1, 500, TO_DATE('17/09/2018','DD/MM/YYYY'), 'corrida pela manhã');
@@ -70,15 +70,15 @@ SELECT AF.* FROM T_HTK_ATV_FISICA AF;
 
 
 INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
- VALUES (1, 'CAFE_DA_MANHA');
+ VALUES (1, 'Café da manhã');
 INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
- VALUES (2, 'ALMOCO');
+ VALUES (2, 'Almoço');
 INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
- VALUES (3, 'JANTAR');
+ VALUES (3, 'Jantar');
 INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
- VALUES (4, 'LANCHE_LEVE');
+ VALUES (4, 'Lanche leve');
 INSERT INTO T_HTK_TP_ALIMENTO (id_tp_alimento, ds_tp_alimento)
- VALUES (5, 'FRUTA');
+ VALUES (5, 'Fruta');
  
 SELECT * FROM T_HTK_TP_ALIMENTO;
 

@@ -35,16 +35,19 @@
             <option value="4" <c:if test="${registro.tipo.id == 4}">selected</c:if>>Musculação</option>
           </select>
         </div>
+        
         <div class="form-group">
           <label for="calorias">Calorias</label>
           <input type="number" id="calorias" name="calorias" class="form-control" 
           		 placeholder="Calorias" value="${registro.gastoCalorico}">
         </div>
+        
         <div class="form-group">
           <label for="descricao">Descrição</label>
           <textarea id="descricao" name="descricao" class="form-control" rows="3" 
           		placeholder="Descrição (opcional)">${registro.descricao}</textarea>
         </div>
+        
         <div class="form-group">
           <label for="data">Data</label>
           <input type="datetime-local" id="data" name="data" class="form-control" value="${registro.dataRegistro}">
