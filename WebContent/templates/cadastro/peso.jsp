@@ -17,12 +17,14 @@
 
     <div class="container">
       <h1>Cadastro de Peso</h1>
+      
       <c:if test="${not empty sucesso }">
 		<div class="alert alert-success">${sucesso}</div>
 	  </c:if>
 	  <c:if test="${not empty erro }">
 		<div class="alert alert-danger">${erro}</div>
 	  </c:if>
+	  
       <form id="pesoForm" action="${pageContext.servletContext.contextPath}/peso" method="post">
         <div class="form-group">
           <label for="peso">Peso</label>
