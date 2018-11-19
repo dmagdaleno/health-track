@@ -15,7 +15,7 @@ public class TestePeso {
 		PesoDAO dao = new PesoDAO();
 		
 		// limpa a base
-		dao.removeTodos();
+		dao.excluiTodos();
 		
 		// insere novos registros
 		adicionaRegistrosDePeso(dao);
