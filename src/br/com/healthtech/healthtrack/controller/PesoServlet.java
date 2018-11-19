@@ -159,7 +159,7 @@ public class PesoServlet extends HttpServlet {
 
 	private void listar(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		List<Peso> registros = dao.buscaTodos();
+		List<Peso> registros = dao.buscaPor(new Usuario(1L));
 		req.setAttribute("registros", registros);
 		req.getRequestDispatcher("templates/lista/peso.jsp").forward(req, resp);
 	}
