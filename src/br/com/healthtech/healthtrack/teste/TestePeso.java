@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.dao.PesoDAO;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Peso;
@@ -12,7 +13,7 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
 public class TestePeso {
 	
 	public static void testa() {
-		PesoDAO dao = new PesoDAO();
+		PesoDAO dao = DAOFactory.getPesoDAO();
 		
 		// limpa a base
 		dao.excluiTodos();
