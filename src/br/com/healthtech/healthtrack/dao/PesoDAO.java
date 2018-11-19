@@ -32,6 +32,17 @@ public interface PesoDAO {
 	public Peso buscaPor(Long id);
 	
 	/**
+	 * Recupera lista de {@link Peso} por {@link Usuario}
+	 * 
+	 * @param usuario
+	 * 		{@link Usuario} 
+	 * 
+	 * @return
+	 * 		{@link List}<{@link Peso}>
+	 */
+	public List<Peso> buscaPor(Usuario usuario);	
+	
+	/**
 	 * Recupera lista de {@link Peso}<br>
 	 * Sem nenhum filtro
 	 * 
