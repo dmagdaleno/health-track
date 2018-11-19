@@ -24,6 +24,14 @@ public interface PesoDAO {
 	public void insereTodos(List<Peso> pesos);
 
 	/**
+	 * Recupera específico {@link Peso} por id
+	 * 
+	 * @return
+	 * 		{@link List}<{@link Peso}>
+	 */
+	public Peso buscaPor(Long id);
+	
+	/**
 	 * Recupera lista de {@link Peso}<br>
 	 * Sem nenhum filtro
 	 * 
@@ -31,9 +39,12 @@ public interface PesoDAO {
 	 * 		{@link List}<{@link Peso}>
 	 */
 	public List<Peso> buscaTodos();
-	
-	public Peso busca(Long id);
 
+	/**
+	 * Atualiza registro de peso por id
+	 * 
+	 * @param registro
+	 */
 	public void atualiza(Peso registro);
 	
 	/**

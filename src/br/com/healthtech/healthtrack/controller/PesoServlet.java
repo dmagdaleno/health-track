@@ -152,7 +152,7 @@ public class PesoServlet extends HttpServlet {
 	private void abrirFormularioEdicao(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		Long id = Long.parseLong(req.getParameter("id"));
-		Peso registro = dao.busca(id);
+		Peso registro = dao.buscaPor(id);
 		req.setAttribute("registro", registro);
 		req.getRequestDispatcher("templates/edicao/peso.jsp").forward(req, resp);
 	}

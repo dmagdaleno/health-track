@@ -72,38 +72,7 @@ public class PesoDAOOracle implements PesoDAO {
 	}
 	
 	@Override
-	public List<Peso> buscaTodos() {
-		List<Peso> pesos = new ArrayList<>();
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
-		builder.append("FROM T_HTK_PESO P ");
-		builder.append("ORDER BY P.dt_medida DESC");
-		String query = builder.toString();
-		
-		try (
-			PreparedStatement stmt = conexao.prepareStatement(query);
-			ResultSet rs = stmt.executeQuery();
-		){
-			while (rs.next()) {
-				Long id = rs.getLong("id_peso");
-				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
-				BigDecimal peso = new BigDecimal(rs.getDouble("vl_peso"));
-				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
-				
-				Peso registro = new Peso(id, peso, dataRegistro, usuario);
-				
-				pesos.add(registro);
-			}
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return Collections.unmodifiableList(pesos);
-	}
-	
-	@Override
-	public Peso busca(Long id) {
+	public Peso buscaPor(Long id) {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
 		query.append("FROM T_HTK_PESO P ");
@@ -140,6 +109,37 @@ public class PesoDAOOracle implements PesoDAO {
 		}
 		
 		return registro;
+	}
+	
+	@Override
+	public List<Peso> buscaTodos() {
+		List<Peso> pesos = new ArrayList<>();
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		builder.append("FROM T_HTK_PESO P ");
+		builder.append("ORDER BY P.dt_medida DESC");
+		String query = builder.toString();
+		
+		try (
+			PreparedStatement stmt = conexao.prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+		){
+			while (rs.next()) {
+				Long id = rs.getLong("id_peso");
+				Usuario usuario = new Usuario(rs.getLong("fk_id_usuario"));
+				BigDecimal peso = new BigDecimal(rs.getDouble("vl_peso"));
+				LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
+				
+				Peso registro = new Peso(id, peso, dataRegistro, usuario);
+				
+				pesos.add(registro);
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return Collections.unmodifiableList(pesos);
 	}
 
 	@Override
