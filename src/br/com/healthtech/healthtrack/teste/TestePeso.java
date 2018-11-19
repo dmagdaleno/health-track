@@ -15,14 +15,14 @@ public class TestePeso {
 		PesoDAO dao = new PesoDAO();
 		
 		// limpa a base
-		dao.deleteAll();
+		dao.removeTodos();
 		
 		// insere novos registros
 		adicionaRegistrosDePeso(dao);
 		
 		// exibe os registros
 		System.out.println("\nLista de pesos registrados:");
-		dao.getAll().forEach(peso -> System.out.println(peso));
+		dao.buscaTodos().forEach(peso -> System.out.println(peso));
 		
 		// fecha conexão com o banco
 		dao.fechaConexao();
@@ -31,11 +31,11 @@ public class TestePeso {
 	private static void adicionaRegistrosDePeso(PesoDAO dao) {
 		Usuario usuario = constroiUsuario();
 		
-		dao.insert(new Peso(new BigDecimal(83), novaData("2018-09-10T07:00"), usuario));
-		dao.insert(new Peso(new BigDecimal(81), novaData("2018-09-19T07:10"), usuario));
-		dao.insert(new Peso(new BigDecimal(79.3), novaData("2018-10-01T08:00"), usuario));
-		dao.insert(new Peso(new BigDecimal(79), novaData("2018-10-02T08:00"), usuario));
-		dao.insert(new Peso(new BigDecimal(78.5), novaData("2018-10-03T08:00"), usuario));
+		dao.insere(new Peso(new BigDecimal(83), novaData("2018-09-10T07:00"), usuario));
+		dao.insere(new Peso(new BigDecimal(81), novaData("2018-09-19T07:10"), usuario));
+		dao.insere(new Peso(new BigDecimal(79.3), novaData("2018-10-01T08:00"), usuario));
+		dao.insere(new Peso(new BigDecimal(79), novaData("2018-10-02T08:00"), usuario));
+		dao.insere(new Peso(new BigDecimal(78.5), novaData("2018-10-03T08:00"), usuario));
 	}
 	
 	private static Usuario constroiUsuario() {
