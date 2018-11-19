@@ -13,6 +13,7 @@ import java.util.List;
 
 import br.com.healthtech.healthtrack.dao.PressaoArterialDAO;
 import br.com.healthtech.healthtrack.db.ConnectionManager;
+import br.com.healthtech.healthtrack.exception.DBException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.PressaoArterial;
 import br.com.healthtech.healthtrack.utils.DateUtil;
@@ -34,7 +35,7 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	}
 	
 	@Override
-	public void insere(PressaoArterial registro) {
+	public void insere(PressaoArterial registro) throws DBException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO T_HTK_PRESSAO (");
 		builder.append(" id_pressao,"); 
@@ -57,24 +58,27 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 					registro.getId(), registro.getUsuario().getId());
 			System.out.println(msg);
 			e.printStackTrace();
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
+			throw new DBException(e);
+		}
 		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		}
 	}
 
 	@Override
 	public void insereTodos(List<PressaoArterial> registros) {
 		registros.forEach(registro -> {
-			this.insere(registro);
+			try {
+				this.insere(registro);
+			} catch (DBException e) {
+				System.out.println("Não foi possível inserir: " + registro);
+			}
 		});
 	}
 
 	@Override
-	public PressaoArterial buscaPor(Long id) {
+	public PressaoArterial buscaPor(Long id) throws DBException {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
 		query.append("FROM T_HTK_PRESSAO P ");
@@ -95,19 +99,21 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 				}
 			}
 		} 
-		catch (SQLException e) {
+		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		}
 		
 		return registro;
 	}
 
 	@Override
-	public List<PressaoArterial> buscaPor(Usuario usuario) {
+	public List<PressaoArterial> buscaPor(Usuario usuario) throws DBException {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
 		query.append("FROM T_HTK_PRESSAO P ");
-		query.append("WHERE P.fk_id_usuario = ?");
+		query.append("WHERE P.fk_id_usuario = ? ");
+		query.append("ORDER BY P.dt_medida DESC");
 		
 		List<PressaoArterial> registros = new ArrayList<>();
 		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
@@ -126,8 +132,9 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 				}
 			}
 		} 
-		catch (SQLException e) {
+		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		}
 		
 		return registros;
@@ -162,7 +169,7 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	}
 
 	@Override
-	public void atualiza(PressaoArterial registro) {
+	public void atualiza(PressaoArterial registro) throws DBException {
 		StringBuilder builder = new StringBuilder();
 		builder.append("UPDATE T_HTK_PRESSAO P SET");
 		builder.append(" P.vl_pressao_max = ?,"); 
@@ -184,37 +191,37 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 					registro.getId(), registro.getUsuario().getId());
 			System.out.println(msg);
 			e.printStackTrace();
-		} 
-		catch (SQLException e) {
-			e.printStackTrace();
-		} 
+		}
 		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		}
 	}
 	
 	@Override
-	public void exclui(Long id) {
+	public void exclui(Long id) throws DBException {
 		String delete = "DELETE FROM T_HTK_PRESSAO P WHERE P.id_pressao = ?";
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
 			stmt.setLong(1, id);
 			stmt.executeUpdate();
 		}  
-		catch (SQLException e) {
+		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		}
 	}
 
 	@Override
-	public void excluiTodos() {
+	public void excluiTodos() throws DBException {
 		String delete = "DELETE FROM T_HTK_PRESSAO";
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
 			stmt.executeUpdate();
 		}  
-		catch (SQLException e) {
+		catch (Exception e) {
 			e.printStackTrace();
+			throw new DBException(e);
 		} 
 	}
 	
