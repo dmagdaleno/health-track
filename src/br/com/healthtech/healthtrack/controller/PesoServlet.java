@@ -111,7 +111,7 @@ public class PesoServlet extends HttpServlet {
 			
 			dao.exclui(id);
 			
-			req.setAttribute("sucesso", "Peso excluído com sucesso!");
+			req.setAttribute("sucesso", "Registro excluído com sucesso!");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
