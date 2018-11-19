@@ -24,7 +24,10 @@ public interface PesoDAO {
 	public void insereTodos(List<Peso> pesos);
 
 	/**
-	 * Recupera específico {@link Peso} por id
+	 * Recupera registro de {@link Peso} específico por id
+	 * 
+	 * @param id
+	 * 		{@link Long}
 	 * 
 	 * @return
 	 * 		{@link List}<{@link Peso}>
@@ -52,23 +55,23 @@ public interface PesoDAO {
 	public List<Peso> buscaTodos();
 
 	/**
-	 * Atualiza registro de peso por id
+	 * Atualiza registro de {@link Peso} por id
 	 * 
 	 * @param registro
 	 */
 	public void atualiza(Peso registro);
 	
 	/**
-	 * Exclui todos os registros de peso
-	 */
-	public void excluiTodos();
-
-	/**
 	 * Exclui registro expecífico por id 
 	 * 
 	 * @param id
 	 */
 	public void exclui(Long id);
+	
+	/**
+	 * Exclui todos os registros de {@link Peso}
+	 */
+	public void excluiTodos();
 
 	/**
 	 * Fecha a conexão com o banco de dados
