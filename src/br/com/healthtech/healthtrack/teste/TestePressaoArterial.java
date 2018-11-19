@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.dao.PressaoArterialDAO;
+import br.com.healthtech.healthtrack.exception.DBException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.PressaoArterial;
 import br.com.healthtech.healthtrack.utils.DateUtil;
@@ -13,10 +14,14 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
 public class TestePressaoArterial {
 	
 	public static void main(String[] args) {
-		testa();
+		try {
+			testa();
+		} catch (DBException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public static void testa() {
+	public static void testa() throws DBException {
 		PressaoArterialDAO dao = DAOFactory.getPressaoArterialDAO();
 		
 		// limpa a base
@@ -34,7 +39,7 @@ public class TestePressaoArterial {
 		dao.fechaConexao();
 	}
 
-	private static void adicionaRegistrosDePressaoArterial(PressaoArterialDAO dao) {
+	private static void adicionaRegistrosDePressaoArterial(PressaoArterialDAO dao) throws DBException {
 		Usuario usuario = constroiUsuario();
 		
 		dao.insere(new PressaoArterial(new BigDecimal(140), new BigDecimal(100), novaData("2018-09-10T07:00"), usuario));

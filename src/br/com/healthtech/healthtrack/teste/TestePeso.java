@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.dao.PesoDAO;
+import br.com.healthtech.healthtrack.exception.DBException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Peso;
 import br.com.healthtech.healthtrack.utils.DateUtil;
@@ -13,10 +14,14 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
 public class TestePeso {
 	
 	public static void main(String[] args) {
-		testa();
+		try {
+			testa();
+		} catch (DBException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public static void testa() {
+	public static void testa() throws DBException {
 		PesoDAO dao = DAOFactory.getPesoDAO();
 		
 		// limpa a base
@@ -34,7 +39,7 @@ public class TestePeso {
 		dao.fechaConexao();
 	}
 
-	private static void adicionaRegistrosDePeso(PesoDAO dao) {
+	private static void adicionaRegistrosDePeso(PesoDAO dao) throws DBException {
 		Usuario usuario = constroiUsuario();
 		
 		dao.insere(new Peso(new BigDecimal(83), novaData("2018-09-10T07:00"), usuario));
