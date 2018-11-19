@@ -45,9 +45,7 @@
                     <c:param name="acao" value="editar"/>
                     <c:param name="id" value="${registro.id}"/>
                   </c:url>
-                  <a href="${link}" title="Alterar registro">
-                    <span class="fas fa-edit"></span>
-                  </a>
+                  <a href="${link}" class="btn btn-primary btn-xs" title="Alterar registro">Editar</a>
                 </td>
                 <td class="center">
                   <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" 
@@ -61,7 +59,7 @@
         </table>
       </div>
       <a href="${pageContext.servletContext.contextPath}/templates/cadastro/peso.jsp">
-        <button type="button" class="btn btn-primary">Adicionar peso</button>
+        <button type="button" class="btn btn-primary">Adicionar</button>
       </a>
     </div>
 

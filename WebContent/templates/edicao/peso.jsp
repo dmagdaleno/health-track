@@ -36,7 +36,8 @@
         <input type="hidden" name="id" value="${registro.id}" />
         <input type="hidden" name="idUsuario" value="${registro.usuario.id}" />
         <input type="hidden" name="acao" value="editar" />
-        <button type="submit" class="btn btn-primary">Atualizar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="${pageContext.servletContext.contextPath}/peso?acao=listar" class="btn btn-danger">Cancelar</a>
       </form>
     </div>
 

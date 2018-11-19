@@ -33,7 +33,8 @@
           <input type="datetime-local" id="data" name="data" class="form-control">
         </div>
         <input type="hidden" name="acao" value="cadastrar" />
-        <button type="submit" class="btn btn-primary">Adicionar peso</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="${pageContext.servletContext.contextPath}/peso?acao=listar" class="btn btn-danger">Cancelar</a>
       </form>
     </div>
 
