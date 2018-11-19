@@ -2,6 +2,7 @@ package br.com.healthtech.healthtrack.dao;
 
 import java.util.List;
 
+import br.com.healthtech.healthtrack.exception.DBException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.Peso;
 
@@ -13,7 +14,7 @@ public interface PesoDAO {
 	 * @param registro
 	 * 		{@link Peso}
 	 */
-	public void insere(Peso registro);
+	public void insere(Peso registro) throws DBException;
 	
 	/**
 	 * Registra uma lista de {@link Peso}
@@ -21,7 +22,7 @@ public interface PesoDAO {
 	 * @param pesos
 	 * 		{@link List}<{@link Peso}>
 	 */
-	public void insereTodos(List<Peso> pesos);
+	public void insereTodos(List<Peso> pesos) throws DBException;
 
 	/**
 	 * Recupera registro de {@link Peso} específico por id
@@ -32,7 +33,7 @@ public interface PesoDAO {
 	 * @return
 	 * 		{@link List}<{@link Peso}>
 	 */
-	public Peso buscaPor(Long id);
+	public Peso buscaPor(Long id) throws DBException;
 	
 	/**
 	 * Recupera lista de {@link Peso} por {@link Usuario}
@@ -43,7 +44,7 @@ public interface PesoDAO {
 	 * @return
 	 * 		{@link List}<{@link Peso}>
 	 */
-	public List<Peso> buscaPor(Usuario usuario);	
+	public List<Peso> buscaPor(Usuario usuario) throws DBException;
 	
 	/**
 	 * Recupera lista de {@link Peso}<br>
@@ -59,19 +60,19 @@ public interface PesoDAO {
 	 * 
 	 * @param registro
 	 */
-	public void atualiza(Peso registro);
+	public void atualiza(Peso registro) throws DBException;
 	
 	/**
 	 * Exclui registro expecífico por id 
 	 * 
 	 * @param id
 	 */
-	public void exclui(Long id);
+	public void exclui(Long id) throws DBException;
 	
 	/**
 	 * Exclui todos os registros de {@link Peso}
 	 */
-	public void excluiTodos();
+	public void excluiTodos() throws DBException;
 
 	/**
 	 * Fecha a conexão com o banco de dados
