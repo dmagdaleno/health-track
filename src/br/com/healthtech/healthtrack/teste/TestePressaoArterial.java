@@ -4,25 +4,31 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.dao.PressaoArterialDAO;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 import br.com.healthtech.healthtrack.modelo.registro.PressaoArterial;
 import br.com.healthtech.healthtrack.utils.DateUtil;
 
 public class TestePressaoArterial {
+	
+	public static void main(String[] args) {
+		testa();
+	}
 
 	public static void testa() {
-		PressaoArterialDAO dao = new PressaoArterialDAO();
+		PressaoArterialDAO dao = DAOFactory.getPressaoArterialDAO();
 		
 		// limpa a base
-		dao.deleteAll();
+		dao.excluiTodos();
 		
 		// insere novos registros
 		adicionaRegistrosDePressaoArterial(dao);
 		
 		// exibe os registros
 		System.out.println("\nLista de pressões registradas:");
-		dao.getAll().forEach(pressao -> System.out.println(pressao));
+		Usuario usuario = constroiUsuario();
+		dao.buscaPor(usuario).forEach(pressao -> System.out.println(pressao));
 		
 		// fecha conexão com o banco
 		dao.fechaConexao();
@@ -31,11 +37,11 @@ public class TestePressaoArterial {
 	private static void adicionaRegistrosDePressaoArterial(PressaoArterialDAO dao) {
 		Usuario usuario = constroiUsuario();
 		
-		dao.insert(new PressaoArterial(new BigDecimal(140), new BigDecimal(100), novaData("2018-09-10T07:00"), usuario));
-		dao.insert(new PressaoArterial(new BigDecimal(130), new BigDecimal(90), novaData("2018-09-19T07:10"), usuario));
-		dao.insert(new PressaoArterial(new BigDecimal(120), new BigDecimal(80), novaData("2018-10-01T08:00"), usuario));
-		dao.insert(new PressaoArterial(new BigDecimal(120), new BigDecimal(80), novaData("2018-10-02T08:00"), usuario));
-		dao.insert(new PressaoArterial(new BigDecimal(120), new BigDecimal(80), novaData("2018-10-03T08:00"), usuario));
+		dao.insere(new PressaoArterial(new BigDecimal(140), new BigDecimal(100), novaData("2018-09-10T07:00"), usuario));
+		dao.insere(new PressaoArterial(new BigDecimal(130), new BigDecimal(90), novaData("2018-09-19T07:10"), usuario));
+		dao.insere(new PressaoArterial(new BigDecimal(120), new BigDecimal(80), novaData("2018-10-01T08:00"), usuario));
+		dao.insere(new PressaoArterial(new BigDecimal(120), new BigDecimal(80), novaData("2018-10-02T08:00"), usuario));
+		dao.insere(new PressaoArterial(new BigDecimal(120), new BigDecimal(80), novaData("2018-10-03T08:00"), usuario));
 	}
 	
 	private static Usuario constroiUsuario() {
