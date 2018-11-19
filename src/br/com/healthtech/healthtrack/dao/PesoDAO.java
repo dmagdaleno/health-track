@@ -38,7 +38,7 @@ public class PesoDAO {
 	 * @param registro
 	 * 		{@link Peso}
 	 */
-	public void insert(Peso registro) {
+	public void insere(Peso registro) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("INSERT INTO T_HTK_PESO (");
 		builder.append(" id_peso,"); 
@@ -66,7 +66,6 @@ public class PesoDAO {
 		catch (Exception e) {
 			e.printStackTrace();
 		} 
-		
 	}
 	
 	/**
@@ -75,9 +74,9 @@ public class PesoDAO {
 	 * @param pesos
 	 * 		{@link List}<{@link Peso}>
 	 */
-	public void insertAll(List<Peso> pesos) {
+	public void insereTodos(List<Peso> pesos) {
 		pesos.forEach(peso -> {
-			this.insert(peso);
+			this.insere(peso);
 		});
 	}
 	
@@ -89,9 +88,13 @@ public class PesoDAO {
 	 * @return
 	 * 		{@link List}<{@link Peso}>
 	 */
-	public List<Peso> getAll() {
+	public List<Peso> buscaTodos() {
 		List<Peso> pesos = new ArrayList<>();
-		String query = "SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_PESO P";
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT P.*, TO_CHAR(P.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		builder.append("FROM T_HTK_PESO P ");
+		builder.append("ORDER BY P.dt_medida DESC");
+		String query = builder.toString();
 		
 		try (
 			PreparedStatement stmt = conexao.prepareStatement(query);
@@ -118,7 +121,7 @@ public class PesoDAO {
 	/**
 	 * Remove todos os registros de peso
 	 */
-	public void deleteAll() {
+	public void removeTodos() {
 		String delete = "DELETE FROM T_HTK_PESO";
 		
 		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
@@ -183,4 +186,32 @@ public class PesoDAO {
 		return registro;
 	}
 
+	public void atualiza(Peso registro) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UPDATE T_HTK_PESO P SET");
+		builder.append(" P.vl_peso = ?,"); 
+		builder.append(" P.dt_medida = TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS') "); 
+		builder.append("WHERE P.id_peso = ? AND P.fk_id_usuario = ?");
+		String atualizar = builder.toString();
+		
+		try(PreparedStatement stmt = conexao.prepareStatement(atualizar)) {
+			stmt.setDouble(1, registro.getPeso().doubleValue());
+			stmt.setString(2, DateUtil.toText(registro.getDataRegistro()));
+			stmt.setLong(3, registro.getId());
+			stmt.setLong(4, registro.getUsuario().getId());
+			stmt.executeUpdate();
+		} 
+		catch (SQLIntegrityConstraintViolationException e) {
+			String msg = String.format("Chave primária [%d] ou estranjeira [%d] inválida", 
+					registro.getId(), registro.getUsuario().getId());
+			System.out.println(msg);
+			e.printStackTrace();
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
