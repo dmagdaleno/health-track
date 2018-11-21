@@ -20,5 +20,9 @@ public class DateUtil {
 	public static LocalDate toDate(String text) {
 		return LocalDate.parse(text, dateFormatter);
 	}
+	
+	public static String toText(LocalDate date) {
+		return date.format(dateFormatter);
+	}
 
 }
