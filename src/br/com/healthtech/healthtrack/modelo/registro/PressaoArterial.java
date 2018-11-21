@@ -24,6 +24,10 @@ public class PressaoArterial extends Registro {
 		this.pressaoMinima = pressaoMinima;
 	}
 	
+	public PressaoArterial(BigDecimal pressaoMaxima, BigDecimal pressaoMinima, LocalDateTime dataRegistro, final Long idUsuario) {
+		this(pressaoMaxima, pressaoMinima, dataRegistro, new Usuario(idUsuario));
+	}
+	
 	public BigDecimal getPressaoMaxima() {
 		return pressaoMaxima;
 	}
