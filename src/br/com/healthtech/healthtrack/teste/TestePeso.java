@@ -1,7 +1,6 @@
 package br.com.healthtech.healthtrack.teste;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import br.com.healthtech.healthtrack.dao.DAOFactory;
@@ -32,31 +31,18 @@ public class TestePeso {
 		
 		// exibe os registros
 		System.out.println("\nLista de pesos registrados:");
-		Usuario usuario = constroiUsuario();
-		dao.buscaPor(usuario).forEach(peso -> System.out.println(peso));
+		dao.buscaPor(new Usuario(1L)).forEach(peso -> System.out.println(peso));
 		
 		// fecha conexão com o banco
 		dao.fechaConexao();
 	}
 
 	private static void adicionaRegistrosDePeso(PesoDAO dao) throws DBException {
-		Usuario usuario = constroiUsuario();
-		
-		dao.insere(new Peso(new BigDecimal(83), novaData("2018-09-10T07:00"), usuario));
-		dao.insere(new Peso(new BigDecimal(81), novaData("2018-09-19T07:10"), usuario));
-		dao.insere(new Peso(new BigDecimal(79.3), novaData("2018-10-01T08:00"), usuario));
-		dao.insere(new Peso(new BigDecimal(79), novaData("2018-10-02T08:00"), usuario));
-		dao.insere(new Peso(new BigDecimal(78.5), novaData("2018-10-03T08:00"), usuario));
-	}
-	
-	private static Usuario constroiUsuario() {
-		String nome = "João da Silva";
-		LocalDate dataNascimento = DateUtil.toDate("1989-01-01");
-		String genero = "Masculino";
-		BigDecimal altura = new BigDecimal(1.70);
-		BigDecimal limiteCaloriaDiaria = new BigDecimal(2000);
-		
-		return new Usuario(1L, nome, dataNascimento, genero, altura, limiteCaloriaDiaria);
+		dao.insere(new Peso(new BigDecimal(83), novaData("2018-09-10T07:00"), 1L));
+		dao.insere(new Peso(new BigDecimal(81), novaData("2018-09-19T07:10"), 1L));
+		dao.insere(new Peso(new BigDecimal(79.3), novaData("2018-10-01T08:00"), 1L));
+		dao.insere(new Peso(new BigDecimal(79), novaData("2018-10-02T08:00"), 1L));
+		dao.insere(new Peso(new BigDecimal(78.5), novaData("2018-10-03T08:00"), 1L));
 	}
 	
 	private static LocalDateTime novaData(String data) {
