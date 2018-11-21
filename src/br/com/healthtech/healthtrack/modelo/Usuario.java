@@ -15,6 +15,7 @@ public class Usuario {
 	private String genero;
 	private BigDecimal altura;
 	private BigDecimal limiteCaloria;
+	private Login login;
 	
 	public Usuario() {
 	}
@@ -23,13 +24,15 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public Usuario(Long id, String nome, LocalDate dataNascimento, String genero, BigDecimal altura, BigDecimal limiteCaloria) {
+	public Usuario(Long id, String nome, LocalDate dataNascimento, String genero, 
+			BigDecimal altura, BigDecimal limiteCaloria, Login login) {
 		this.id = id;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.genero = genero;
 		this.altura = altura.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		this.limiteCaloria = limiteCaloria;
+		this.login = login;
 	}
 
 	public Long getId() {
@@ -79,11 +82,19 @@ public class Usuario {
 	public void setLimiteCaloria(BigDecimal limiteCaloria) {
 		this.limiteCaloria = limiteCaloria;
 	}
-	
+
+	public Login getLogin() {
+		return login;
+	}
+
+	public void setLogin(Login login) {
+		this.login = login;
+	}
+
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", dataNascimento=" + dataNascimento + ", genero=" + genero
-				+ ", altura=" + altura + ", limiteCaloria=" + limiteCaloria + "]";
+				+ ", altura=" + altura + ", limiteCaloria=" + limiteCaloria + ", login=" + login + "]";
 	}
 
 	@Override
@@ -95,6 +106,7 @@ public class Usuario {
 		result = prime * result + ((genero == null) ? 0 : genero.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((limiteCaloria == null) ? 0 : limiteCaloria.hashCode());
+		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
@@ -133,6 +145,11 @@ public class Usuario {
 				return false;
 		} else if (!limiteCaloria.equals(other.limiteCaloria))
 			return false;
+		if (login == null) {
+			if (other.login != null)
+				return false;
+		} else if (!login.equals(other.login))
+			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
@@ -140,5 +157,4 @@ public class Usuario {
 			return false;
 		return true;
 	}
-
 }
