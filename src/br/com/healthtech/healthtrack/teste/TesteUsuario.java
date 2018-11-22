@@ -23,8 +23,8 @@ public class TesteUsuario {
 	private static void testa() throws DBException {
 		UsuarioDAO dao = DAOFactory.getUsuarioDAO();
 		
-		LocalDateTime ultimoLogin = DateUtil.toDateTime("1967-11-19T16:00"); 
-		Login login = new Login("joaogrosa@gmail.com", "grandesertaoveredas", ultimoLogin);
+		LocalDateTime ultimoLogin = DateUtil.now(); 
+		Login login = new Login("joao3@gmail.com", "grandesertaoveredas", ultimoLogin);
 		Usuario usuario = new Usuario(
 				"João Guimarães Rosa",
 				DateUtil.toDate("1908-06-27"),
@@ -33,7 +33,6 @@ public class TesteUsuario {
 				new BigDecimal(2000),
 				login);
 		
-		dao.excluiTodos();
 		dao.insere(usuario);
 		
 		System.out.println("Lista de alimentações registradas:");
