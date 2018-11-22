@@ -110,6 +110,43 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 	}
 
 	@Override
+	public Usuario buscaPor(String email) throws DBException {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SELECT T.*, ");
+		builder.append(" TO_CHAR(T.dt_nascimento, 'YYYY-MM-DD') AS dt_nasc_text, ");
+		builder.append(" TO_CHAR(T.dt_ult_login, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_login_text ");
+		builder.append("FROM T_HTK_USUARIO T ");
+		builder.append("WHERE T.ds_email = ?");
+		String query = builder.toString();
+		
+		Usuario usuario = null;
+		try (PreparedStatement stmt = conexao.prepareStatement(query)){
+			stmt.setString(1, email);
+			
+			try(ResultSet rs = stmt.executeQuery()) {
+				if(rs.next()) {
+					Long id = rs.getLong("id_usuario");
+					String senha = rs.getString("cd_senha");
+					String nome = rs.getString("nm_usuario");
+					LocalDate dataNascimento = DateUtil.toDate(rs.getString("dt_nasc_text"));
+					BigDecimal altura = new BigDecimal(rs.getDouble("vl_altura"));
+					String genero = rs.getString("cd_genero");
+					BigDecimal limiteCaloria = new BigDecimal(rs.getDouble("vl_limite_caloria"));
+					LocalDateTime ultimoLogin = DateUtil.toDateTime(rs.getString("dt_login_text"));
+					
+					Login login = new Login(email, senha, ultimoLogin);
+					usuario = new Usuario(id, nome, dataNascimento, genero, altura, limiteCaloria, login);
+				}
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return usuario;
+	}
+	
+	@Override
 	public List<Usuario> buscaTodos() {
 		List<Usuario> usuarios = new ArrayList<>();
 		StringBuilder builder = new StringBuilder();
