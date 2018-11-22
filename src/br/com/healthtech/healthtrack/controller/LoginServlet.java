@@ -27,8 +27,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	System.out.println("--> post login");
-    	
         String email = req.getParameter("email");
         String senha = req.getParameter("senha");
         
@@ -43,14 +41,11 @@ public class LoginServlet extends HttpServlet {
 			
 			req.getSession().setAttribute("usuario", usuario);
 			
-			System.out.println("<-- post login");
-
 			req.getRequestDispatcher("templates/dashboard.jsp").forward(req, resp);
 		}
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			req.setAttribute("erro", e.getMessage());
-			System.out.println("<-- redirecionando login");
 			req.getRequestDispatcher("templates/login.jsp").forward(req, resp);
 		}
     }
@@ -74,7 +69,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	System.out.println("--> get login");
     	req.getRequestDispatcher("templates/login.jsp").forward(req, resp);
     }
 
