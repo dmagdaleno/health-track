@@ -33,7 +33,7 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 		builder.append("INSERT INTO T_HTK_USUARIO (");
 		builder.append(" id_usuario,"); 
 		builder.append(" ds_email,"); 
-		builder.append(" cd_senha,"); 
+		builder.append(" cd_senha,"); //TODO criptografar senha
 		builder.append(" nm_usuario,"); 
 		builder.append(" dt_nascimento,");
 		builder.append(" vl_altura,");
@@ -126,7 +126,7 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 			try(ResultSet rs = stmt.executeQuery()) {
 				if(rs.next()) {
 					Long id = rs.getLong("id_usuario");
-					String senha = rs.getString("cd_senha");
+					String senha = rs.getString("cd_senha"); //TODO decriptografar senha
 					String nome = rs.getString("nm_usuario");
 					LocalDate dataNascimento = DateUtil.toDate(rs.getString("dt_nasc_text"));
 					BigDecimal altura = new BigDecimal(rs.getDouble("vl_altura"));
