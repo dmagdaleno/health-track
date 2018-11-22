@@ -16,19 +16,27 @@
 
     <div class="container">
       <h1>Cadastro</h1>
-      <form id="perfilForm">
+      <form id="perfilForm" action="${pageContext.servletContext.contextPath}/usuario" method="post">
         <div class="form-group">
           <label for="nome">Nome</label>
           <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome completo">
         </div>
+        
         <div class="form-group">
           <label for="data">Data de nascimento</label>
           <input type="date" id="data" name="data" max="3000-12-31" min="1000-01-01" class="form-control">
         </div>
+        
         <div class="form-group">
           <label for="altura">Altura</label>
           <input type="number" class="form-control" id="altura" name="altura" placeholder="Altura em metros">
         </div>
+        
+        <div class="form-group">
+          <label for="limiteCalorico">Limite calórico diário</label>
+          <input type="number" class="form-control" id="limiteCalorico" name="limiteCalorico" placeholder="Limite calórico diário">
+        </div>
+        
         <div class="form-group">
           <label for="genero">Gênero (para cálculo do IMC)</label>
           <select id="genero" name="genero" class="form-control">
@@ -37,10 +45,12 @@
             <option value="M">Masculino</option>
           </select>
         </div>
+        
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" class="form-control" id="email" name="email" placeholder="Email">
         </div>
+        
         <div class="form-group">
           <label for="senha">Senha</label>
           <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha">
@@ -49,7 +59,13 @@
           <label for="confirmaSenha">Confirmação da senha</label>
           <input type="password" class="form-control" id="confirmaSenha" name="confirmaSenha" placeholder="Confirme a senha">
         </div>
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        
+        <input type="hidden" name="acao" value="cadastrar" />
+        
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="${pageContext.servletContext.contextPath}" class="btn btn-danger">
+          Cancelar
+        </a>
       </form>
     </div>
 
