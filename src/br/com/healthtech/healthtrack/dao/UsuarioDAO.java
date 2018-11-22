@@ -34,6 +34,15 @@ public interface UsuarioDAO {
 	public Usuario buscaPor(Long id) throws DBException;
 	
 	/**
+	 * Busca {@link Usuario} por email
+	 * 
+	 * @param email
+	 * @return 
+	 * 		{@link Usuario}
+	 */
+	public Usuario buscaPor(String email) throws DBException;
+	
+	/**
 	 * Recupera lista de {@link Usuario}<br>
 	 * Sem nenhum filtro
 	 * 
@@ -65,4 +74,5 @@ public interface UsuarioDAO {
 	 * Fecha a conexão com o banco de dados
 	 */
 	public void fechaConexao();
+
 }
