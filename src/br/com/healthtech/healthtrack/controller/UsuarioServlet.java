@@ -67,14 +67,14 @@ public class UsuarioServlet extends HttpServlet {
 
 	private void cadastrar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			String email = req.getParameter("ds_email");
-			String senha = req.getParameter("cd_senha");
-			String nome = req.getParameter("nm_usuario");
+			String email = req.getParameter("email");
+			String senha = req.getParameter("senha");
+			String nome = req.getParameter("nome");
 			LocalDate dataNascimento = DateUtil.toDate(req.getParameter("data"));
-			BigDecimal altura = new BigDecimal(req.getParameter("vl_altura"));
-			String genero = req.getParameter("cd_genero");
-			BigDecimal limiteCaloria = new BigDecimal(req.getParameter("vl_limite_caloria"));
-			LocalDateTime ultimoLogin = DateUtil.toDateTime(req.getParameter("data"));
+			BigDecimal altura = new BigDecimal(req.getParameter("altura"));
+			String genero = req.getParameter("genero");
+			BigDecimal limiteCaloria = new BigDecimal(req.getParameter("limiteCalorico"));
+			LocalDateTime ultimoLogin = DateUtil.now();
 			
 			Login login = new Login(email, senha, ultimoLogin);
 			Usuario usuario = new Usuario(nome, dataNascimento, genero, altura, limiteCaloria, login);
@@ -94,14 +94,14 @@ public class UsuarioServlet extends HttpServlet {
 
 	private void editar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			String email = req.getParameter("ds_email");
-			String senha = req.getParameter("cd_senha");
-			String nome = req.getParameter("nm_usuario");
+			String email = req.getParameter("email");
+			String senha = req.getParameter("senha");
+			String nome = req.getParameter("nome");
 			LocalDate dataNascimento = DateUtil.toDate(req.getParameter("data"));
-			BigDecimal altura = new BigDecimal(req.getParameter("vl_altura"));
-			String genero = req.getParameter("cd_genero");
-			BigDecimal limiteCaloria = new BigDecimal(req.getParameter("vl_limite_caloria"));
-			LocalDateTime ultimoLogin = DateUtil.toDateTime(req.getParameter("data"));
+			BigDecimal altura = new BigDecimal(req.getParameter("altura"));
+			String genero = req.getParameter("genero");
+			BigDecimal limiteCaloria = new BigDecimal(req.getParameter("limiteCalorico"));
+			LocalDateTime ultimoLogin = DateUtil.now();
 			
 			Login login = new Login(email, senha, ultimoLogin);
 			Usuario usuario = new Usuario(nome, dataNascimento, genero, altura, limiteCaloria, login);
@@ -168,7 +168,7 @@ public class UsuarioServlet extends HttpServlet {
 		Long id = Long.parseLong(req.getParameter("id"));
 		try {
 			Usuario usuario = dao.buscaPor(id);
-			req.setAttribute("registro", usuario);
+			req.setAttribute("usuario", usuario);
 		} catch (DBException e) {
 			req.setAttribute("erro", "Não foi possível carregar dados para edição.");
 		}
@@ -179,9 +179,10 @@ public class UsuarioServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		List<Usuario> usuarios = dao.buscaTodos();
-		req.setAttribute("registros", usuarios);
+		System.out.println(usuarios);
+		req.setAttribute("usuarios", usuarios);
 		
-		req.getRequestDispatcher("templates/lista/perfil.jsp").forward(req, resp);
+		req.getRequestDispatcher("/").forward(req, resp);
 	}
 
 }
