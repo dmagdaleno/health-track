@@ -36,6 +36,11 @@ public class Login {
 	public void setUltimoLogin(LocalDateTime ultimoLogin) {
 		this.ultimoLogin = ultimoLogin;
 	}
+	
+	@Override
+	public String toString() {
+		return "Login [email=" + email + ", senha=" + senha + ", ultimoLogin=" + ultimoLogin + "]";
+	}
 
 	@Override
 	public int hashCode() {
