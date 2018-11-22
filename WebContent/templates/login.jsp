@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <!Doctype html>
 <html lang="pt">
@@ -16,20 +17,30 @@
 
     <div class="container">
       <h1>Login</h1>
+      
+      <c:if test="${not empty sucesso }">
+		<div class="alert alert-success">${sucesso}</div>
+	  </c:if>
+	  <c:if test="${not empty erro }">
+		<div class="alert alert-danger">${erro}</div>
+	  </c:if>
 
-      <form id="loginForm" action="dashboard.jsp" method="POST">
+      <form id="loginForm" action="${pageContext.servletContext.contextPath}/login" method="POST">
         <div class="form-group">
           <label for="email">Email:</label>
           <input type="email" class="form-control" id="email" name="email">
         </div>
+        
         <div class="form-group">
-          <label for="password">Senha:</label>
-          <input type="password" class="form-control" id="password" name="password">
+          <label for="senha">Senha:</label>
+          <input type="password" class="form-control" id="senha" name="senha">
         </div>
-        <div class="checkbox">
-          <label><input type="checkbox"> Lembrar</label>
-        </div>
-        <button type="submit" class="btn btn-primary" id="btnLogar">Entrar</button>
+        
+        <button type="submit" class="btn btn-primary">Entrar</button>
+        <a href="${pageContext.servletContext.contextPath}" class="btn btn-danger">
+          Cancelar
+        </a>
+        
       </form>
     </div>
 
