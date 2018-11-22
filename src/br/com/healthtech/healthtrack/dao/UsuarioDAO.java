@@ -9,18 +9,18 @@ public interface UsuarioDAO {
 	/**
 	 * Registra {@link Usuario} relacionada com um {@link Usuario}
 	 * 
-	 * @param registro
+	 * @param usuario
 	 * 		{@link Usuario}
 	 */
-	public void insere(Usuario registro) throws DBException;
+	public void insere(Usuario usuario) throws DBException;
 	
 	/**
 	 * Registra uma lista de {@link Usuario}
 	 * 
-	 * @param registros
+	 * @param usuarios
 	 * 		{@link List}<{@link Usuario}>
 	 */
-	public void insereTodos(List<Usuario> registros) throws DBException;
+	public void insereTodos(List<Usuario> usuarios) throws DBException;
 
 	/**
 	 * Recupera registro de {@link Usuario} específico por id
@@ -34,17 +34,6 @@ public interface UsuarioDAO {
 	public Usuario buscaPor(Long id) throws DBException;
 	
 	/**
-	 * Recupera lista de {@link Usuario} por {@link Usuario}
-	 * 
-	 * @param usuario
-	 * 		{@link Usuario} 
-	 * 
-	 * @return
-	 * 		{@link List}<{@link Usuario}>
-	 */
-	public List<Usuario> buscaPor(Usuario usuario) throws DBException;
-	
-	/**
 	 * Recupera lista de {@link Usuario}<br>
 	 * Sem nenhum filtro
 	 * 
@@ -56,9 +45,9 @@ public interface UsuarioDAO {
 	/**
 	 * Atualiza registro de {@link Usuario} por id
 	 * 
-	 * @param registro
+	 * @param usuario
 	 */
-	public void atualiza(Usuario registro) throws DBException;
+	public void atualiza(Usuario usuario) throws DBException;
 	
 	/**
 	 * Exclui registro expecífico por id 
