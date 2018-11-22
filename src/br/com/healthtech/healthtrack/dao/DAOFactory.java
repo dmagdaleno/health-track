@@ -4,6 +4,7 @@ import br.com.healthtech.healthtrack.dao.impl.AlimentacaoDAOOracle;
 import br.com.healthtech.healthtrack.dao.impl.AtividadeFisicaDAOOracle;
 import br.com.healthtech.healthtrack.dao.impl.PesoDAOOracle;
 import br.com.healthtech.healthtrack.dao.impl.PressaoArterialDAOOracle;
+import br.com.healthtech.healthtrack.dao.impl.UsuarioDAOOracle;
 
 public class DAOFactory {
 
@@ -22,5 +23,9 @@ public class DAOFactory {
   public static AlimentacaoDAO getAlimentacaoDAO() {
 	  return new AlimentacaoDAOOracle();
   }
+
+public static UsuarioDAO getUsuarioDAO() {
+	return new UsuarioDAOOracle();
+}
   
 }
