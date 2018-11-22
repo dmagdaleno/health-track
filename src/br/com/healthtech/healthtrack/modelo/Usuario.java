@@ -34,6 +34,11 @@ public class Usuario {
 		this.limiteCaloria = limiteCaloria;
 		this.login = login;
 	}
+	
+	public Usuario(String nome, LocalDate dataNascimento, String genero, 
+			BigDecimal altura, BigDecimal limiteCaloria, Login login) {
+		this(null, nome, dataNascimento, genero, altura, limiteCaloria, login);
+	}
 
 	public Long getId() {
 		return id;
