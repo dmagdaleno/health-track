@@ -25,4 +25,8 @@ public class DateUtil {
 		return date.format(dateFormatter);
 	}
 
+	public static LocalDateTime now() {
+		return LocalDateTime.now().withNano(0);
+	}
+
 }
