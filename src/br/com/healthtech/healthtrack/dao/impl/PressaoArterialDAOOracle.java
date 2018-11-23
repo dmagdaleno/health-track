@@ -27,11 +27,10 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
  */
 public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	
-	private Connection conexao;
+	private ConnectionManager manager;
 	
 	public PressaoArterialDAOOracle() {
-		ConnectionManager manager = ConnectionManager.getInstance();
-		conexao = manager.obterConexao();
+		manager = ConnectionManager.getInstance();
 	}
 	
 	@Override
@@ -46,7 +45,10 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 		builder.append("VALUES (SQ_TB_PRESSAO.NEXTVAL, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'))");
 		String insert = builder.toString();
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(insert);
+		) {
 			stmt.setLong(1, registro.getUsuario().getId());
 			stmt.setDouble(2, registro.getPressaoMaxima().doubleValue());
 			stmt.setDouble(3, registro.getPressaoMinima().doubleValue());
@@ -85,7 +87,10 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 		query.append("WHERE T.id_pressao = ?");
 		
 		PressaoArterial registro = null;
-		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query.toString());
+		) {
 			stmt.setLong(1, id);
 			
 			try(ResultSet rs = stmt.executeQuery()) {
@@ -116,7 +121,10 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 		query.append("ORDER BY T.dt_medida DESC");
 		
 		List<PressaoArterial> registros = new ArrayList<>();
-		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query.toString());
+		) {
 			stmt.setLong(1, usuario.getId());
 
 			try(ResultSet rs = stmt.executeQuery()) {
@@ -151,7 +159,10 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 		query.append("WHERE ROWNUM <= ?");
 		
 		List<PressaoArterial> registros = new ArrayList<>();
-		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query.toString());
+		) {
 			stmt.setLong(1, usuario.getId());
 			stmt.setLong(2, quantidade);
 
@@ -182,6 +193,7 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 		String query = "SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_PRESSAO P";
 		
 		try (
+			Connection conexao = manager.obterConexao();
 			PreparedStatement stmt = conexao.prepareStatement(query);
 			ResultSet rs = stmt.executeQuery();
 		){
@@ -214,7 +226,10 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 		builder.append("WHERE T.id_pressao = ? AND T.fk_id_usuario = ?");
 		String atualizar = builder.toString();
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(atualizar)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(atualizar);
+		) {
 			stmt.setDouble(1, registro.getPressaoMaxima().doubleValue());
 			stmt.setDouble(2, registro.getPressaoMinima().doubleValue());
 			stmt.setString(3, DateUtil.toText(registro.getDataRegistro()));
@@ -238,7 +253,10 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	public void exclui(Long id) throws DBException {
 		String delete = "DELETE FROM T_HTK_PRESSAO T WHERE T.id_pressao = ?";
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(delete);
+		) {
 			stmt.setLong(1, id);
 			stmt.executeUpdate();
 		}  
@@ -252,21 +270,15 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	public void excluiTodos() throws DBException {
 		String delete = "DELETE FROM T_HTK_PRESSAO";
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(delete);
+		) {
 			stmt.executeUpdate();
 		}  
 		catch (Exception e) {
 			e.printStackTrace();
 			throw new DBException(e);
 		} 
-	}
-	
-	public void fechaConexao() {
-		try {
-			this.conexao.close();
-		} catch (SQLException e) {
-			System.out.println("Erro ao fechar conexão.");
-			e.printStackTrace();
-		}
 	}
 }

@@ -20,11 +20,10 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
 
 public class UsuarioDAOOracle implements UsuarioDAO {
 	
-	private Connection conexao;
+	private ConnectionManager manager;
 	
 	public UsuarioDAOOracle() {
-		ConnectionManager manager = ConnectionManager.getInstance();
-		conexao = manager.obterConexao();
+		manager = ConnectionManager.getInstance();
 	}
 
 	@Override
@@ -33,7 +32,7 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 		builder.append("INSERT INTO T_HTK_USUARIO (");
 		builder.append(" id_usuario,"); 
 		builder.append(" ds_email,"); 
-		builder.append(" cd_senha,"); //TODO criptografar senha
+		builder.append(" cd_senha,");
 		builder.append(" nm_usuario,"); 
 		builder.append(" dt_nascimento,");
 		builder.append(" vl_altura,");
@@ -43,7 +42,10 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 		builder.append("VALUES (SQ_TB_USUARIO.NEXTVAL, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD'), ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'))");
 		String insert = builder.toString();
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(insert);
+		) {
 			stmt.setString(1, usuario.getLogin().getEmail());
 			stmt.setString(2, usuario.getLogin().getSenha());
 			stmt.setString(3, usuario.getNome());
@@ -83,7 +85,10 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 		String query = builder.toString();
 		
 		Usuario usuario = null;
-		try (PreparedStatement stmt = conexao.prepareStatement(query)){
+		try (
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query);
+		) {
 			stmt.setLong(1, id);
 			
 			try(ResultSet rs = stmt.executeQuery()) {
@@ -120,13 +125,16 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 		String query = builder.toString();
 		
 		Usuario usuario = null;
-		try (PreparedStatement stmt = conexao.prepareStatement(query)){
+		try (
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query);
+		) {
 			stmt.setString(1, email);
 			
 			try(ResultSet rs = stmt.executeQuery()) {
 				if(rs.next()) {
 					Long id = rs.getLong("id_usuario");
-					String senha = rs.getString("cd_senha"); //TODO decriptografar senha
+					String senha = rs.getString("cd_senha"); 
 					String nome = rs.getString("nm_usuario");
 					LocalDate dataNascimento = DateUtil.toDate(rs.getString("dt_nasc_text"));
 					BigDecimal altura = new BigDecimal(rs.getDouble("vl_altura"));
@@ -158,6 +166,7 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 		String query = builder.toString();
 		
 		try (
+			Connection conexao = manager.obterConexao();
 			PreparedStatement stmt = conexao.prepareStatement(query);
 			ResultSet rs = stmt.executeQuery();
 		){
@@ -200,7 +209,10 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 		builder.append("WHERE T.id_usuario = ?");
 		String atualizar = builder.toString();
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(atualizar)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(atualizar);
+		) {
 			stmt.setString(1, usuario.getLogin().getEmail());
 			stmt.setString(2, usuario.getLogin().getSenha());
 			stmt.setString(3, usuario.getNome());
@@ -221,7 +233,10 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 	public void exclui(Long id) throws DBException {
 		String delete = "DELETE FROM T_HTK_USUARIO T WHERE T.id_usuario = ?";
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(delete);
+		) {
 			stmt.setLong(1, id);
 			stmt.executeUpdate();
 		}  
@@ -234,20 +249,13 @@ public class UsuarioDAOOracle implements UsuarioDAO {
 	public void excluiTodos() throws DBException {
 		String delete = "DELETE FROM T_HTK_USUARIO";
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(delete);
+		) {
 			stmt.executeUpdate();
 		}  
 		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void fechaConexao() {
-		try {
-			this.conexao.close();
-		} catch (SQLException e) {
-			System.out.println("Erro ao fechar conexão.");
 			e.printStackTrace();
 		}
 	}

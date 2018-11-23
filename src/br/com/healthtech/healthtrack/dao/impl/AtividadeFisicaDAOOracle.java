@@ -28,11 +28,10 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
  */
 public class AtividadeFisicaDAOOracle implements AtividadeFisicaDAO {
 	
-	private Connection conexao;
+	private ConnectionManager manager;
 	
 	public AtividadeFisicaDAOOracle() {
-		ConnectionManager manager = ConnectionManager.getInstance();
-		conexao = manager.obterConexao();
+		manager = ConnectionManager.getInstance();
 	}
 	
 	@Override
@@ -48,7 +47,10 @@ public class AtividadeFisicaDAOOracle implements AtividadeFisicaDAO {
 		builder.append("VALUES (SQ_TB_ATV_FISICA.NEXTVAL, ?, ?, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'))");
 		String insert = builder.toString();
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(insert);
+		) {
 			stmt.setLong(1, registro.getUsuario().getId());
 			stmt.setInt(2, registro.getTipo().getId());
 			stmt.setDouble(3, registro.getGastoCalorico().doubleValue());
@@ -89,7 +91,10 @@ public class AtividadeFisicaDAOOracle implements AtividadeFisicaDAO {
 		query.append("WHERE T.id_atv_fisica = ? AND T.fk_id_tp_atv_fisica = TP.id_tp_atv_fisica");
 		
 		AtividadeFisica registro = null;
-		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query.toString());
+		) {
 			stmt.setLong(1, id);
 			
 			try(ResultSet rs = stmt.executeQuery()) {
@@ -125,8 +130,56 @@ public class AtividadeFisicaDAOOracle implements AtividadeFisicaDAO {
 		query.append("ORDER BY T.dt_atv_fisica DESC");
 		
 		List<AtividadeFisica> registros = new ArrayList<>();
-		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query.toString());
+		) {
 			stmt.setLong(1, usuario.getId());
+
+			try(ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					Long id = rs.getLong("id_atv_fisica");
+					BigDecimal calorias = new BigDecimal(rs.getDouble("vl_caloria"));
+					String descricao = rs.getString("ds_atv_fisica");
+					LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
+					
+					int tipoId = rs.getInt("tp_id");
+					String tipoDesc = rs.getString("tp_descricao");
+					Tipo tipo = new Tipo(tipoId, tipoDesc);
+					
+					AtividadeFisica registro = 
+							new AtividadeFisica(id, tipo, descricao, calorias, dataRegistro, usuario);
+					
+					registros.add(registro);
+				}
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+		
+		return registros;
+	}
+
+	@Override
+	public List<AtividadeFisica> buscaPor(Usuario usuario, int quantidade) throws DBException {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT * FROM ( ");
+		query.append(" SELECT T.*, TO_CHAR(T.dt_atv_fisica, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text, ");
+		query.append("  TP.id_tp_atv_fisica AS tp_id, TP.ds_tp_atv_fisica AS tp_descricao ");
+		query.append(" FROM T_HTK_ATV_FISICA T, T_HTK_TP_ATV_FISICA TP ");
+		query.append(" WHERE T.fk_id_usuario = ? AND T.fk_id_tp_atv_fisica = TP.id_tp_atv_fisica ");
+		query.append(" ORDER BY T.dt_atv_fisica DESC ) ");
+		query.append("WHERE ROWNUM <= ?");
+		
+		List<AtividadeFisica> registros = new ArrayList<>();
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query.toString());
+		) {
+			stmt.setLong(1, usuario.getId());
+			stmt.setLong(2, quantidade);
 
 			try(ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
@@ -166,6 +219,7 @@ public class AtividadeFisicaDAOOracle implements AtividadeFisicaDAO {
 		String query = builder.toString();
 		
 		try (
+			Connection conexao = manager.obterConexao();
 			PreparedStatement stmt = conexao.prepareStatement(query);
 			ResultSet rs = stmt.executeQuery();
 		){
@@ -203,7 +257,10 @@ public class AtividadeFisicaDAOOracle implements AtividadeFisicaDAO {
 		builder.append("WHERE T.id_atv_fisica = ? AND T.fk_id_usuario = ?");
 		String atualizar = builder.toString();
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(atualizar)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(atualizar);
+		) {
 			stmt.setInt(1, registro.getTipo().getId());
 			stmt.setDouble(2, registro.getGastoCalorico().doubleValue());
 			stmt.setString(3, registro.getDescricao());
@@ -229,7 +286,10 @@ public class AtividadeFisicaDAOOracle implements AtividadeFisicaDAO {
 	public void exclui(Long id) throws DBException {
 		String delete = "DELETE FROM T_HTK_ATV_FISICA T WHERE T.id_atv_fisica = ?";
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(delete);
+		) {
 			stmt.setLong(1, id);
 			stmt.executeUpdate();
 		} 
@@ -243,22 +303,15 @@ public class AtividadeFisicaDAOOracle implements AtividadeFisicaDAO {
 	public void excluiTodos() throws DBException {
 		String delete = "DELETE FROM T_HTK_ATV_FISICA";
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(delete);
+		) {
 			stmt.executeUpdate();
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
 			throw new DBException(e);
-		}
-	}
-	
-	@Override
-	public void fechaConexao() {
-		try {
-			this.conexao.close();
-		} catch (SQLException e) {
-			System.out.println("Erro ao fechar conexão.");
-			e.printStackTrace();
 		}
 	}
 }

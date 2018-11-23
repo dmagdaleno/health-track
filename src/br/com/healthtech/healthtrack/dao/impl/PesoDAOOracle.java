@@ -27,11 +27,10 @@ import br.com.healthtech.healthtrack.utils.DateUtil;
  */
 public class PesoDAOOracle implements PesoDAO {
 	
-	private Connection conexao;
+	private ConnectionManager manager;
 	
 	public PesoDAOOracle() {
-		ConnectionManager manager = ConnectionManager.getInstance();
-		conexao = manager.obterConexao();
+		manager = ConnectionManager.getInstance();
 	}
 	
 	@Override
@@ -45,7 +44,10 @@ public class PesoDAOOracle implements PesoDAO {
 		builder.append("VALUES (SQ_TB_PESO.NEXTVAL, ?, ?, TO_DATE(?,'YYYY-MM-DD\"T\"HH24:MI:SS'))");
 		String insert = builder.toString();
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(insert)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(insert);
+		) {
 			stmt.setLong(1, registro.getUsuario().getId());
 			stmt.setDouble(2, registro.getPeso().doubleValue());
 			stmt.setString(3, DateUtil.toText(registro.getDataRegistro()));
@@ -83,7 +85,10 @@ public class PesoDAOOracle implements PesoDAO {
 		query.append("WHERE T.id_peso = ?");
 		
 		Peso registro = null;
-		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query.toString());
+		) {
 			stmt.setLong(1, id);
 			
 			try(ResultSet rs = stmt.executeQuery()) {
@@ -113,7 +118,10 @@ public class PesoDAOOracle implements PesoDAO {
 		query.append("ORDER BY T.dt_medida DESC");
 		
 		List<Peso> registros = new ArrayList<>();
-		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query.toString());
+		) {
 			stmt.setLong(1, usuario.getId());
 
 			try(ResultSet rs = stmt.executeQuery()) {
@@ -147,7 +155,10 @@ public class PesoDAOOracle implements PesoDAO {
 		query.append("WHERE ROWNUM <= ?");
 		
 		List<Peso> registros = new ArrayList<>();
-		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(query.toString());
+		) {
 			stmt.setLong(1, usuario.getId());
 			stmt.setLong(2, quantidade);
 
@@ -181,6 +192,7 @@ public class PesoDAOOracle implements PesoDAO {
 		String query = builder.toString();
 		
 		try (
+			Connection conexao = manager.obterConexao();
 			PreparedStatement stmt = conexao.prepareStatement(query);
 			ResultSet rs = stmt.executeQuery();
 		){
@@ -211,7 +223,10 @@ public class PesoDAOOracle implements PesoDAO {
 		builder.append("WHERE T.id_peso = ? AND T.fk_id_usuario = ?");
 		String atualizar = builder.toString();
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(atualizar)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(atualizar);
+		) {
 			stmt.setDouble(1, registro.getPeso().doubleValue());
 			stmt.setString(2, DateUtil.toText(registro.getDataRegistro()));
 			stmt.setLong(3, registro.getId());
@@ -235,7 +250,10 @@ public class PesoDAOOracle implements PesoDAO {
 	public void exclui(Long id) throws DBException {
 		String delete = "DELETE FROM T_HTK_PESO T WHERE T.id_peso = ?";
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(delete);
+		) {
 			stmt.setLong(1, id);
 			stmt.executeUpdate();
 		}  
@@ -249,20 +267,13 @@ public class PesoDAOOracle implements PesoDAO {
 	public void excluiTodos() throws DBException {
 		String delete = "DELETE FROM T_HTK_PESO";
 		
-		try(PreparedStatement stmt = conexao.prepareStatement(delete)) {
+		try(
+			Connection conexao = manager.obterConexao();
+			PreparedStatement stmt = conexao.prepareStatement(delete);
+		) {
 			stmt.executeUpdate();
 		}  
 		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void fechaConexao() {
-		try {
-			this.conexao.close();
-		} catch (SQLException e) {
-			System.out.println("Erro ao fechar conexão.");
 			e.printStackTrace();
 		}
 	}
