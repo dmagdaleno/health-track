@@ -32,9 +32,6 @@ public class TesteAlimentacao {
 		// exibe os registros
 		System.out.println("Lista de alimentações registradas:");
 		dao.buscaPor(new Usuario(1L)).forEach(alimentacao -> System.out.println(alimentacao));
-		
-		// fecha conexão com o banco
-		dao.fechaConexao();
 	}
 
 	private static void adicionaRegistrosDeAlimentacao(AlimentacaoDAO dao) throws DBException {

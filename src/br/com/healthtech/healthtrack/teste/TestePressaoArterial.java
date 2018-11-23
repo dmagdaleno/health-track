@@ -32,9 +32,6 @@ public class TestePressaoArterial {
 		// exibe os registros
 		System.out.println("\nLista de pressões registradas:");
 		dao.buscaPor(new Usuario(1L), 3).forEach(pressao -> System.out.println(pressao));
-		
-		// fecha conexão com o banco
-		dao.fechaConexao();
 	}
 
 	private static void adicionaRegistrosDePressaoArterial(PressaoArterialDAO dao) throws DBException {

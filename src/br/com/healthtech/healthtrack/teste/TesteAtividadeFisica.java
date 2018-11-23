@@ -32,9 +32,6 @@ public class TesteAtividadeFisica {
 		// exibe os registros
 		System.out.println("\nLista de atividades registradas:");
 		dao.buscaPor(new Usuario(1L)).forEach(atividade -> System.out.println(atividade));
-		
-		// fecha conexão com o banco
-		dao.fechaConexao();
 	}
 
 	private static void adicionaRegistrosDeAtividadeFisica(AtividadeFisicaDAO dao) throws DBException {
