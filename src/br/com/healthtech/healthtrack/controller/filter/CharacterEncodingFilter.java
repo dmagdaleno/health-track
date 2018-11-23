@@ -1,4 +1,4 @@
-package br.com.healthtech.healthtrack.controller;
+package br.com.healthtech.healthtrack.controller.filter;
 
 import java.io.IOException;
 
