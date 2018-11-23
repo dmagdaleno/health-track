@@ -3,7 +3,7 @@
 <!Doctype html>
 <html lang="pt">
   <head>
-    <title>HealthTrack - Login</title>
+    <title>HealthTrack - Home</title>
 
     <%@ include file="templates/header.jsp" %>
 
@@ -19,7 +19,7 @@
         <h1>Bem vindo ao HealthTrack!!</h1>
         <p class="lead">Clique em cadastrar para criar um novo perfil ou, caso já tenha um cadastro, clique em entrar.</p>
         <a class="btn btn-lg btn-primary" href="templates/cadastro/perfil.jsp" role="button">Cadastrar</a>
-        <a class="btn btn-lg btn-primary" href="templates/login.jsp" role="button">Entrar</a>
+        <a class="btn btn-lg btn-secondary" href="templates/login.jsp" role="button">Entrar</a>
       </div>
     </div>
 

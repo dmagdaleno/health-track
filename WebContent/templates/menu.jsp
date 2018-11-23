@@ -58,8 +58,12 @@
       	</c:choose>
       </li>
     </ul>
-    <span class="navbar-text nav-button">
-      <a href="${pageContext.servletContext.contextPath}/templates/perfil.jsp"><span class="fas fa-user"></span> João da Silva</a>
-    </span>
+    <c:if test="${sessionScope.usuarioLogado != null}">
+	    <span class="navbar-text nav-button">
+	      <a href="${pageContext.servletContext.contextPath}/perfil">
+	      	<span class="fas fa-user"></span> ${sessionScope.usuarioLogado.nome}
+      	  </a>
+	    </span>
+    </c:if>
   </div>
 </nav>

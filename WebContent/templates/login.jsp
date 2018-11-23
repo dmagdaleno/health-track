@@ -36,6 +36,8 @@
           <input type="password" class="form-control" id="senha" name="senha">
         </div>
         
+        <input type="hidden" name="acao" value="entrar">
+         
         <button type="submit" class="btn btn-primary">Entrar</button>
         <a href="${pageContext.servletContext.contextPath}" class="btn btn-danger">
           Cancelar

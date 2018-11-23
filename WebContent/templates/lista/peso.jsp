@@ -39,9 +39,11 @@
             <c:forEach items="${registros}" var="registro">
 	          <tr>
 	            <td>${registro.peso} kg</td>
+	            
 	            <td>
 	              <javatime:format value="${registro.dataRegistro}" pattern="dd/MM/yyyy" />
 	            </td>
+                
                 <td class="center">
                   <c:url value="peso" var="link">
                     <c:param name="acao" value="editar"/>
@@ -49,12 +51,14 @@
                   </c:url>
                   <a href="${link}" class="btn btn-primary btn-xs" title="Alterar registro">Editar</a>
                 </td>
+                
                 <td class="center">
                   <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" 
                   		data-target="#excluirModal" onclick="idExluir.value = ${registro.id}">
 		            Excluir
 		          </button>
                 </td>
+                
 	          </tr>
 	        </c:forEach>
           </tbody>
