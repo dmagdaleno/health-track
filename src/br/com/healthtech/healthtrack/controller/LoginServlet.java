@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.dao.UsuarioDAO;
+import br.com.healthtech.healthtrack.exception.DBException;
+import br.com.healthtech.healthtrack.exception.LoginInvalidoException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 
 @WebServlet("/login")
@@ -27,7 +29,33 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
+    	try {
+			String acao = req.getParameter("acao");
+			
+			if(acao == null) 
+				throw new IllegalArgumentException("Ação não pode ser nula");
+			
+			switch (acao) {
+			case "entrar":
+				entrar(req, resp);
+				break;
+				
+			case "sair":
+				sair(req, resp);
+				break;
+				
+			default:
+				break;
+			}			
+		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			exibeErro(req, resp, e.getMessage());
+		}
+    }
+
+	private void entrar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String email = req.getParameter("email");
         String senha = req.getParameter("senha");
         
         try {
@@ -39,36 +67,58 @@ public class LoginServlet extends HttpServlet {
 			
 			Usuario usuario = validaLogin(email, senha);
 			
-			req.getSession().setAttribute("usuario", usuario);
+			req.getSession().setAttribute("usuarioLogado", usuario);
 			
 			req.getRequestDispatcher("templates/dashboard.jsp").forward(req, resp);
 		}
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			req.setAttribute("erro", e.getMessage());
-			req.getRequestDispatcher("templates/login.jsp").forward(req, resp);
+			exibeErro(req, resp, e.getMessage());
 		}
-    }
+		catch (LoginInvalidoException e) {
+			exibeErro(req, resp, e.getMessage());
+		}
+	}
+	
+	private void sair(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.getSession().setAttribute("usuarioLogado", null);
+		req.getRequestDispatcher("").forward(req, resp);
+	}
 
-	private Usuario validaLogin(String email, String senha) {
+	private void exibeErro(HttpServletRequest req, HttpServletResponse resp, String mensagem)
+			throws ServletException, IOException {
+		req.setAttribute("erro", mensagem);
+		req.getRequestDispatcher("templates/login.jsp").forward(req, resp);
+	}
+
+	private Usuario validaLogin(String email, String senha) throws LoginInvalidoException{
 		try {
 			Usuario usuario = dao.buscaPor(email);
 			
 			if(usuario == null)
-				throw new Exception();
+				throw new LoginInvalidoException("Usuário não encontrado");
 			
 			if(!senha.equals(usuario.getLogin().getSenha()))
-				throw new IllegalArgumentException("Senha incorreta.");
+				throw new LoginInvalidoException("Senha incorreta");
 			
 			return usuario;
 			
-		} catch (Exception e) {
-			throw new IllegalArgumentException("Usuário não encontrado.");
+		} 
+		catch (LoginInvalidoException e) {
+			throw e;
+		} 
+		catch (DBException e) {
+			e.printStackTrace();
+			throw new LoginInvalidoException("Não foi possível autenticar o usuário");
 		}
 	}
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String acao = req.getParameter("acao");
+		
+		if (acao != null && acao.equals("sair")) sair(req, resp);
+    	
     	req.getRequestDispatcher("templates/login.jsp").forward(req, resp);
     }
 
