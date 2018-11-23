@@ -87,9 +87,4 @@ public interface PressaoArterialDAO {
 	 * Exclui todos os registros de {@link PressaoArterial}
 	 */
 	public void excluiTodos() throws DBException;
-
-	/**
-	 * Fecha a conexão com o banco de dados
-	 */
-	public void fechaConexao();
 }

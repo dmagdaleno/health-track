@@ -46,6 +46,21 @@ public interface AlimentacaoDAO {
 	public List<Alimentacao> buscaPor(Usuario usuario) throws DBException;
 	
 	/**
+	 * Recupera lista de {@link Alimentacao} por {@link Usuario}
+	 * Com uma quantidade limitada de registros 
+	 * 
+	 * @param usuario
+	 * 		{@link Usuario} 
+	 * 
+	 * @param quantidade
+	 * 		de registros
+	 * 
+	 * @return
+	 * 		{@link List}<{@link Alimentacao}>
+	 */
+	public List<Alimentacao> buscaPor(Usuario usuario, int quantidade) throws DBException;
+	
+	/**
 	 * Recupera lista de {@link Alimentacao}<br>
 	 * Sem nenhum filtro
 	 * 
@@ -72,9 +87,4 @@ public interface AlimentacaoDAO {
 	 * Exclui todos os registros de {@link Alimentacao}
 	 */
 	public void excluiTodos() throws DBException;
-
-	/**
-	 * Fecha a conexão com o banco de dados
-	 */
-	public void fechaConexao();
 }

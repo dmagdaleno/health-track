@@ -47,6 +47,21 @@ public interface AtividadeFisicaDAO {
 	public List<AtividadeFisica> buscaPor(Usuario usuario) throws DBException;
 	
 	/**
+	 * Recupera lista de {@link AtividadeFisica} por {@link Usuario}
+	 * Com uma quantidade limitada de registros 
+	 * 
+	 * @param usuario
+	 * 		{@link Usuario} 
+	 * 
+	 * @param quantidade
+	 * 		de registros
+	 * 
+	 * @return
+	 * 		{@link List}<{@link AtividadeFisica}>
+	 */
+	public List<AtividadeFisica> buscaPor(Usuario usuario, int quantidade) throws DBException;
+	
+	/**
 	 * Recupera lista de {@link AtividadeFisica}<br>
 	 * Sem nenhum filtro
 	 * 
@@ -73,10 +88,5 @@ public interface AtividadeFisicaDAO {
 	 * Exclui todos os registros de {@link AtividadeFisica}
 	 */
 	public void excluiTodos() throws DBException;
-
-	/**
-	 * Fecha a conexão com o banco de dados
-	 */
-	public void fechaConexao();
 
 }

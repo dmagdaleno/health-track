@@ -70,9 +70,4 @@ public interface UsuarioDAO {
 	 */
 	public void excluiTodos() throws DBException;
 
-	/**
-	 * Fecha a conexão com o banco de dados
-	 */
-	public void fechaConexao();
-
 }

@@ -88,9 +88,4 @@ public interface PesoDAO {
 	 * Exclui todos os registros de {@link Peso}
 	 */
 	public void excluiTodos() throws DBException;
-
-	/**
-	 * Fecha a conexão com o banco de dados
-	 */
-	public void fechaConexao();
 }
