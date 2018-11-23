@@ -2,6 +2,7 @@ package br.com.healthtech.healthtrack.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 
 /**
  * Abstrai informações sobre o usuário da aplicação
@@ -94,6 +95,11 @@ public class Usuario {
 
 	public void setLogin(Login login) {
 		this.login = login;
+	}
+	
+	public int getIdade() {
+		LocalDate agora = LocalDate.now();
+		return Period.between(dataNascimento, agora).getYears();
 	}
 
 	@Override
