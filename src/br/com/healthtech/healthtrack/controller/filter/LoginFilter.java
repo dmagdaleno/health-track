@@ -34,9 +34,14 @@ public class LoginFilter implements Filter {
 
 	private boolean recursoNaoProtegido(HttpServletRequest request, String loginURI) {
 		String homeURI = request.getContextPath() + "/";
+		String staticURI = request.getContextPath() + "/static";
 		String cadastroURI = request.getContextPath() + "/templates/cadastro/perfil.jsp";
-		return request.getRequestURI().equals(homeURI) ||
+		String cadastroURI2 = request.getContextPath() + "/usuario";
+		return 
+				request.getRequestURI().startsWith(staticURI) ||
+				request.getRequestURI().equals(homeURI) ||
 				request.getRequestURI().equals(cadastroURI)||
+				request.getRequestURI().equals(cadastroURI2)||
 				request.getRequestURI().equals(loginURI);
 	}
 }
