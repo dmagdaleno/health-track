@@ -20,6 +20,11 @@
       <div class="row">
         <div class="col-sm-3"></div>
         <div class="content-box col-sm-6">
+          
+          <c:if test="${not empty erro }">
+			<div class="alert alert-danger">${erro}</div>
+		  </c:if>
+          
           <h1 class="center"><span class="fas fa-user"></span> ${usuarioLogado.nome}</h1>
           <ul class="atributos">
             <li><span class="atributo-chave">Idade:</span> <span class="atributo-valor">${usuarioLogado.idade} anos</span></li>
