@@ -8,7 +8,7 @@ UPDATE T_HTK_USUARIO
   ds_email = 'joao@gmail.com', 
   cd_senha = 'grandesertaoveredas', 
   nm_usuario = 'João Guimarães Rosa', 
-  dt_nascimento = TO_DATE('27/06/1998','DD/MM/YYYY'), 
+  dt_nascimento = TO_DATE('27/06/1908','DD/MM/YYYY'), 
   vl_altura = 1.7, 
   cd_genero = 'M', 
   vl_limite_caloria = 2000, 
