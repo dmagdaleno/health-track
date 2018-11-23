@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.dao.UsuarioDAO;
 import br.com.healthtech.healthtrack.exception.DBException;
@@ -67,6 +69,7 @@ public class UsuarioServlet extends HttpServlet {
 
 	private void cadastrar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
+			
 			String email = req.getParameter("email");
 			String senha = req.getParameter("senha");
 			String nome = req.getParameter("nome");
@@ -76,7 +79,12 @@ public class UsuarioServlet extends HttpServlet {
 			BigDecimal limiteCaloria = new BigDecimal(req.getParameter("limiteCalorico"));
 			LocalDateTime ultimoLogin = DateUtil.now();
 			
-			Login login = new Login(email, senha, ultimoLogin);
+			String sal = BCrypt.gensalt();
+			System.out.println("--> Sal: " + sal);
+			String hash = BCrypt.hashpw(senha, sal);
+			System.out.println("--> Senha: " + senha);
+			System.out.println("--> Hash: " + hash);
+			Login login = new Login(email, hash, ultimoLogin);
 			Usuario usuario = new Usuario(nome, dataNascimento, genero, altura, limiteCaloria, login);
 			
 			dao.insere(usuario);
