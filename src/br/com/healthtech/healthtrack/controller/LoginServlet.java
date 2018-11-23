@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.dao.UsuarioDAO;
 import br.com.healthtech.healthtrack.exception.DBException;
@@ -69,7 +71,9 @@ public class LoginServlet extends HttpServlet {
 			
 			req.getSession().setAttribute("usuarioLogado", usuario);
 			
-			req.getRequestDispatcher("templates/dashboard.jsp").forward(req, resp);
+			String caminho = req.getContextPath() + "/perfil?acao=dashboard";
+			
+			resp.sendRedirect(caminho);
 		}
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -95,10 +99,12 @@ public class LoginServlet extends HttpServlet {
 		try {
 			Usuario usuario = dao.buscaPor(email);
 			
-			if(usuario == null)
+			if(usuario == null || usuario.getLogin() == null)
 				throw new LoginInvalidoException("Usuário não encontrado");
 			
-			if(!senha.equals(usuario.getLogin().getSenha()))
+			String hash = usuario.getLogin().getSenha();
+			
+			if(!BCrypt.checkpw(senha, hash))
 				throw new LoginInvalidoException("Senha incorreta");
 			
 			return usuario;
