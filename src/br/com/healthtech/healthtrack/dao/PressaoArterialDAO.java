@@ -46,6 +46,21 @@ public interface PressaoArterialDAO {
 	public List<PressaoArterial> buscaPor(Usuario usuario) throws DBException;
 	
 	/**
+	 * Recupera lista de {@link PressaoArterial} por {@link Usuario}
+	 * Com uma quantidade limitada de registros 
+	 * 
+	 * @param usuario
+	 * 		{@link Usuario} 
+	 * 
+	 * @param quantidade
+	 * 		de registros
+	 * 
+	 * @return
+	 * 		{@link List}<{@link PressaoArterial}>
+	 */
+	public List<PressaoArterial> buscaPor(Usuario usuario, int quantidade) throws DBException;
+	
+	/**
 	 * Recupera lista de {@link PressaoArterial}<br>
 	 * Sem nenhum filtro
 	 * 

@@ -135,6 +135,41 @@ public class PesoDAOOracle implements PesoDAO {
 		
 		return registros;
 	}
+
+	@Override
+	public List<Peso> buscaPor(Usuario usuario, int quantidade) throws DBException {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT * FROM ( ");
+		query.append(" SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		query.append(" FROM T_HTK_PESO T ");
+		query.append(" WHERE T.fk_id_usuario = ? ");
+		query.append(" ORDER BY T.dt_medida DESC ) ");
+		query.append("WHERE ROWNUM <= ?");
+		
+		List<Peso> registros = new ArrayList<>();
+		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+			stmt.setLong(1, usuario.getId());
+			stmt.setLong(2, quantidade);
+
+			try(ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					Long id = rs.getLong("id_peso");
+					BigDecimal peso = new BigDecimal(rs.getDouble("vl_peso"));
+					LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
+					
+					Peso registro = new Peso(id, peso, dataRegistro, usuario);
+					
+					registros.add(registro);
+				}
+			}
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+		
+		return registros;
+	}
 	
 	@Override
 	public List<Peso> buscaTodos() {

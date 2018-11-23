@@ -47,6 +47,21 @@ public interface PesoDAO {
 	public List<Peso> buscaPor(Usuario usuario) throws DBException;
 	
 	/**
+	 * Recupera lista de {@link Peso} por {@link Usuario}
+	 * Com uma quantidade limitada de registros 
+	 * 
+	 * @param usuario
+	 * 		{@link Usuario} 
+	 * 
+	 * @param quantidade
+	 * 		de registros
+	 * 
+	 * @return
+	 * 		{@link List}<{@link Peso}>
+	 */
+	public List<Peso> buscaPor(Usuario usuario, int quantidade) throws DBException;
+	
+	/**
 	 * Recupera lista de {@link Peso}<br>
 	 * Sem nenhum filtro
 	 * 

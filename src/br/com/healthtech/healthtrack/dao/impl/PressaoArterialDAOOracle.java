@@ -141,6 +141,42 @@ public class PressaoArterialDAOOracle implements PressaoArterialDAO {
 	}
 
 	@Override
+	public List<PressaoArterial> buscaPor(Usuario usuario, int quantidade) throws DBException {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT * FROM ( ");
+		query.append(" SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text ");
+		query.append(" FROM T_HTK_PRESSAO T ");
+		query.append(" WHERE T.fk_id_usuario = ? ");
+		query.append(" ORDER BY T.dt_medida DESC ) ");
+		query.append("WHERE ROWNUM <= ?");
+		
+		List<PressaoArterial> registros = new ArrayList<>();
+		try(PreparedStatement stmt = conexao.prepareStatement(query.toString())) {
+			stmt.setLong(1, usuario.getId());
+			stmt.setLong(2, quantidade);
+
+			try(ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					Long id = rs.getLong("id_pressao");
+					BigDecimal pressaoMax = new BigDecimal(rs.getDouble("vl_pressao_max"));
+					BigDecimal pressaoMin = new BigDecimal(rs.getDouble("vl_pressao_min"));
+					LocalDateTime dataRegistro = DateUtil.toDateTime(rs.getString("dt_text"));
+					
+					PressaoArterial registro = new PressaoArterial(id, pressaoMax, pressaoMin, dataRegistro, usuario);
+					
+					registros.add(registro);
+				}
+			}
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+		
+		return registros;
+	}
+
+	@Override
 	public List<PressaoArterial> buscaTodos() {
 		List<PressaoArterial> registros = new ArrayList<>();
 		String query = "SELECT T.*, TO_CHAR(T.dt_medida, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS dt_text FROM T_HTK_PRESSAO P";
