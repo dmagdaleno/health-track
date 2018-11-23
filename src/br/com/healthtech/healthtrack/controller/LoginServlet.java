@@ -12,7 +12,6 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import br.com.healthtech.healthtrack.dao.DAOFactory;
 import br.com.healthtech.healthtrack.dao.UsuarioDAO;
-import br.com.healthtech.healthtrack.exception.DBException;
 import br.com.healthtech.healthtrack.exception.LoginInvalidoException;
 import br.com.healthtech.healthtrack.modelo.Usuario;
 
@@ -113,7 +112,7 @@ public class LoginServlet extends HttpServlet {
 		catch (LoginInvalidoException e) {
 			throw e;
 		} 
-		catch (DBException e) {
+		catch (Exception e) {
 			e.printStackTrace();
 			throw new LoginInvalidoException("Não foi possível autenticar o usuário");
 		}
