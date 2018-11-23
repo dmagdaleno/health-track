@@ -71,7 +71,8 @@ public class AtividadeFisicaServlet extends HttpServlet {
 			String descricao = req.getParameter("descricao");
 			LocalDateTime dataRegistro = DateUtil.toDateTime(req.getParameter("data"));
 			
-			AtividadeFisica registro = new AtividadeFisica(tipo, descricao, calorias, dataRegistro, 1L);
+			Usuario usuario = recuperarUsuario(req);
+			AtividadeFisica registro = new AtividadeFisica(tipo, descricao, calorias, dataRegistro, usuario.getId());
 			
 			dao.insere(registro);
 			
@@ -169,12 +170,17 @@ public class AtividadeFisicaServlet extends HttpServlet {
 	private void listar(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			List<AtividadeFisica> registros = dao.buscaPor(new Usuario(1L));
+			Usuario usuario = recuperarUsuario(req);
+			List<AtividadeFisica> registros = dao.buscaPor(usuario);
 			req.setAttribute("registros", registros);
 		} catch (DBException e) {
 			req.setAttribute("erro", "Não foi possível carregar os registros.");
 		}
 		req.getRequestDispatcher("templates/lista/atividade.jsp").forward(req, resp);
+	}
+
+	private Usuario recuperarUsuario(HttpServletRequest req) {
+		return (Usuario)req.getSession().getAttribute("usuarioLogado");
 	}
 
 }

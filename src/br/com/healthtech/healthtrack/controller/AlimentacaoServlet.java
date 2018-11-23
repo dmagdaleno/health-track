@@ -71,7 +71,8 @@ public class AlimentacaoServlet extends HttpServlet {
 			String descricao = req.getParameter("descricao");
 			LocalDateTime dataRegistro = DateUtil.toDateTime(req.getParameter("data"));
 			
-			Alimentacao registro = new Alimentacao(tipo, descricao, calorias, dataRegistro, 1L);
+			Usuario usuario = recuperarUsuario(req);
+			Alimentacao registro = new Alimentacao(tipo, descricao, calorias, dataRegistro, usuario.getId());
 			
 			dao.insere(registro);
 			
@@ -169,12 +170,17 @@ public class AlimentacaoServlet extends HttpServlet {
 	private void listar(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			List<Alimentacao> registros = dao.buscaPor(new Usuario(1L));
+			Usuario usuario = recuperarUsuario(req);
+			List<Alimentacao> registros = dao.buscaPor(usuario);
 			req.setAttribute("registros", registros);
 		} catch (DBException e) {
 			req.setAttribute("erro", "Não foi possível carregar os registros.");
 		}
 		req.getRequestDispatcher("templates/lista/alimentacao.jsp").forward(req, resp);
+	}
+
+	private Usuario recuperarUsuario(HttpServletRequest req) {
+		return (Usuario)req.getSession().getAttribute("usuarioLogado");
 	}
 
 }

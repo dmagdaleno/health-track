@@ -69,7 +69,8 @@ public class PesoServlet extends HttpServlet {
 			BigDecimal peso = new BigDecimal(req.getParameter("peso"));
 			LocalDateTime data = DateUtil.toDateTime(req.getParameter("data"));
 			
-			Peso registro = new Peso(peso, data, new Usuario(1L));
+			Usuario usuario = recuperarUsuario(req);
+			Peso registro = new Peso(peso, data, usuario);
 			
 			dao.insere(registro);
 			
@@ -165,12 +166,17 @@ public class PesoServlet extends HttpServlet {
 	private void listar(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			List<Peso> registros = dao.buscaPor(new Usuario(1L));
+			Usuario usuario = recuperarUsuario(req);
+			List<Peso> registros = dao.buscaPor(usuario);
 			req.setAttribute("registros", registros);
 		} catch (DBException e) {
 			req.setAttribute("erro", "Não foi possível carregar os registros.");
 		}
 		req.getRequestDispatcher("templates/lista/peso.jsp").forward(req, resp);
+	}
+
+	private Usuario recuperarUsuario(HttpServletRequest req) {
+		return (Usuario)req.getSession().getAttribute("usuarioLogado");
 	}
 
 }

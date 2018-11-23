@@ -70,7 +70,8 @@ public class PressaoServlet extends HttpServlet {
 			BigDecimal pressaoMin = new BigDecimal(req.getParameter("pressaoMin"));
 			LocalDateTime data = DateUtil.toDateTime(req.getParameter("data"));
 			
-			PressaoArterial registro = new PressaoArterial(pressaoMax, pressaoMin, data, new Usuario(1L));
+			Usuario usuario = recuperarUsuario(req);
+			PressaoArterial registro = new PressaoArterial(pressaoMax, pressaoMin, data, usuario);
 			
 			dao.insere(registro);
 			
@@ -167,12 +168,17 @@ public class PressaoServlet extends HttpServlet {
 	private void listar(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			List<PressaoArterial> registros = dao.buscaPor(new Usuario(1L));
+			Usuario usuario = recuperarUsuario(req);
+			List<PressaoArterial> registros = dao.buscaPor(usuario);
 			req.setAttribute("registros", registros);
 		} catch (DBException e) {
 			req.setAttribute("erro", "Não foi possível carregar os registros.");
 		}
 		req.getRequestDispatcher("templates/lista/pressao-arterial.jsp").forward(req, resp);
+	}
+
+	private Usuario recuperarUsuario(HttpServletRequest req) {
+		return (Usuario)req.getSession().getAttribute("usuarioLogado");
 	}
 
 }
